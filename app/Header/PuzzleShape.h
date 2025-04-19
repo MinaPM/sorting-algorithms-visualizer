@@ -30,12 +30,12 @@ private:
         solved;
 
     // for ui
-    TileControls &tileControls;
+    ControlGroup &tileControls;
     TileData &tileData;
     TileGrid &tileGrid;
 
 public:
-    Puzzle(TileControls &tileControls, TileData &tileData, TileGrid &tileGrid)
+    Puzzle(ControlGroup &tileControls, TileData &tileData, TileGrid &tileGrid)
         : tileControls(tileControls),
           tileData(tileData),
           tileGrid(tileGrid),

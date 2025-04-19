@@ -1,0 +1,68 @@
+#include "Control.hpp"
+
+class CheckBox : public Control<bool>
+{
+
+public:
+    sf::CircleShape check_circle;
+    CheckBox(const sf::Font &font, const std::string &text, int size, bool status = false) : Control(font, text, size)
+    {
+        controlable = status;
+        rectangle.setSize(sf::Vector2f(15, 15));
+        check_circle.setRadius(rectangle.getSize().x / 2);
+        check_circle.setFillColor(sf::Color::Red);
+        setPosition(0, 0);
+    }
+
+    void setPosition(float x, float y)
+    {
+        rectangle.setPosition(x, y);
+        check_circle.setPosition(rectangle.getPosition());
+        lable.setPosition(rectangle.getPosition().x + rectangle.getGlobalBounds().width + 5,
+                          rectangle.getPosition().y - lable.getGlobalBounds().height / 2);
+    }
+
+    void enable()
+    {
+        enabled = true;
+        setColor(sf::Color::Blue, sf::Color::White, sf::Color::Blue);
+    }
+    void disable()
+    {
+        enabled = false;
+        setColor(sf::Color(50, 50, 50), sf::Color::White, sf::Color(50, 50, 50));
+    }
+
+    void draw(sf::RenderTarget &rt, sf::RenderStates states) const override
+    {
+        Control::draw(rt, states);
+        states.transform *= getTransform();
+        if (controlable)
+            rt.draw(check_circle, states);
+    }
+
+    void setColor(sf::Color fill, sf::Color outline, sf::Color text)
+    {
+        Control::setColor(fill, outline, text);
+        check_circle.setFillColor(outline);
+    }
+
+    const bool &bindStatus() { return controlable; }
+
+    void toggle() { controlable = !controlable; }
+
+    void ckeck() { controlable = true; }
+
+    void unckeck() { controlable = false; }
+
+    bool clickWithin(sf::Vector2i point)
+    {
+        if (enabled && within(point))
+        {
+            toggle();
+            return true;
+        }
+        else
+            return false;
+    }
+};
