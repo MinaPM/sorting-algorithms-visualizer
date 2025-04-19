@@ -31,7 +31,7 @@ namespace Resources
         return true;
     }
 
-    void start()
+    void initialize()
     {
         window_size = sf::Vector2u(1000, 720);
         settings.antialiasingLevel = 16;
@@ -53,7 +53,7 @@ namespace Resources
     
     void appendDebugText(std::string s){
         debugText.setString(debugText.getString()+"\n"+s);
-        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height-10);
+        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height-40);
     }
 
     sf::Vector2i mousePosition() { return sf::Mouse::getPosition(window); }

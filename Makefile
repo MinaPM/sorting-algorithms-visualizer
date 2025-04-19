@@ -5,7 +5,7 @@ app_name = gem_puzzle
 
 source_file = ./app/main.cpp
 other_files = \
-./app/global.cpp \
+# ./app/global.cpp \
 
 output_path_windows = ./Build/Windows/
 output_path_linux = ./Build/Linux/

@@ -3,12 +3,12 @@
 
 #include "../global.hpp"
 #include "./Slider.hpp"
-#include "../Header/Bar/BarShape.h"
+#include "../Bar/BarShape.h"
 enum BarControls
 {
     COUNT,
-    WIDTH,
     HEIGHT,
+    WIDTH,
     SPACING,
 };
 
@@ -20,10 +20,10 @@ public:
     Slider sliders[4];
     ControlGroup()
         : sliders{
-              Slider("Count", 20, 30, 1, 100),
-              Slider("Width", 20, 5, 10, 2000),
-              Slider("Height", 20, 1, 10, 2000),
-              Slider("Spacing", 20, 1, 0, 2000)}
+              Slider("Count", 20, 1, 5, 100),
+              Slider("Height", 20, 10, 100, 200),
+              Slider("Width", 20, 1, 10, 40),
+              Slider("Spacing", 20, 1, 5, 40)}
     {
         int x = 20, y = 100;
 
@@ -33,10 +33,6 @@ public:
             y += slider.getSize().y + 40 + 60;
         }
     }
-
-    // void setFunctions(PuzzleFunctions pFunction, bool enable)
-    // {
-    // }
 
     void update()
     {
@@ -67,7 +63,6 @@ public:
         case sf::Event::MouseMoved:
             update();
             break;
-
         case sf::Event::MouseButtonReleased:
             mouseReleased();
 
@@ -81,8 +76,6 @@ public:
 
         for (auto &slider : sliders)
             rt.draw(slider, states);
-
-        // rt.draw(sound_check, states);
     }
 };
 

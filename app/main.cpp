@@ -2,23 +2,8 @@
 // #include "./Header/BarShape.h"
 #include "global.hpp"
 #include "./controls/ControlGroup.hpp"
+#include "./Bar/BarShape.h"
 
-#include "./Header/Bar/BarShape.h"
-
-#include <iostream>
-// Puzzle *puzzlePtr = nullptr;
-// bool load_resourses(sf::Font &font, sf::SoundBuffer &buffer)
-// {
-// 	// loading sound
-// 	if (!buffer.loadFromFile("Assets/Audio/beep.wav"))
-// 		return false;
-
-// 	// loading font
-// 	if (!font.loadFromFile("Assets/Fonts/roboto.ttf"))
-// 		return false;
-
-// 	return true;
-// }
 /*
 void solve()
 {
@@ -63,7 +48,7 @@ int main()
 	// TileGrid tileShape(roboto_font, buffer, tileControls.checkboxes[SoundCheckBox].controlable);
 
 	// Puzzle puzzle(tileControls, tileData, tileShape);
-	Resources::start();
+	Resources::initialize();
 	// Resources::load_resourses();
 
 	// std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -71,28 +56,25 @@ int main()
 	ControlGroup barControls = ControlGroup();
 
 	//////////
-	BarBoard barboard = BarBoard(&(barControls.sliders[COUNT].controlable), 100, 20, 10);
+	BarBoard barboard = BarBoard(
+		barControls.sliders[COUNT].controlable,
+		barControls.sliders[HEIGHT].controlable,
+		barControls.sliders[WIDTH].controlable,
+		barControls.sliders[SPACING].controlable
+
+	);
 
 	barControls.sliders[COUNT].setOnTrigger([&]()
-											{ barboard.setBarCount(); });
+											{ barboard.updateBarCount(); });
+	barControls.sliders[HEIGHT].setOnTrigger([&]()
+											 { barboard.updateBarSize(); });
+	barControls.sliders[WIDTH].setOnTrigger([&]()
+											{ barboard.updateBarSize(); });
+	barControls.sliders[SPACING].setOnTrigger([&]()
+											  { barboard.updateSpacing(); });
 
-	Resources::appendDebugText(std::to_string((unsigned long long)(void**)(&(barControls.sliders[COUNT].controlable))));
 	barboard.center_bars();
-	// tileControlsPtr = &tileControls;
-	// puzzlePtr = &puzzle;
 
-	// tileShape.center_tiles(window.getSize());
-	// tileData.setPosition(10, 450);
-
-	// Slider slider("test slider", 20, 30, 1, 100);
-	// slider.setFont(Resources::font);
-
-	// tileControls.buttons[SOLVE].setOnClick(solve);
-	// tileControls.buttons[SOLUTION].setOnClick(display_solution);
-	// tileControls.buttons[SHUFFLE].setOnClick(shuffle);
-
-	// tileControlsPtr->setFunctions(SOLVE, false);
-	// tileControlsPtr->setFunctions(SOLUTION, false);
 
 	while (true)
 	{
