@@ -20,10 +20,10 @@ public:
     Slider sliders[4];
     ControlGroup()
         : sliders{
-              Slider("Count", 20, 1, 5, 100),
-              Slider("Height", 20, 10, 100, 200),
-              Slider("Width", 20, 1, 10, 40),
-              Slider("Spacing", 20, 1, 5, 40)}
+              Slider("Count", 1, 5, 100),
+              Slider("Height", 10, 100, Resources::window_size.y+Resources::padding.bottom*2),
+              Slider("Width", 1, 10, 40),
+              Slider("Spacing", 1, 5, 40)}
     {
         int x = 20, y = 100;
 
@@ -36,9 +36,8 @@ public:
 
     void update()
     {
-        sf::Vector2i point = Resources::mousePosition();
         for (auto &slider : sliders)
-            slider.setValue(point);
+            slider.setValue();
     }
 
     void mouseReleased()
@@ -49,9 +48,8 @@ public:
 
     void mouseClicked()
     {
-        sf::Vector2i point = Resources::mousePosition();
         for (auto &slider : sliders)
-            slider.clickWithin(point);
+            slider.clickWithin();
     }
 
     void somethingHappened(sf::Event &event)
@@ -65,7 +63,6 @@ public:
             break;
         case sf::Event::MouseButtonReleased:
             mouseReleased();
-
             break;
         }
     }

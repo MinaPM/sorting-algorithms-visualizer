@@ -17,24 +17,15 @@ public:
     {
         enabled = true;
         clicked = false;
-        lable.setCharacterSize(20);
         rectangle.setOutlineThickness(3);
         onTrigger = nullptr;
-    };
-    Control(const sf::Font &font) : Control()
-    {
-        lable.setFont(font);
-    }
-    Control(const sf::Font &font, const std::string &string, int characterSize = 20) : Control(font)
-    {
-        lable.setString(string);
-        lable.setCharacterSize(characterSize);
+        lable.setFont(Resources::font);
+        lable.setCharacterSize(Resources::characterSize);
     }
 
-    Control(const std::string &string, int characterSize = 20) : Control(Resources::font)
+    Control(const std::string &string) : Control()
     {
         lable.setString(string);
-        lable.setCharacterSize(characterSize);
     }
 
     void setFont(const sf::Font &font) { lable.setFont(font); }
@@ -46,8 +37,8 @@ public:
         lable.setFillColor(text);
     }
 
-    bool within(sf::Vector2i point) { return rectangle.getGlobalBounds().contains((sf::Vector2f)point); }
-    bool clickWithin(sf::Vector2i point) { return clicked = within(point); }
+    bool within() { return rectangle.getGlobalBounds().contains((sf::Vector2f)Resources::mousePosition()); }
+    bool clickWithin() { return clicked = within(); }
     void mouseReleased() { clicked = false; }
 
     bool isEnabled() { return enabled; }
@@ -71,7 +62,7 @@ public:
         setColor(c1, c2, c3);
     }
 
-    Controlable& bindControlable() { return &controlable; }
+    Controlable &bindControlable() { return &controlable; }
 
     void setOnTrigger(std::function<void()> func) { onTrigger = func; }
 

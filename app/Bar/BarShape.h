@@ -21,7 +21,7 @@ public:
         rectangle.setOutlineColor(sf::Color::Red);
     }
 
-    void update_value(const int &value)
+    void updateValue(const int &value)
     {
         this->height = value;
         setSize(width, height);
@@ -84,35 +84,40 @@ public:
         }
     }
 
-    void center_bars()
+    void center()
     {
-        width = (*barCount) * ((*barWidth) + (*spacing)) - (*spacing);
-        Resources::appendDebugText(std::to_string((int)Resources::window_size.x - width));
-
+        width = (*barCount - 1) * (*barWidth + *spacing);
         int x1 = ((int)(Resources::window_size.x) - width) / 2;
-        int y1 = (Resources::window_size.y + *height) / 2;
-
+        int y1 = (Resources::window_size.y + Resources::padding.bottom);
         setPosition(x1, y1);
     }
 
     void updateBarCount()
     {
+        *barCount = std::min(*barCount,
+                             ((int)Resources::window_size.x / (*barWidth + *spacing)));
+
         bars.resize(*barCount, BarShape(*barWidth, *height));
-        center_bars();
+        center();
     }
 
     void updateBarSize()
     {
+        *barWidth = std::min(*barWidth,
+                             ((int)Resources::window_size.x / (*barCount) - *spacing));
         for (auto &bar : bars)
         {
             bar.setSize(*barWidth, *height);
         }
-        center_bars();
+        center();
     }
 
     void updateSpacing()
     {
-        center_bars();
+        *spacing = std::min(*spacing,
+                            ((int)Resources::window_size.x / (*barCount) - *barWidth));
+
+        center();
     }
 
     void draw(sf::RenderTarget &rt, sf::RenderStates states) const override

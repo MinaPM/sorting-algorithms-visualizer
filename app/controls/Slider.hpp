@@ -10,7 +10,7 @@ public:
     sf::RectangleShape current_rect;
     int min, max, width;
 
-    Slider(const std::string &text, int size, int min, int current, int max) : Control(text, size)
+    Slider(const std::string &text, int min, int current, int max) : Control(text)
     {
         width = 100;
         this->min = min;
@@ -40,16 +40,19 @@ public:
         current_text.setFont(font);
     }
 
-    void setValue(sf::Vector2i point)
+    void setValue()
     {
         if (!enabled || !clicked)
             return;
 
+        sf::Vector2i point = Resources::mousePosition();
         float lenght = std::max(0.f, std::min((float)width, point.x - current_rect.getGlobalBounds().left));
-        current_rect.setSize(sf::Vector2f(lenght, current_rect.getSize().y));
         controlable = (lenght / width) * (max - min) + min;
-        current_text.setString(std::to_string(controlable));
         update();
+        // a feedback to limit the slider in other places using a pointer to controlable
+        lenght = width * (controlable - min) / (max - min);
+        current_rect.setSize(sf::Vector2f(lenght, current_rect.getSize().y));
+        current_text.setString(std::to_string(controlable));
     }
 
     int getPercentage() { return 100 * (max - controlable); }
