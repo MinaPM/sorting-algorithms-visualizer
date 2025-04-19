@@ -2,24 +2,16 @@
 #include "./controls/ControlGroup.hpp"
 #include "./Bar/BarShape.h"
 
-int main()
+void addControls(ControlGroup &controlGroup)
 {
-	Resources::initialize();
+	controlGroup.addSlider("Count", Slider("Count", 1, 5, 1000));
+	controlGroup.addSlider("Height", Slider("Height", 10, 100, Resources::window_size.y + Resources::padding.bottom * 2));
+	controlGroup.addSlider("Width", Slider("Width", 1, 10, 40));
+	controlGroup.addSlider("Spacing", Slider("Spacing", 1, 5, 40));
+}
 
-	ControlGroup barControls = ControlGroup();
-
-	barControls.addSlider("Count", Slider("Count", 1, 5, 1000));
-	barControls.addSlider("Height", Slider("Height", 10, 100, Resources::window_size.y + Resources::padding.bottom * 2));
-	barControls.addSlider("Width", Slider("Width", 1, 10, 40));
-	barControls.addSlider("Spacing", Slider("Spacing", 1, 5, 40));
-
-	BarBoard barboard = BarBoard(
-		barControls.sliders["Count"].controlable,
-		barControls.sliders["Height"].controlable,
-		barControls.sliders["Width"].controlable,
-		barControls.sliders["Spacing"].controlable
-
-	);
+void bindControls(BarBoard &barboard, ControlGroup &barControls)
+{
 
 	barControls.sliders["Count"].setOnTrigger([&]()
 											  { barboard.updateBarCount(); });
@@ -31,6 +23,22 @@ int main()
 												{ barboard.updateSpacing(); });
 
 	barboard.center();
+}
+
+int main()
+{
+	Resources::initialize();
+
+	ControlGroup barControls;
+	addControls(barControls);
+
+	BarBoard barboard(
+		barControls.sliders["Count"].controlable,
+		barControls.sliders["Height"].controlable,
+		barControls.sliders["Width"].controlable,
+		barControls.sliders["Spacing"].controlable);
+
+	bindControls(barboard, barControls);
 
 	while (true)
 	{

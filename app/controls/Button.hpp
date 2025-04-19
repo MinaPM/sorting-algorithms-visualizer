@@ -3,18 +3,17 @@
 
 #include "Control.hpp"
 
-class Button : public Control<void (*)()>
+class Button : public Control<void>
 {
 public:
-    std::thread button_thread;
-    // void (*onClick)();
+    std::thread buttonThread;
+    
     Button(const std::string &text) : Control(text)
     {
         rectangle.setSize(sf::Vector2f(lable.getLocalBounds().width + 10,
                                        lable.getLocalBounds().height + 10));
         setPosition(0, 0);
         setColor(sf::Color::White, sf::Color::Red, sf::Color::Red);
-        controlable = nullptr;
     }
 
     void setPosition(float x, float y)
@@ -25,24 +24,20 @@ public:
 
     void click()
     {
-        if (!enabled || controlable == nullptr)
+        if (!enabled || onTrigger == nullptr)
             return;
-        if (button_thread.joinable())
-            button_thread.join();
+        if (buttonThread.joinable())
+        buttonThread.join();
 
-        button_thread = std::thread(&Button::run, this);
-    }
-    void setOnClick(void (*func)())
-    {
-        controlable = func;
+        buttonThread = std::thread(&Button::run, this);
     }
 
 private:
     void run()
     {
         disable();
-        if (controlable)
-            controlable();
+        if (onTrigger)
+            onTrigger();
         enable();
     }
 };

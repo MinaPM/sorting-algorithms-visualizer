@@ -15,7 +15,7 @@ public:
 
     BarShape(const int &width, const int &height)
     {
-        rectangle.setOutlineThickness(1);
+        // rectangle.setOutlineThickness(1);
         setSize(width, height);
         rectangle.setFillColor(sf::Color::White);
         rectangle.setOutlineColor(sf::Color::Red);
