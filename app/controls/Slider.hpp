@@ -9,9 +9,10 @@ public:
     sf::Text current_text;
     sf::RectangleShape current_rect;
     int min, max, width;
-
+    Slider() {}
     Slider(const std::string &text, int min, int current, int max) : Control(text)
     {
+
         width = 100;
         this->min = min;
         this->max = max;

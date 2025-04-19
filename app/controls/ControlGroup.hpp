@@ -17,38 +17,29 @@ class ControlGroup : public sf::Drawable,
 {
 
 public:
-    Slider sliders[4];
-    ControlGroup()
-        : sliders{
-              Slider("Count", 1, 5, 100),
-              Slider("Height", 10, 100, Resources::window_size.y+Resources::padding.bottom*2),
-              Slider("Width", 1, 10, 40),
-              Slider("Spacing", 1, 5, 40)}
-    {
-        int x = 20, y = 100;
-
-        for (auto &slider : sliders)
-        {
-            slider.setPosition(x, y);
-            y += slider.getSize().y + 40 + 60;
-        }
-    }
+    std::map<std::string, Slider> sliders;
 
     void update()
     {
-        for (auto &slider : sliders)
+        for (auto &[placeHolder, slider] : sliders)
             slider.setValue();
+    }
+
+    void addSlider(std::string name, Slider slider)
+    {
+        sliders.emplace(name, slider);
+        setPosition();
     }
 
     void mouseReleased()
     {
-        for (auto &slider : sliders)
+        for (auto &[placeHolder, slider] : sliders)
             slider.mouseReleased();
     }
 
     void mouseClicked()
     {
-        for (auto &slider : sliders)
+        for (auto &[placeHolder, slider] : sliders)
             slider.clickWithin();
     }
 
@@ -67,11 +58,20 @@ public:
         }
     }
 
+    void setPosition(int x = 20, int y = 100)
+    {
+        for (auto &[placeHolder, slider] : sliders)
+        {
+            slider.setPosition(x, y);
+            y += slider.getSize().y + 40 + 60;
+        }
+    }
+
     void draw(sf::RenderTarget &rt, sf::RenderStates states) const
     {
         states.transform *= getTransform();
 
-        for (auto &slider : sliders)
+        for (auto &[placeHolder, slider] : sliders)
             rt.draw(slider, states);
     }
 };

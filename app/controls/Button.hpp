@@ -1,7 +1,6 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-
 #include "Control.hpp"
 
 class Button : public Control<void (*)()>
@@ -9,7 +8,7 @@ class Button : public Control<void (*)()>
 public:
     std::thread button_thread;
     // void (*onClick)();
-    Button(const sf::Font &font, const std::string &text, int size) : Control(font, text, size)
+    Button(const std::string &text) : Control(text)
     {
         rectangle.setSize(sf::Vector2f(lable.getLocalBounds().width + 10,
                                        lable.getLocalBounds().height + 10));
@@ -48,4 +47,4 @@ private:
     }
 };
 
-#endif //BUTTON_HPP
+#endif // BUTTON_HPP

@@ -6,7 +6,7 @@
 #include <thread>
 #include <functional>
 #include <iostream>
-
+#include <map>
 #include "global.hpp"
 
 namespace Resources
@@ -55,13 +55,12 @@ namespace Resources
     void setDebugText(std::string s)
     {
         debugText.setString(s);
-        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height +padding.bottom);
+        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height + padding.bottom*2);
     }
 
     void appendDebugText(std::string s)
     {
-        debugText.setString(debugText.getString() + "\n" + s);
-        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height + padding.bottom);
+        setDebugText(debugText.getString() + "\n" + s);
     }
 
     sf::Vector2i mousePosition() { return sf::Mouse::getPosition(window); }
