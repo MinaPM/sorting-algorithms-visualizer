@@ -6,6 +6,7 @@
 #include <thread>
 #include <functional>
 #include <iostream>
+#include <random>
 #include <map>
 #include "global.hpp"
 
@@ -42,7 +43,7 @@ namespace Resources
     {
         window_size = sf::Vector2u(1080, 720);
         settings.antialiasingLevel = 16;
-        window.create(sf::VideoMode(window_size.x, window_size.y), "Gem Puzzle", sf::Style::Close, settings);
+        window.create(sf::VideoMode(window_size.x, window_size.y), "Sorting Algorithm Visualizer", sf::Style::Close, settings);
         window.setFramerateLimit(30);
         characterSize = 20;
         load_resourses();

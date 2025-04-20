@@ -12,7 +12,7 @@ class ControlGroup : public sf::Drawable,
 
 public:
     std::map<std::string, Slider> sliders;
-    std::map<std::string, Button> buttons;
+    std::map<std::string, Button *> buttons;
 
     void update()
     {
@@ -26,9 +26,10 @@ public:
         setPosition();
     }
 
-    void addButton(std::string name, Button button)
+    void addButton(std::string name)
     {
-        buttons.emplace(std::move(name), std::move(button));
+        Button *button = new Button(name);
+        buttons.emplace(name, button);
         setPosition();
     }
 
@@ -36,12 +37,17 @@ public:
     {
         for (auto &[placeHolder, slider] : sliders)
             slider.mouseReleased();
+        for (auto &[placeHolder, button] : buttons)
+            button->mouseReleased();
     }
 
     void mouseClicked()
     {
         for (auto &[placeHolder, slider] : sliders)
             slider.clickWithin();
+        for (auto &[placeHolder, button] : buttons)
+            {if(button->clickWithin())
+            button->click();}
     }
 
     void somethingHappened(sf::Event &event)
@@ -70,8 +76,8 @@ public:
 
         for (auto &[placeHolder, button] : buttons)
         {
-            button.setPosition(x, y);
-            y += button.getSize().y + gap;
+            button->setPosition(x, y);
+            y += button->getSize().y + gap;
         }
     }
 
@@ -83,7 +89,7 @@ public:
             rt.draw(slider, states);
 
         for (auto &[placeHolder, button] : buttons)
-            rt.draw(button, states);
+            rt.draw(*button, states);
     }
 };
 

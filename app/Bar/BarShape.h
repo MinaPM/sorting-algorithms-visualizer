@@ -9,8 +9,6 @@ class BarShape : public sf::Drawable, public sf::Transformable
     int width, height;
 
 public:
-    float tile_size;
-
     BarShape() : BarShape(20, 100) {}
 
     BarShape(const int &width, const int &height)
@@ -45,6 +43,10 @@ public:
         this->height = height;
         rectangle.setSize(sf::Vector2f(width, height));
         rectangle.setOrigin(width / 2, height);
+    }
+
+    sf::Vector2f getSize(){
+        return rectangle.getSize();
     }
 
     void draw(sf::RenderTarget &rt, sf::RenderStates states) const override
@@ -107,9 +109,20 @@ public:
                              ((int)Resources::window_size.x / (*barCount) - *spacing));
         for (auto &bar : bars)
         {
-            bar.setSize(*barWidth, *height);
+            bar.setSize(*barWidth, bar.getSize().y);
         }
         center();
+    }
+    void shuffle()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distrib(0, *height);
+
+        for (auto &bar : bars)
+        {
+            bar.updateValue(distrib(gen));
+        }
     }
 
     void updateSpacing()

@@ -8,7 +8,7 @@ void addControls(ControlGroup &controlGroup)
 	controlGroup.addSlider("Height", Slider("Height", 10, 100, Resources::window_size.y + Resources::padding.bottom * 2));
 	controlGroup.addSlider("Width", Slider("Width", 1, 10, 40));
 	controlGroup.addSlider("Spacing", Slider("Spacing", 1, 5, 40));
-	controlGroup.addButton("Shuffle", Button("Shuffle"));
+	controlGroup.addButton("Shuffle");
 }
 
 void bindControls(BarBoard &barboard, ControlGroup &barControls)
@@ -20,7 +20,11 @@ void bindControls(BarBoard &barboard, ControlGroup &barControls)
 	barControls.sliders["Width"].setOnTrigger([&]()
 											  { barboard.updateBarSize(); });
 	barControls.sliders["Spacing"].setOnTrigger([&]()
-												{ barboard.updateSpacing(); });
+												{ barboard.updateSpacing();	
+												});
+	(barControls.buttons["Shuffle"])->setOnTrigger([&]()
+												{  barboard.shuffle();});
+
 	barboard.center();
 }
 

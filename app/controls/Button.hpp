@@ -27,10 +27,10 @@ public:
     {
         if (!enabled || !onTrigger)
             return;
-        // if (buttonThread.joinable())
-        //     buttonThread.join();
+        if (buttonThread.joinable())
+            buttonThread.join();
 
-        // buttonThread = std::thread(&Button::run, this);
+        buttonThread = std::thread(&Button::run, this);
     }
 
 
