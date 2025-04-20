@@ -3,11 +3,12 @@
 
 #include "Control.hpp"
 
-class Button : public Control<void>
+class Button : public Control<int>
 {
 public:
-    std::thread buttonThread;
-    
+    Button(Button&&) noexcept = default; // Move constructor
+
+
     Button(const std::string &text) : Control(text)
     {
         rectangle.setSize(sf::Vector2f(lable.getLocalBounds().width + 10,
@@ -24,15 +25,23 @@ public:
 
     void click()
     {
-        if (!enabled || onTrigger == nullptr)
+        if (!enabled || !onTrigger)
             return;
-        if (buttonThread.joinable())
-        buttonThread.join();
+        // if (buttonThread.joinable())
+        //     buttonThread.join();
 
-        buttonThread = std::thread(&Button::run, this);
+        // buttonThread = std::thread(&Button::run, this);
     }
 
+
+    ~Button(){
+                if (buttonThread.joinable())
+            buttonThread.join();
+
+    }
 private:
+    std::thread buttonThread;
+
     void run()
     {
         disable();

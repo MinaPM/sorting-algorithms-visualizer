@@ -5,7 +5,7 @@ class CheckBox : public Control<bool>
 
 public:
     sf::CircleShape check_circle;
-    CheckBox(const sf::Font &font, const std::string &text, int size, bool status = false) : Control(font, text, size)
+    CheckBox(const std::string &text, bool status = false) : Control(text)
     {
         controlable = status;
         rectangle.setSize(sf::Vector2f(15, 15));
@@ -55,9 +55,9 @@ public:
 
     void unckeck() { controlable = false; }
 
-    bool clickWithin(sf::Vector2i point)
+    bool clickWithin()
     {
-        if (enabled && within(point))
+        if (enabled && within())
         {
             toggle();
             return true;

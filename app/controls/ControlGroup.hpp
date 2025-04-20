@@ -3,14 +3,8 @@
 
 #include "../global.hpp"
 #include "./Slider.hpp"
+#include "./Button.hpp"
 #include "../Bar/BarShape.h"
-enum BarControls
-{
-    COUNT,
-    HEIGHT,
-    WIDTH,
-    SPACING,
-};
 
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable
@@ -18,6 +12,7 @@ class ControlGroup : public sf::Drawable,
 
 public:
     std::map<std::string, Slider> sliders;
+    std::map<std::string, Button> buttons;
 
     void update()
     {
@@ -28,6 +23,12 @@ public:
     void addSlider(std::string name, Slider slider)
     {
         sliders.emplace(name, slider);
+        setPosition();
+    }
+
+    void addButton(std::string name, Button button)
+    {
+        buttons.emplace(std::move(name), std::move(button));
         setPosition();
     }
 
@@ -60,10 +61,17 @@ public:
 
     void setPosition(int x = 20, int y = 100)
     {
+        int gap = 50;
         for (auto &[placeHolder, slider] : sliders)
         {
             slider.setPosition(x, y);
-            y += slider.getSize().y + 40 + 60;
+            y += slider.getSize().y + gap;
+        }
+
+        for (auto &[placeHolder, button] : buttons)
+        {
+            button.setPosition(x, y);
+            y += button.getSize().y + gap;
         }
     }
 
@@ -73,6 +81,9 @@ public:
 
         for (auto &[placeHolder, slider] : sliders)
             rt.draw(slider, states);
+
+        for (auto &[placeHolder, button] : buttons)
+            rt.draw(button, states);
     }
 };
 

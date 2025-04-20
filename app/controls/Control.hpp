@@ -62,7 +62,7 @@ public:
         setColor(c1, c2, c3);
     }
 
-    Controlable &bindControlable() { return &controlable; }
+    const Controlable &bindControlable() { return &controlable; }
 
     void setOnTrigger(std::function<void()> func) { onTrigger = func; }
 

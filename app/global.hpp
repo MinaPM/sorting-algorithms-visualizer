@@ -40,7 +40,7 @@ namespace Resources
 
     void initialize()
     {
-        window_size = sf::Vector2u(1000, 720);
+        window_size = sf::Vector2u(1080, 720);
         settings.antialiasingLevel = 16;
         window.create(sf::VideoMode(window_size.x, window_size.y), "Gem Puzzle", sf::Style::Close, settings);
         window.setFramerateLimit(30);

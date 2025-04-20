@@ -8,11 +8,11 @@ void addControls(ControlGroup &controlGroup)
 	controlGroup.addSlider("Height", Slider("Height", 10, 100, Resources::window_size.y + Resources::padding.bottom * 2));
 	controlGroup.addSlider("Width", Slider("Width", 1, 10, 40));
 	controlGroup.addSlider("Spacing", Slider("Spacing", 1, 5, 40));
+	controlGroup.addButton("Shuffle", Button("Shuffle"));
 }
 
 void bindControls(BarBoard &barboard, ControlGroup &barControls)
 {
-
 	barControls.sliders["Count"].setOnTrigger([&]()
 											  { barboard.updateBarCount(); });
 	barControls.sliders["Height"].setOnTrigger([&]()
@@ -21,7 +21,6 @@ void bindControls(BarBoard &barboard, ControlGroup &barControls)
 											  { barboard.updateBarSize(); });
 	barControls.sliders["Spacing"].setOnTrigger([&]()
 												{ barboard.updateSpacing(); });
-
 	barboard.center();
 }
 
@@ -57,7 +56,6 @@ int main()
 		Resources::window.draw(barboard);
 		Resources::window.draw(barControls);
 		Resources::window.draw(Resources::debugText);
-		// Resources::window.draw(slider);
 		Resources::window.display();
 	}
 	return 0;
