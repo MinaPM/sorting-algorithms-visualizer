@@ -21,9 +21,14 @@ public:
 
     void updateValue(const int &value)
     {
-        this->height = value;
-        setSize(width, height);
+        setSize(width, value);
     }
+    void updateValue(const BarShape &value)
+    {
+        setSize(width, value.height);
+    }
+
+    int getValue() { return height; }
 
     void setPosition(float x)
     {
@@ -45,7 +50,8 @@ public:
         rectangle.setOrigin(width / 2, height);
     }
 
-    sf::Vector2f getSize(){
+    sf::Vector2f getSize()
+    {
         return rectangle.getSize();
     }
 
@@ -54,6 +60,16 @@ public:
         states.transform *= getTransform();
         rt.draw(rectangle, states);
     }
+
+    void swap(BarShape &other)
+    {
+        int height1 = other.height;
+        other.updateValue(height);
+        updateValue(height1);
+    }
+
+    bool operator<(BarShape &other) { return this->height < other.height; }
+    bool operator>(BarShape &other) { return this->height > other.height; }
 };
 
 class BarBoard : public sf::Drawable,
@@ -61,16 +77,17 @@ class BarBoard : public sf::Drawable,
 {
 private:
     std::vector<BarShape> bars;
-    int max_dist, *barCount, *barWidth, *height, *spacing, width;
+    int max_dist, *barCount, *barWidth, *height, *spacing, width, *sortingDelay;
 
     sf::Sound beep;
     const bool *enableSound;
 
 public:
-    BarBoard(int &barCount, int &height, int &barWidth, int &spacing) : barCount(&barCount),
-                                                                        height(&height),
-                                                                        barWidth(&barWidth),
-                                                                        spacing(&spacing)
+    BarBoard(int &barCount, int &height, int &barWidth, int &spacing, int &sortingDelay) : barCount(&barCount),
+                                                                                           height(&height),
+                                                                                           barWidth(&barWidth),
+                                                                                           spacing(&spacing),
+                                                                                           sortingDelay(&sortingDelay)
     {
 
         updateBarCount();
@@ -113,17 +130,6 @@ public:
         }
         center();
     }
-    void shuffle()
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(0, *height);
-
-        for (auto &bar : bars)
-        {
-            bar.updateValue(distrib(gen));
-        }
-    }
 
     void updateSpacing()
     {
@@ -142,6 +148,43 @@ public:
             rt.draw(bar, states);
         }
     }
+
+public:
+    void shuffle()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distrib(0, *height);
+
+        for (auto &bar : bars)
+        {
+            bar.updateValue(distrib(gen));
+        }
+    }
+
+    void sort()
+    {
+
+        for (int i = 1; i < *barCount; i++)
+        {
+            int j = i;
+            while (j > 0 && bars[j] < bars[j - 1])
+            {
+                bars[j].swap(bars[j - 1]);
+                j--;
+                sleep();
+            }
+        }
+        Resources::appendDebugText("done!");
+    }
+
+private:
+    void sleep()
+    {
+        std::this_thread::sleep_for(std::chrono::microseconds(maxDelay + (minDelay - maxDelay) * (*sortingDelay / 100)));
+    }
+    const int minDelay = 1000;
+    const int maxDelay = 100'000;
 };
 
 #endif // BAR_SHAPE

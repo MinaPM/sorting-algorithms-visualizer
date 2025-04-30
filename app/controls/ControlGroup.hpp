@@ -50,7 +50,7 @@ public:
             button->click();}
     }
 
-    void somethingHappened(sf::Event &event)
+    void somethingHappened(const sf::Event &event)
     {
         switch (event.type)
         {

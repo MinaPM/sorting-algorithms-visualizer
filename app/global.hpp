@@ -41,8 +41,8 @@ namespace Resources
 
     void initialize()
     {
-        window_size = sf::Vector2u(1080, 720);
-        settings.antialiasingLevel = 16;
+        window_size = sf::Vector2u(1500, 900);
+        settings.antialiasingLevel = 0;
         window.create(sf::VideoMode(window_size.x, window_size.y), "Sorting Algorithm Visualizer", sf::Style::Close, settings);
         window.setFramerateLimit(30);
         characterSize = 20;

@@ -4,26 +4,35 @@
 
 void addControls(ControlGroup &controlGroup)
 {
-	controlGroup.addSlider("Count", Slider("Count", 1, 5, 1000));
-	controlGroup.addSlider("Height", Slider("Height", 10, 100, Resources::window_size.y + Resources::padding.bottom * 2));
-	controlGroup.addSlider("Width", Slider("Width", 1, 10, 40));
-	controlGroup.addSlider("Spacing", Slider("Spacing", 1, 5, 40));
+	controlGroup.addSlider("Count", Slider("Count", 1, 600, 1000));
+	controlGroup.addSlider("Max Height", Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
+	controlGroup.addSlider("Width", Slider("Width", 1, 1, 40));
+	controlGroup.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
+	controlGroup.addSlider("Speed", Slider("Speed", 1, 5, 100));
 	controlGroup.addButton("Shuffle");
+	controlGroup.addButton("Sort");
 }
 
 void bindControls(BarBoard &barboard, ControlGroup &barControls)
 {
 	barControls.sliders["Count"].setOnTrigger([&]()
 											  { barboard.updateBarCount(); });
-	barControls.sliders["Height"].setOnTrigger([&]()
-											   { barboard.updateBarSize(); });
+	barControls.sliders["Max Height"].setOnTrigger([&]()
+												   { barboard.updateBarSize(); });
 	barControls.sliders["Width"].setOnTrigger([&]()
 											  { barboard.updateBarSize(); });
 	barControls.sliders["Spacing"].setOnTrigger([&]()
-												{ barboard.updateSpacing();	
-												});
+												{ barboard.updateSpacing(); });
+	barControls.sliders["Speed"].setOnTrigger([&]()
+												{ barboard.updateSpacing(); });
 	(barControls.buttons["Shuffle"])->setOnTrigger([&]()
-												{  barboard.shuffle();});
+												   {
+													   barboard.shuffle();
+												   });
+	(barControls.buttons["Sort"])->setOnTrigger([&]()
+												   {
+													   barboard.sort();
+												   });
 
 	barboard.center();
 }
@@ -37,11 +46,15 @@ int main()
 
 	BarBoard barboard(
 		barControls.sliders["Count"].controlable,
-		barControls.sliders["Height"].controlable,
+		barControls.sliders["Max Height"].controlable,
 		barControls.sliders["Width"].controlable,
-		barControls.sliders["Spacing"].controlable);
+		barControls.sliders["Spacing"].controlable,
+		barControls.sliders["Speed"].controlable
+	
+	);
 
 	bindControls(barboard, barControls);
+	barboard.shuffle();
 
 	while (true)
 	{
