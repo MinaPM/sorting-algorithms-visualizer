@@ -8,7 +8,6 @@
 #include <iostream>
 #include <random>
 #include <map>
-#include "global.hpp"
 
 namespace Resources
 {
@@ -50,13 +49,15 @@ namespace Resources
 
         debugText.setFont(font);
         debugText.setCharacterSize(characterSize);
-        debugText.setFillColor(sf::Color::Cyan);
+        debugText.setFillColor(sf::Color::Red);
+        debugText.setOutlineColor(sf::Color::Black);
+        debugText.setOutlineThickness(5);
     }
 
     void setDebugText(std::string s)
     {
         debugText.setString(s);
-        debugText.setPosition(5, window_size.y - debugText.getGlobalBounds().height + padding.bottom*2);
+        debugText.setPosition(window_size.x - debugText.getGlobalBounds().width + padding.right, window_size.y - debugText.getGlobalBounds().height + padding.bottom * 2);
     }
 
     void appendDebugText(std::string s)

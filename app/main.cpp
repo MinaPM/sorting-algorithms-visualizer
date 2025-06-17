@@ -1,6 +1,7 @@
 #include "global.hpp"
 #include "./controls/ControlGroup.hpp"
 #include "./Bar/BarShape.h"
+#include "./Bar/BarBoard.h"
 
 void addControls(ControlGroup &controlGroup)
 {
