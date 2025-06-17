@@ -105,7 +105,7 @@ public:
         for (size_t i = 1; i < *barCount; i++)
         {
             size_t j = i;
-            while (j > 0 && bars[j] < bars[j - 1])
+            while (j > 0 && bars.read(j) < bars.read(j - 1))
             {
                 bars.swap(j, j - 1);
                 j--;
@@ -113,9 +113,7 @@ public:
             }
         }
         Resources::appendDebugText("");
-        Resources::appendDebugText("Memory reads: " + std::to_string(bars.memoryStats.getReadCount()));
-        Resources::appendDebugText("Memory writes: " + std::to_string(bars.memoryStats.getWriteCount()));
-        Resources::appendDebugText("Auxiliary Memory needed: " + std::to_string(bars.memoryStats.getAuxiliaryMemoryCount()));
+        Resources::appendDebugText(bars.memoryStats.to_string());
 
         bars.memoryStats.resetStats();
     }
