@@ -88,14 +88,7 @@ public:
 
     void shuffle()
     {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(0, *height);
-
-        for (auto &bar : bars)
-        {
-            bar.updateValue(distrib(gen));
-        }
+        bars.shuffle(0, *height);
     }
 
     void sort()

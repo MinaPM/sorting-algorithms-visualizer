@@ -56,6 +56,10 @@ public:
         this->updateValue(other);
         return *this;
     } 
+    BarShape& operator=(int value){
+        this->updateValue(value);
+        return *this;
+    } 
 
 public: // graphics
     void setColor(sf::Color color) { rectangle.setFillColor(color); }

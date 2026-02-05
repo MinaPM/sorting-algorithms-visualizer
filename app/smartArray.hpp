@@ -1,7 +1,6 @@
 #ifndef SMARTARRAY_HPP
 #define SMARTARRAY_HPP
 #include <vector>
-#include <ostream>
 
 class MemoryStats
 {
@@ -90,6 +89,19 @@ public: // operators
         auxiliaryMemory = items[index1];
         items[index1] = items[index2];
         items[index2] = auxiliaryMemory;
+    }
+
+    void shuffle(int min, int max)
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distrib(min, max);
+
+        for (auto &i : items)
+        {
+            //item must accept int assignment
+            i = distrib(gen);
+        }
     }
 
     // Range-based for loop support
