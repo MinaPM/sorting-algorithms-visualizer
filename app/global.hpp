@@ -23,7 +23,7 @@ namespace Resources
     sf::RenderWindow window;
     sf::SoundBuffer buffer;
     sf::Font font;
-    sf::Text debugText;
+    sf::Text debugText(font);
     int characterSize;
     bool load_resourses()
     {
@@ -32,7 +32,7 @@ namespace Resources
             return false;
 
         // loading font
-        if (!font.loadFromFile("Assets/Fonts/roboto.ttf"))
+        if (!font.openFromFile("Assets/Fonts/roboto.ttf"))
             return false;
 
         return true;
@@ -41,8 +41,8 @@ namespace Resources
     void initialize()
     {
         window_size = sf::Vector2u(1500, 900);
-        settings.antialiasingLevel = 0;
-        window.create(sf::VideoMode(window_size.x, window_size.y), "Sorting Algorithm Visualizer", sf::Style::Close, settings);
+        settings.antiAliasingLevel = 0;
+        window.create(sf::VideoMode(window_size), "Sorting Algorithm Visualizer", sf::Style::Close /*, settings*/);
         window.setFramerateLimit(30);
         characterSize = 20;
         load_resourses();
@@ -57,7 +57,7 @@ namespace Resources
     void setDebugText(std::string s)
     {
         debugText.setString(s);
-        debugText.setPosition(window_size.x - debugText.getGlobalBounds().width + padding.right, window_size.y - debugText.getGlobalBounds().height + padding.bottom * 2);
+        debugText.setPosition({window_size.x - debugText.getGlobalBounds().size.x + padding.right, window_size.y - debugText.getGlobalBounds().size.y + padding.bottom * 2});
     }
 
     void appendDebugText(std::string s)

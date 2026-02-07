@@ -11,15 +11,15 @@ public:
 
     Button(const std::string &text) : Control(text)
     {
-        rectangle.setSize(sf::Vector2f(lable.getLocalBounds().width + 10,
-                                       lable.getLocalBounds().height + 10));
+        rectangle.setSize(sf::Vector2f(lable.getLocalBounds().size.x + 10,
+                                       lable.getLocalBounds().size.y + 10));
         setPosition(0, 0);
         setColor(sf::Color::White, sf::Color::Red, sf::Color::Red);
     }
 
     void setPosition(float x, float y)
     {
-        rectangle.setPosition(x, y);
+        rectangle.setPosition({x, y});
         lable.setPosition(rectangle.getPosition());
     }
 

@@ -70,8 +70,8 @@ public: // graphics
     }
 
 public: // size and position
-    void setPosition(float x) { rectangle.setPosition(x, rectangle.getPosition().y); }
-    void setPosition(float x, float y) { rectangle.setPosition(x, y); }
+    void setPosition(float x) { rectangle.setPosition({x, rectangle.getPosition().y}); }
+    void setPosition(float x, float y) { rectangle.setPosition({x, y}); }
 
     void setSize(float width, float height) { setSize(sf::Vector2f(width, height)); }
     void setSize(sf::Vector2f size)
@@ -79,7 +79,7 @@ public: // size and position
         this->width = size.x;
         this->height = size.y;
         rectangle.setSize(size);
-        rectangle.setOrigin(width / 2, height);
+        rectangle.setOrigin({width / 2, height});
     }
 
     sf::Vector2f getSize() { return rectangle.getSize(); }

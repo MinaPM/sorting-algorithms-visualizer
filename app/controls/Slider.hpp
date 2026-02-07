@@ -9,8 +9,8 @@ public:
     sf::Text current_text;
     sf::RectangleShape current_rect;
     int min, max, width;
-    Slider() {}
-    Slider(const std::string &text, int min, int current, int max) : Control(text)
+    Slider():Control(),current_text(lable) {}
+    Slider(const std::string &text, int min, int current, int max) : Control(text),current_text(lable)
     {
 
         width = 100;
@@ -29,10 +29,10 @@ public:
 
     void setPosition(float x, float y)
     {
-        lable.setPosition(x, y);
-        rectangle.setPosition(x, y + lable.getCharacterSize() + 10);
+        lable.setPosition({x, y});
+        rectangle.setPosition({x, y + lable.getCharacterSize() + 10});
         current_rect.setPosition(rectangle.getPosition());
-        current_text.setPosition(rectangle.getPosition().x + width + 5, rectangle.getPosition().y);
+        current_text.setPosition({rectangle.getPosition().x + width + 5, rectangle.getPosition().y});
     }
 
     void setFont(const sf::Font &font)
@@ -47,7 +47,7 @@ public:
             return;
 
         sf::Vector2i point = Resources::mousePosition();
-        float lenght = std::max(0.f, std::min((float)width, point.x - current_rect.getGlobalBounds().left));
+        float lenght = std::max(0.f, std::min((float)width, point.x - current_rect.getGlobalBounds().position.x));
         controlable = (lenght / width) * (max - min) + min;
         update();
         // a feedback to limit the slider in other places using a pointer to controlable

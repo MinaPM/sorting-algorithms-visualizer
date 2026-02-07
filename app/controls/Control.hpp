@@ -13,7 +13,7 @@ public:
 
     bool enabled, clicked;
 
-    Control()
+    Control():lable(Resources::font)
     {
         enabled = true;
         clicked = false;
@@ -72,7 +72,7 @@ public:
             onTrigger();
     }
 
-    void alignLeft() { lable.setPosition(rectangle.getPosition().x, lable.getPosition().y); }
+    void alignLeft() { lable.setPosition({rectangle.getPosition().x, lable.getPosition().y}); }
 
     sf::Vector2f getPosition()
     {

@@ -25,15 +25,11 @@ void bindControls(BarBoard &barboard, ControlGroup &barControls)
 	barControls.sliders["Spacing"].setOnTrigger([&]()
 												{ barboard.updateSpacing(); });
 	barControls.sliders["Speed"].setOnTrigger([&]()
-												{ barboard.updateSpacing(); });
+											  { barboard.updateSpacing(); });
 	(barControls.buttons["Shuffle"])->setOnTrigger([&]()
-												   {
-													   barboard.shuffle();
-												   });
+												   { barboard.shuffle(); });
 	(barControls.buttons["Sort"])->setOnTrigger([&]()
-												   {
-													   barboard.sort();
-												   });
+												{ barboard.sort(); });
 
 	barboard.center();
 }
@@ -51,24 +47,36 @@ int main()
 		barControls.sliders["Width"].controlable,
 		barControls.sliders["Spacing"].controlable,
 		barControls.sliders["Speed"].controlable
-	
+
 	);
 
 	bindControls(barboard, barControls);
 	barboard.shuffle();
 
-	while (true)
+	// events
+	const auto onClose = [](const sf::Event::Closed &)
 	{
-		sf::Event event;
-		while (Resources::window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				Resources::window.close();
-				return 0;
-			}
-			barControls.somethingHappened(event);
-		}
+		Resources::window.close();
+		// return 0;
+	};
+
+	const auto onMouseButtonPressed = [&barControls](sf::Event::MouseButtonPressed)
+	{
+		barControls.mouseClicked();
+	};
+	const auto onMouseButtonReleased = [&barControls](sf::Event::MouseButtonReleased)
+	{
+		barControls.mouseReleased();
+	};
+	const auto onMouseMoved = [&barControls](sf::Event::MouseMoved)
+	{
+		barControls.update();
+	};
+
+	while (Resources::window.isOpen())
+	{
+
+		Resources::window.handleEvents(onClose, onMouseButtonPressed, onMouseButtonReleased, onMouseMoved);
 
 		Resources::window.clear();
 		Resources::window.draw(barboard);

@@ -50,20 +50,20 @@ public:
             button->click();}
     }
 
-    void somethingHappened(const sf::Event &event)
-    {
-        switch (event.type)
-        {
-        case sf::Event::MouseButtonPressed:
-            mouseClicked();
-        case sf::Event::MouseMoved:
-            update();
-            break;
-        case sf::Event::MouseButtonReleased:
-            mouseReleased();
-            break;
-        }
-    }
+    // void somethingHappened(const sf::Event &event)
+    // {
+    //     switch (event.type)
+    //     {
+    //     case sf::Event::MouseButtonPressed:
+    //         mouseClicked();
+    //     case sf::Event::MouseMoved:
+    //         update();
+    //         break;
+    //     case sf::Event::MouseButtonReleased:
+    //         mouseReleased();
+    //         break;
+    //     }
+    // }
 
     void setPosition(int x = 20, int y = 100)
     {

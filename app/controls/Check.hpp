@@ -16,10 +16,10 @@ public:
 
     void setPosition(float x, float y)
     {
-        rectangle.setPosition(x, y);
+        rectangle.setPosition({x, y});
         check_circle.setPosition(rectangle.getPosition());
-        lable.setPosition(rectangle.getPosition().x + rectangle.getGlobalBounds().width + 5,
-                          rectangle.getPosition().y - lable.getGlobalBounds().height / 2);
+        lable.setPosition({rectangle.getPosition().x + rectangle.getGlobalBounds().size.x + 5,
+                          rectangle.getPosition().y - lable.getGlobalBounds().size.y / 2});
     }
 
     void enable()

@@ -11,7 +11,8 @@ private:
     SmartArray<BarShape> bars;
     int max_dist, *barCount, *barWidth, *height, *spacing, width, *sortingDelay;
 
-    sf::Sound beep;
+    // removed temporarly
+    // sf::Sound beep;
     const bool *enableSound;
 
 public:
