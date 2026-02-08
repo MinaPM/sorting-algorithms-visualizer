@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-set(PROJECT_NAME "CMakeSFMLProject")
+set(PROJECT_NAME "Sorting Algorithms")
 set(EXECUTABLE_NAME "main")
 
 project(${PROJECT_NAME}  LANGUAGES CXX)
