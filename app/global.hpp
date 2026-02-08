@@ -28,11 +28,11 @@ namespace Resources
     bool load_resourses()
     {
         // loading sound
-        if (!buffer.loadFromFile("Assets/Audio/beep.wav"))
+        if (!buffer.loadFromFile("assets/audio/beep.wav"))
             return false;
 
         // loading font
-        if (!font.openFromFile("Assets/Fonts/roboto.ttf"))
+        if (!font.openFromFile("assets/fonts/roboto.ttf"))
             return false;
 
         return true;
