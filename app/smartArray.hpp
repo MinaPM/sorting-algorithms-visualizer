@@ -45,6 +45,9 @@ private:
     std::vector<item> items;
     item auxiliaryMemory;
 
+public:
+    size_t length(){return items.size();}
+
 public: // operators
     MemoryStats memoryStats;
 
