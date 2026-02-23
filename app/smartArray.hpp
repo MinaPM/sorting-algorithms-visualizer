@@ -95,9 +95,10 @@ public: // operators
     void shuffle()
     {
         std::mt19937 gen(std::random_device{}());
-        std::iota(items.begin(), items.end(), 1);
         std::shuffle(items.begin(), items.end(), gen);
     }
+
+    void enumerate(){std::iota(items.begin(), items.end(), 1);}
 
     // Range-based for loop support
     auto begin() { return items.begin(); }
@@ -109,12 +110,14 @@ public: // operators
     void resize(size_t newSize)
     {
         items.resize(newSize);
+        enumerate();
         shuffle();
     }
 
     void resize(size_t newSize, const item& value)
     {
         items.resize(newSize, value);
+        enumerate();
         shuffle();
     }
 };

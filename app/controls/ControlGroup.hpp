@@ -9,14 +9,13 @@
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable
 {
-
 public:
     std::map<std::string, Slider> sliders;
-    std::map<std::string, Button *> buttons;
+    std::map<std::string, Button*> buttons;
 
     void update()
     {
-        for (auto &[placeHolder, slider] : sliders)
+        for (auto& [placeHolder, slider] : sliders)
             slider.setValue();
     }
 
@@ -28,67 +27,54 @@ public:
 
     void addButton(std::string name)
     {
-        Button *button = new Button(name);
+        Button* button = new Button(name);
         buttons.emplace(name, button);
         setPosition();
     }
 
     void mouseReleased()
     {
-        for (auto &[placeHolder, slider] : sliders)
+        for (auto& [placeHolder, slider] : sliders)
             slider.mouseReleased();
-        for (auto &[placeHolder, button] : buttons)
+        for (auto& [placeHolder, button] : buttons)
             button->mouseReleased();
     }
 
     void mouseClicked()
     {
-        for (auto &[placeHolder, slider] : sliders)
+        for (auto& [placeHolder, slider] : sliders)
             slider.clickWithin();
-        for (auto &[placeHolder, button] : buttons)
-            {if(button->clickWithin())
-            button->click();}
+        for (auto& [placeHolder, button] : buttons)
+        {
+            if (button->clickWithin())
+                button->click();
+        }
     }
-
-    // void somethingHappened(const sf::Event &event)
-    // {
-    //     switch (event.type)
-    //     {
-    //     case sf::Event::MouseButtonPressed:
-    //         mouseClicked();
-    //     case sf::Event::MouseMoved:
-    //         update();
-    //         break;
-    //     case sf::Event::MouseButtonReleased:
-    //         mouseReleased();
-    //         break;
-    //     }
-    // }
 
     void setPosition(int x = 20, int y = 100)
     {
         int gap = 50;
-        for (auto &[placeHolder, slider] : sliders)
+        for (auto& [placeHolder, slider] : sliders)
         {
             slider.setPosition(x, y);
             y += slider.getSize().y + gap;
         }
 
-        for (auto &[placeHolder, button] : buttons)
+        for (auto& [placeHolder, button] : buttons)
         {
             button->setPosition(x, y);
             y += button->getSize().y + gap;
         }
     }
 
-    void draw(sf::RenderTarget &rt, sf::RenderStates states) const
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const
     {
         states.transform *= getTransform();
 
-        for (auto &[placeHolder, slider] : sliders)
+        for (auto& [placeHolder, slider] : sliders)
             rt.draw(slider, states);
 
-        for (auto &[placeHolder, button] : buttons)
+        for (auto& [placeHolder, button] : buttons)
             rt.draw(*button, states);
     }
 };
@@ -102,7 +88,7 @@ namespace MAINCONTROLS
     {
         barControls.addSlider("Count", Slider("Count", 1, 600, 1000));
         barControls.addSlider("Max Height",
-                               Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
+                              Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
         barControls.addSlider("Width", Slider("Width", 1, 1, 40));
         barControls.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
         barControls.addSlider("Speed", Slider("Speed", 1, 5, 100));
@@ -113,25 +99,11 @@ namespace MAINCONTROLS
 
     void bindControls(BarBoard& barboard)
     {
-        barControls.sliders["Count"].setOnTrigger([&]()
-        {
-            barboard.updateBarCount();
-        });
-        barControls.sliders["Max Height"].setOnTrigger([&]()
-        {
-            barboard.updateBarSize();
-        });
-        barControls.sliders["Width"].setOnTrigger([&]()
-        {
-            barboard.updateBarSize();
-        });
-        barControls.sliders["Spacing"].setOnTrigger([&]()
-        {
-            barboard.updateSpacing();
-        });
-
-        (MAINCONTROLS::barControls.buttons["Shuffle"])->setOnTrigger(
-    [&]() { GlobalVars::bars.shuffle(); });
+        barControls.sliders["Count"].setOnTrigger([&]() { barboard.updateBarCount(); });
+        barControls.sliders["Max Height"].setOnTrigger([&]() { barboard.updateBarSize(); });
+        barControls.sliders["Width"].setOnTrigger([&]() { barboard.updateBarSize(); });
+        barControls.sliders["Spacing"].setOnTrigger([&]() { barboard.updateSpacing(); });
+        barControls.buttons["Shuffle"]->setOnTrigger([&]() { GlobalVars::bars.shuffle(); });
 
         // barControls.sliders["Speed"].setOnTrigger([&]()
         // 										  { barboard.updateSpacing(); });
@@ -140,8 +112,6 @@ namespace MAINCONTROLS
         // {
         //     barboard.sort();
         // });
-
-        barboard.center();
     }
 
 
@@ -152,13 +122,12 @@ namespace MAINCONTROLS
     };
     const auto onMouseButtonReleased = [](sf::Event::MouseButtonReleased)
     {
-      barControls.mouseReleased();
+        barControls.mouseReleased();
     };
     const auto onMouseMoved = [](sf::Event::MouseMoved)
     {
         barControls.update();
     };
-
 }
 
 #endif // CONTROLGROUP_HPP

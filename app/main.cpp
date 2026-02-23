@@ -1,7 +1,5 @@
 #include "global.hpp"
 #include "./controls/ControlGroup.hpp"
-#include "./Bar/BarShape.h"
-#include "./Bar/BarBoard.h"
 
 
 //controls
@@ -10,17 +8,17 @@
 
 
 int* sortingDelay;
+const int minDelay = 200;
+const int maxDelay = 100'000;
+const int range = maxDelay - minDelay;
 
 void sleep()
 {
-    const int minDelay = 200;
-    const int maxDelay = 100'000;
-    const int range = maxDelay - minDelay;
-    auto stamp = std::chrono::high_resolution_clock::now() +
+    auto stamp =
+        std::chrono::high_resolution_clock::now() +
         std::chrono::microseconds(maxDelay - range * (*sortingDelay / 99));
     std::this_thread::sleep_until(stamp);
 }
-
 
 
 void sort()
@@ -34,7 +32,7 @@ void sort()
         {
             GlobalVars::bars.swap(j, j - 1);
             j--;
-            // sleep();
+            sleep();
         }
     }
     Resources::appendDebugText("");
