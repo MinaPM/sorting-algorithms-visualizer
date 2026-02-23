@@ -1,6 +1,6 @@
 #include "global.hpp"
 #include "./controls/ControlGroup.hpp"
-
+#include "Algorithms/insertionSort.hpp"
 
 //controls
 //board
@@ -41,6 +41,14 @@ void sort()
     GlobalVars::bars.memoryStats.resetStats();
 }
 
+Insertion insertion;
+void sort2()
+{
+    insertion.setArray(GlobalVars::bars);
+    insertion.sort();
+
+}
+
 
 int main()
 {
@@ -59,7 +67,7 @@ int main()
     sortingDelay = &(MAINCONTROLS::barControls.sliders["Speed"].controlable);
 
     (MAINCONTROLS::barControls.buttons["Sort"])->setOnTrigger(
-        [&]() { sort(); });
+        [&]() { sort2(); });
 
 
     MAINCONTROLS::bindControls(barboard);
