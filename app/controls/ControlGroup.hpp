@@ -4,6 +4,7 @@
 #include "../global.hpp"
 #include "./Slider.hpp"
 #include "./Button.hpp"
+#include "../Bar/BarBoard.h"
 
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable
@@ -109,6 +110,52 @@ namespace MAINCONTROLS
         barControls.addButton("Sort");
     }
 
+
+    void bindControls(BarBoard& barboard)
+    {
+        barControls.sliders["Count"].setOnTrigger([&]()
+        {
+            barboard.updateBarCount();
+        });
+        barControls.sliders["Max Height"].setOnTrigger([&]()
+        {
+            barboard.updateBarSize();
+        });
+        barControls.sliders["Width"].setOnTrigger([&]()
+        {
+            barboard.updateBarSize();
+        });
+        barControls.sliders["Spacing"].setOnTrigger([&]()
+        {
+            barboard.updateSpacing();
+        });
+        // barControls.sliders["Speed"].setOnTrigger([&]()
+        // 										  { barboard.updateSpacing(); });
+        (barControls.buttons["Shuffle"])->setOnTrigger([&]()
+        {
+            barboard.shuffle();
+        });
+        // (barControls.buttons["Sort"])->setOnTrigger([&]()
+        // {
+        //     barboard.sort();
+        // });
+
+        barboard.center();
+    }
+
+
+    const auto onMouseButtonPressed = [](sf::Event::MouseButtonPressed)
+    {
+        barControls.mouseClicked();
+    };
+    const auto onMouseButtonReleased = [](sf::Event::MouseButtonReleased)
+    {
+      barControls.mouseReleased();
+    };
+    const auto onMouseMoved = [](sf::Event::MouseMoved)
+    {
+        barControls.update();
+    };
 
 }
 

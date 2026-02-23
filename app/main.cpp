@@ -4,37 +4,7 @@
 #include "./Bar/BarBoard.h"
 
 
-void bindControls(BarBoard& barboard, ControlGroup& barControls)
-{
-    barControls.sliders["Count"].setOnTrigger([&]()
-    {
-        barboard.updateBarCount();
-    });
-    barControls.sliders["Max Height"].setOnTrigger([&]()
-    {
-        barboard.updateBarSize();
-    });
-    barControls.sliders["Width"].setOnTrigger([&]()
-    {
-        barboard.updateBarSize();
-    });
-    barControls.sliders["Spacing"].setOnTrigger([&]()
-    {
-        barboard.updateSpacing();
-    });
-    // barControls.sliders["Speed"].setOnTrigger([&]()
-    // 										  { barboard.updateSpacing(); });
-    (barControls.buttons["Shuffle"])->setOnTrigger([&]()
-    {
-        barboard.shuffle();
-    });
-    // (barControls.buttons["Sort"])->setOnTrigger([&]()
-    // {
-    //     barboard.sort();
-    // });
 
-    barboard.center();
-}
 
 int *sortingDelay;
 void sleep()
@@ -99,7 +69,7 @@ int main()
 
 
 
-    bindControls(barboard, MAINCONTROLS::barControls);
+    MAINCONTROLS::bindControls(barboard);
     barboard.shuffle();
 
     // events
@@ -109,22 +79,12 @@ int main()
         // return 0;
     };
 
-    const auto onMouseButtonPressed = [](sf::Event::MouseButtonPressed)
-    {
-        MAINCONTROLS::barControls.mouseClicked();
-    };
-    const auto onMouseButtonReleased = [](sf::Event::MouseButtonReleased)
-    {
-        MAINCONTROLS::barControls.mouseReleased();
-    };
-    const auto onMouseMoved = [](sf::Event::MouseMoved)
-    {
-        MAINCONTROLS::barControls.update();
-    };
+
 
     while (Resources::window.isOpen())
     {
-        Resources::window.handleEvents(onClose, onMouseButtonPressed, onMouseButtonReleased, onMouseMoved);
+        Resources::window.handleEvents(onClose, MAINCONTROLS::onMouseButtonPressed,
+            MAINCONTROLS::onMouseButtonReleased, MAINCONTROLS::onMouseMoved);
 
         Resources::window.clear();
         Resources::window.draw(barboard);
