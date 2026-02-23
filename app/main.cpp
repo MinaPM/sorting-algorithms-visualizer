@@ -20,12 +20,9 @@ int main()
         GlobalVars::bars
     );
 
-    Algorithm::setDelay(MAINCONTROLS::barControls.sliders["Speed"].controlable);
 
 
     GlobalVars::sortingAlgorithm = &GlobalVars::insersion;
-    (MAINCONTROLS::barControls.buttons["Sort"])
-        ->setOnTrigger([&]() { GlobalVars::sortingAlgorithm->sort(); });
 
 
     MAINCONTROLS::bindControls(barboard);

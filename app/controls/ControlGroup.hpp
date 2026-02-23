@@ -105,13 +105,13 @@ namespace MAINCONTROLS
         barControls.sliders["Spacing"].setOnTrigger([&]() { barboard.updateSpacing(); });
         barControls.buttons["Shuffle"]->setOnTrigger([&]() { GlobalVars::bars.shuffle(); });
 
-        // barControls.sliders["Speed"].setOnTrigger([&]()
-        // 										  { barboard.updateSpacing(); });
 
-        // (barControls.buttons["Sort"])->setOnTrigger([&]()
-        // {
-        //     barboard.sort();
-        // });
+        barControls.buttons["Sort"]->setOnTrigger([&]() { GlobalVars::sortingAlgorithm->sort(); });
+        Algorithm::setDelay(MAINCONTROLS::barControls.sliders["Speed"].controlable);
+
+
+
+
     }
 
 
