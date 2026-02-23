@@ -89,43 +89,6 @@ public:
             rt.draw(bar, states);
         }
     }
-
-    void shuffle()
-    {
-        bars.shuffle(1, *height);
-    }
-
-    // void sort()
-    // {
-    //     bars.memoryStats.resetStats();
-    //
-    //     for (size_t i = 1; i < bars.length(); i++)
-    //     {
-    //         size_t j = i;
-    //         while (j > 0 && bars.read(j) < bars.read(j - 1))
-    //         {
-    //             bars.swap(j, j - 1);
-    //             j--;
-    //             sleep();
-    //         }
-    //     }
-    //     Resources::appendDebugText("");
-    //     Resources::appendDebugText(bars.memoryStats.to_string());
-    //
-    //     bars.memoryStats.resetStats();
-    // }
-
-private:
-    // void sleep()
-    // {
-    //     auto stamp = std::chrono::high_resolution_clock::now() +
-    //         std::chrono::microseconds(maxDelay - range * (*sortingDelay / 99));
-    //     std::this_thread::sleep_until(stamp);
-    // }
-    //
-    // const int minDelay = 200;
-    // const int maxDelay = 100'000;
-    // const int range = maxDelay - minDelay;
 };
 
 

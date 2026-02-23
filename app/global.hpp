@@ -9,8 +9,12 @@
 #include <random>
 #include <map>
 
+#include "smartArray.hpp"
+#include "Bar/BarShape.h"
+
 namespace Resources
 {
+
 
     struct Padding
     {
@@ -66,15 +70,18 @@ namespace Resources
     }
 
     sf::Vector2i mousePosition() { return sf::Mouse::getPosition(window); }
+
+    //close event
+    const auto onClose = [](const sf::Event::Closed&)
+    {
+       window.close();
+    };
 }
 
 
 namespace GlobalVars
 {
-
-
-
-
+    SmartArray<BarShape> bars;
 
 
 }

@@ -131,10 +131,10 @@ namespace MAINCONTROLS
         });
         // barControls.sliders["Speed"].setOnTrigger([&]()
         // 										  { barboard.updateSpacing(); });
-        (barControls.buttons["Shuffle"])->setOnTrigger([&]()
-        {
-            barboard.shuffle();
-        });
+        // (barControls.buttons["Shuffle"])->setOnTrigger([&]()
+        // {
+        //     barboard.shuffle();
+        // });
         // (barControls.buttons["Sort"])->setOnTrigger([&]()
         // {
         //     barboard.sort();
@@ -144,6 +144,7 @@ namespace MAINCONTROLS
     }
 
 
+    //events
     const auto onMouseButtonPressed = [](sf::Event::MouseButtonPressed)
     {
         barControls.mouseClicked();

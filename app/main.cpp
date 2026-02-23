@@ -4,9 +4,13 @@
 #include "./Bar/BarBoard.h"
 
 
+//controls
+//board
+//array
 
 
-int *sortingDelay;
+int* sortingDelay;
+
 void sleep()
 {
     const int minDelay = 200;
@@ -18,8 +22,8 @@ void sleep()
 }
 
 
+SmartArray<BarShape>* barsp;
 
-SmartArray<BarShape> *barsp;
 void sort()
 {
     barsp->memoryStats.resetStats();
@@ -32,7 +36,6 @@ void sort()
             barsp->swap(j, j - 1);
             j--;
             // sleep();
-
         }
     }
     Resources::appendDebugText("");
@@ -45,11 +48,8 @@ void sort()
 int main()
 {
     Resources::initialize();
-
-
     MAINCONTROLS::createControls();
-    SmartArray<BarShape> bars;
-    barsp=&bars;
+    barsp = &GlobalVars::bars;
 
     BarBoard barboard(
         MAINCONTROLS::barControls.sliders["Count"].controlable,
@@ -57,34 +57,28 @@ int main()
         MAINCONTROLS::barControls.sliders["Width"].controlable,
         MAINCONTROLS::barControls.sliders["Spacing"].controlable,
         MAINCONTROLS::barControls.sliders["Speed"].controlable,
-        bars
+        GlobalVars::bars
     );
 
-    sortingDelay=&(MAINCONTROLS::barControls.sliders["Speed"].controlable);
+    sortingDelay = &(MAINCONTROLS::barControls.sliders["Speed"].controlable);
 
-    (MAINCONTROLS::barControls.buttons["Sort"])->setOnTrigger([&]()
-    {
-        sort();
-    });
-
+    (MAINCONTROLS::barControls.buttons["Sort"])->setOnTrigger(
+        [&]() { sort(); });
+    (MAINCONTROLS::barControls.buttons["Shuffle"])->setOnTrigger(
+        [&]() { barsp->shuffle(); });
 
 
     MAINCONTROLS::bindControls(barboard);
-    barboard.shuffle();
-
-    // events
-    const auto onClose = [](const sf::Event::Closed&)
-    {
-        Resources::window.close();
-        // return 0;
-    };
-
+    barsp->shuffle();
 
 
     while (Resources::window.isOpen())
     {
-        Resources::window.handleEvents(onClose, MAINCONTROLS::onMouseButtonPressed,
-            MAINCONTROLS::onMouseButtonReleased, MAINCONTROLS::onMouseMoved);
+        Resources::window.handleEvents(
+            Resources::onClose,
+            MAINCONTROLS::onMouseButtonPressed,
+            MAINCONTROLS::onMouseButtonReleased,
+            MAINCONTROLS::onMouseMoved);
 
         Resources::window.clear();
         Resources::window.draw(barboard);

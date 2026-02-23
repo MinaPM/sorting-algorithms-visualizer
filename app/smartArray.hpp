@@ -4,7 +4,6 @@
 
 class MemoryStats
 {
-
 public:
     mutable unsigned int
         readCount = 0,
@@ -25,8 +24,8 @@ public:
     std::string to_string()
     {
         return "Memory reads: " + std::to_string(readCount) +
-               "\nMemory writes: " + std::to_string(writeCount) +
-               "\nAuxiliary Memory needed: " + std::to_string(auxiliaryMemoryCount);
+            "\nMemory writes: " + std::to_string(writeCount) +
+            "\nAuxiliary Memory needed: " + std::to_string(auxiliaryMemoryCount);
     }
 
     void resetStats()
@@ -46,18 +45,18 @@ private:
     item auxiliaryMemory;
 
 public:
-    size_t length(){return items.size();}
+    size_t length() { return items.size(); }
 
 public: // operators
     MemoryStats memoryStats;
 
-    item &operator[](size_t index)
+    item& operator[](size_t index)
     {
         return items[index];
     }
 
     // just in case
-    item &read(size_t index)
+    item& read(size_t index)
     {
         memoryStats.read();
         return items[index];
@@ -85,7 +84,6 @@ public: // operators
 
     void swap(size_t index1, size_t index2)
     {
-
         memoryStats.read(2);
         memoryStats.write(2);
         // memoryStats.auxiliaryMemoryCount++;
@@ -94,17 +92,11 @@ public: // operators
         items[index2] = auxiliaryMemory;
     }
 
-    void shuffle(int min, int max)
+    void shuffle()
     {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(min, max);
-
-        for (auto &i : items)
-        {
-            //item must accept int assignment
-            i = distrib(gen);
-        }
+        std::mt19937 gen(std::random_device{}());
+        std::iota(items.begin(), items.end(), 5);
+        std::shuffle(items.begin(), items.end(), gen);
     }
 
     // Range-based for loop support
@@ -114,8 +106,17 @@ public: // operators
     auto begin() const { return items.begin(); }
     auto end() const { return items.end(); }
 
-    void resize(size_t newSize) { items.resize(newSize); }
-    void resize(size_t newSize, const item &value) { items.resize(newSize, value); }
+    void resize(size_t newSize)
+    {
+        items.resize(newSize);
+        shuffle();
+    }
+
+    void resize(size_t newSize, const item& value)
+    {
+        items.resize(newSize, value);
+        shuffle();
+    }
 };
 
 #endif // SMARTARRAY_HPP
