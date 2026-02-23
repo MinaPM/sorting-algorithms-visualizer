@@ -8,6 +8,7 @@
 
 class Insertion : public Algorithm
 {
+
     void start() override
     {
         array->memoryStats.resetStats();
@@ -19,15 +20,18 @@ class Insertion : public Algorithm
             {
                 array->swap(j, j - 1);
                 j--;
-                // sleep();
+                sleep();
             }
         }
         // Resources::appendDebugText("");
         // Resources::appendDebugText(array->memoryStats.to_string());
 
         array->memoryStats.resetStats();
+    }
 
-
+public:
+    Insertion(SmartArray<BarShape>& array) : Algorithm(array)
+    {
     }
 
 };

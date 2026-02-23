@@ -10,6 +10,8 @@
 #include <map>
 
 #include "smartArray.hpp"
+#include "Algorithms/algorithm.hpp"
+#include "Algorithms/insertionSort.hpp"
 #include "Bar/BarShape.h"
 
 namespace Resources
@@ -82,7 +84,8 @@ namespace Resources
 namespace GlobalVars
 {
     SmartArray<BarShape> bars;
-
+    Algorithm *sortingAlgorithm;
+    Insertion insersion(bars);
 
 }
 

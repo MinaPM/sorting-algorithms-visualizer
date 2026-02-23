@@ -10,7 +10,7 @@ class BarBoard : public sf::Drawable,
 {
 private:
     SmartArray<BarShape>& bars;
-    int max_dist, *barCount, *barWidth, *height, *spacing, width, *sortingDelay;
+    int max_dist, *barCount, *barWidth, *height, *spacing, width;
 
     // removed temporary
     // sf::Sound beep;
@@ -21,15 +21,13 @@ public:
              int& height,
              int& barWidth,
              int& spacing,
-             int& sortingDelay,
              SmartArray<BarShape>& bars
     )
         : bars(bars),
           barCount(&barCount),
           height(&height),
           barWidth(&barWidth),
-          spacing(&spacing),
-          sortingDelay(&sortingDelay)
+          spacing(&spacing)
     {
         updateBarCount();
     }

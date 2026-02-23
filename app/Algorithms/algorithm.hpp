@@ -34,14 +34,32 @@ public:
         sort();
     }
 
+
+    static void setDelay(int& delay) { sortingDelay = &delay; }
+
+    static int* sortingDelay;
+
 protected:
     SmartArray<BarShape>* array;
+
 
     void virtual start()
     {
     }
 
-private:
+    static const int minDelay = 200;
+    static const int maxDelay = 100'000;
+    static const int range = maxDelay - minDelay;
+
+    static void sleep()
+    {
+        auto stamp =
+            std::chrono::high_resolution_clock::now() +
+            std::chrono::microseconds(maxDelay - range * (*sortingDelay / 99));
+        std::this_thread::sleep_until(stamp);
+    }
 };
+
+int *Algorithm::sortingDelay= nullptr;
 
 #endif // ALGORITHM
