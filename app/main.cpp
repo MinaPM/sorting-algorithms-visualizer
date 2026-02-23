@@ -22,7 +22,7 @@ int main()
 
 
 
-    GlobalVars::sortingAlgorithm = &GlobalVars::insersion;
+    GlobalVars::sortingAlgorithm = &GlobalVars::mergeSort;
 
 
     MAINCONTROLS::bindControls(barboard);

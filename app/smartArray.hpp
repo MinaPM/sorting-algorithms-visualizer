@@ -47,7 +47,7 @@ private:
 public:
     size_t length() { return items.size(); }
 
-public: // operators
+ // operators
     MemoryStats memoryStats;
 
     item& operator[](size_t index)

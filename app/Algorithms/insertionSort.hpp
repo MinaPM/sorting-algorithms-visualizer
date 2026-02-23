@@ -6,7 +6,7 @@
 #define SORTING_ALGORITHMS_INSERTIONSORT_H
 #include "algorithm.hpp"
 
-class Insertion : public Algorithm
+class InsertionSort : public Algorithm
 {
 
     void start() override
@@ -30,7 +30,7 @@ class Insertion : public Algorithm
     }
 
 public:
-    Insertion(SmartArray<BarShape>& array) : Algorithm(array)
+    InsertionSort(SmartArray<BarShape>& array) : Algorithm(array)
     {
     }
 

@@ -12,6 +12,7 @@
 #include "smartArray.hpp"
 #include "Algorithms/algorithm.hpp"
 #include "Algorithms/insertionSort.hpp"
+#include "Algorithms/mergeSort.hpp"
 #include "Bar/BarShape.h"
 
 namespace Resources
@@ -85,7 +86,8 @@ namespace GlobalVars
 {
     SmartArray<BarShape> bars;
     Algorithm *sortingAlgorithm;
-    Insertion insersion(bars);
+    InsertionSort insersion(bars);
+    MergeSort mergeSort(bars);
 
 }
 

@@ -59,7 +59,11 @@ public:
     BarShape& operator=(int value){
         this->updateValue(value);
         return *this;
-    } 
+    }
+
+    operator int() const {
+        return height;
+    }
 
 public: // graphics
     void setColor(sf::Color color) { rectangle.setFillColor(color); }
