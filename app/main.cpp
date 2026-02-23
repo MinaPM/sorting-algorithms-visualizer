@@ -22,26 +22,25 @@ void sleep()
 }
 
 
-SmartArray<BarShape>* barsp;
 
 void sort()
 {
-    barsp->memoryStats.resetStats();
+    GlobalVars::bars.memoryStats.resetStats();
 
-    for (size_t i = 1; i < barsp->length(); i++)
+    for (size_t i = 1; i < GlobalVars::bars.length(); i++)
     {
         size_t j = i;
-        while (j > 0 && barsp->read(j) < barsp->read(j - 1))
+        while (j > 0 && GlobalVars::bars.read(j) < GlobalVars::bars.read(j - 1))
         {
-            barsp->swap(j, j - 1);
+            GlobalVars::bars.swap(j, j - 1);
             j--;
             // sleep();
         }
     }
     Resources::appendDebugText("");
-    Resources::appendDebugText(barsp->memoryStats.to_string());
+    Resources::appendDebugText(GlobalVars::bars.memoryStats.to_string());
 
-    barsp->memoryStats.resetStats();
+    GlobalVars::bars.memoryStats.resetStats();
 }
 
 
@@ -49,7 +48,6 @@ int main()
 {
     Resources::initialize();
     MAINCONTROLS::createControls();
-    barsp = &GlobalVars::bars;
 
     BarBoard barboard(
         MAINCONTROLS::barControls.sliders["Count"].controlable,
@@ -64,12 +62,10 @@ int main()
 
     (MAINCONTROLS::barControls.buttons["Sort"])->setOnTrigger(
         [&]() { sort(); });
-    (MAINCONTROLS::barControls.buttons["Shuffle"])->setOnTrigger(
-        [&]() { barsp->shuffle(); });
 
 
     MAINCONTROLS::bindControls(barboard);
-    barsp->shuffle();
+    GlobalVars::bars.shuffle();
 
 
     while (Resources::window.isOpen())

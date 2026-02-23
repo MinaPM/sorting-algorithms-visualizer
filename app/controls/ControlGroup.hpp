@@ -129,12 +129,13 @@ namespace MAINCONTROLS
         {
             barboard.updateSpacing();
         });
+
+        (MAINCONTROLS::barControls.buttons["Shuffle"])->setOnTrigger(
+    [&]() { GlobalVars::bars.shuffle(); });
+
         // barControls.sliders["Speed"].setOnTrigger([&]()
         // 										  { barboard.updateSpacing(); });
-        // (barControls.buttons["Shuffle"])->setOnTrigger([&]()
-        // {
-        //     barboard.shuffle();
-        // });
+
         // (barControls.buttons["Sort"])->setOnTrigger([&]()
         // {
         //     barboard.sort();

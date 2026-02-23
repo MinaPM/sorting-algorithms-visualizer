@@ -12,7 +12,7 @@ private:
     SmartArray<BarShape>& bars;
     int max_dist, *barCount, *barWidth, *height, *spacing, width, *sortingDelay;
 
-    // removed temporarly
+    // removed temporary
     // sf::Sound beep;
     const bool* enableSound;
 

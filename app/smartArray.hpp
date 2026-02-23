@@ -95,7 +95,7 @@ public: // operators
     void shuffle()
     {
         std::mt19937 gen(std::random_device{}());
-        std::iota(items.begin(), items.end(), 5);
+        std::iota(items.begin(), items.end(), 1);
         std::shuffle(items.begin(), items.end(), gen);
     }
 
