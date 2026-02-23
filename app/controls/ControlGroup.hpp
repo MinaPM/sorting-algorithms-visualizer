@@ -4,7 +4,6 @@
 #include "../global.hpp"
 #include "./Slider.hpp"
 #include "./Button.hpp"
-#include "../Bar/BarShape.h"
 
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable
@@ -92,5 +91,25 @@ public:
             rt.draw(*button, states);
     }
 };
+
+
+namespace MAINCONTROLS
+{
+    ControlGroup barControls;
+
+    void createControls()
+    {
+        barControls.addSlider("Count", Slider("Count", 1, 600, 1000));
+        barControls.addSlider("Max Height",
+                               Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
+        barControls.addSlider("Width", Slider("Width", 1, 1, 40));
+        barControls.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
+        barControls.addSlider("Speed", Slider("Speed", 1, 5, 100));
+        barControls.addButton("Shuffle");
+        barControls.addButton("Sort");
+    }
+
+
+}
 
 #endif // CONTROLGROUP_HPP

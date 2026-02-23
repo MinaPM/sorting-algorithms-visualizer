@@ -3,17 +3,6 @@
 #include "./Bar/BarShape.h"
 #include "./Bar/BarBoard.h"
 
-void addControls(ControlGroup& controlGroup)
-{
-    controlGroup.addSlider("Count", Slider("Count", 1, 600, 1000));
-    controlGroup.addSlider("Max Height",
-                           Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
-    controlGroup.addSlider("Width", Slider("Width", 1, 1, 40));
-    controlGroup.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
-    controlGroup.addSlider("Speed", Slider("Speed", 1, 5, 100));
-    controlGroup.addButton("Shuffle");
-    controlGroup.addButton("Sort");
-}
 
 void bindControls(BarBoard& barboard, ControlGroup& barControls)
 {
@@ -72,7 +61,7 @@ void sort()
         {
             barsp->swap(j, j - 1);
             j--;
-            sleep();
+            // sleep();
 
         }
     }
@@ -87,30 +76,30 @@ int main()
 {
     Resources::initialize();
 
-    ControlGroup barControls;
-    addControls(barControls);
+
+    MAINCONTROLS::createControls();
     SmartArray<BarShape> bars;
     barsp=&bars;
 
     BarBoard barboard(
-        barControls.sliders["Count"].controlable,
-        barControls.sliders["Max Height"].controlable,
-        barControls.sliders["Width"].controlable,
-        barControls.sliders["Spacing"].controlable,
-        barControls.sliders["Speed"].controlable,
+        MAINCONTROLS::barControls.sliders["Count"].controlable,
+        MAINCONTROLS::barControls.sliders["Max Height"].controlable,
+        MAINCONTROLS::barControls.sliders["Width"].controlable,
+        MAINCONTROLS::barControls.sliders["Spacing"].controlable,
+        MAINCONTROLS::barControls.sliders["Speed"].controlable,
         bars
     );
 
-    sortingDelay=&(barControls.sliders["Speed"].controlable);
+    sortingDelay=&(MAINCONTROLS::barControls.sliders["Speed"].controlable);
 
-    (barControls.buttons["Sort"])->setOnTrigger([&]()
+    (MAINCONTROLS::barControls.buttons["Sort"])->setOnTrigger([&]()
     {
         sort();
     });
 
 
 
-    bindControls(barboard, barControls);
+    bindControls(barboard, MAINCONTROLS::barControls);
     barboard.shuffle();
 
     // events
@@ -120,17 +109,17 @@ int main()
         // return 0;
     };
 
-    const auto onMouseButtonPressed = [&barControls](sf::Event::MouseButtonPressed)
+    const auto onMouseButtonPressed = [](sf::Event::MouseButtonPressed)
     {
-        barControls.mouseClicked();
+        MAINCONTROLS::barControls.mouseClicked();
     };
-    const auto onMouseButtonReleased = [&barControls](sf::Event::MouseButtonReleased)
+    const auto onMouseButtonReleased = [](sf::Event::MouseButtonReleased)
     {
-        barControls.mouseReleased();
+        MAINCONTROLS::barControls.mouseReleased();
     };
-    const auto onMouseMoved = [&barControls](sf::Event::MouseMoved)
+    const auto onMouseMoved = [](sf::Event::MouseMoved)
     {
-        barControls.update();
+        MAINCONTROLS::barControls.update();
     };
 
     while (Resources::window.isOpen())
@@ -139,8 +128,8 @@ int main()
 
         Resources::window.clear();
         Resources::window.draw(barboard);
-        Resources::window.draw(barControls);
-        // Resources::window.draw(Resources::debugText);
+        Resources::window.draw(MAINCONTROLS::barControls);
+        Resources::window.draw(Resources::debugText);
         Resources::window.display();
     }
 

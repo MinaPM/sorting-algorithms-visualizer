@@ -68,4 +68,16 @@ namespace Resources
     sf::Vector2i mousePosition() { return sf::Mouse::getPosition(window); }
 }
 
+
+namespace GlobalVars
+{
+
+
+
+
+
+
+}
+
+
 #endif // GLOBAL_H
