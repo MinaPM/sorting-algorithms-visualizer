@@ -1,7 +1,7 @@
 #ifndef SMARTARRAY_HPP
 #define SMARTARRAY_HPP
 #include <vector>
-
+#include <algorithm>
 class MemoryStats
 {
 public:
