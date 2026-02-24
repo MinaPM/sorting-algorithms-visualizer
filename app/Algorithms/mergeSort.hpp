@@ -7,14 +7,16 @@
 #include "algorithm.hpp"
 
 
-class MergeSort: public Algorithm
+class MergeSort : public Algorithm
 {
-    void start() override { mergeSort(0, array->length()-1); }
+    void start() override { mergeSort(0, array->length() - 1); }
 
     void mergeSort(int left, int right)
     {
         if (left >= right)
             return;
+
+        sleep();
 
         int mid = (right - left) / 2 + left;
         mergeSort(left, mid);
@@ -58,15 +60,20 @@ class MergeSort: public Algorithm
         }
 
         for (; left_index < left_size; left_index++, current_index++)
+        {
+            sleep();
             (*array)[current_index] = left_array[left_index];
+        }
 
         for (; right_index < right_size; right_index++, current_index++)
+        {
+            sleep();
             (*array)[current_index] = right_array[right_index];
+        }
 
         delete[] left_array;
         delete[] right_array;
     }
-
 
 public:
     MergeSort(SmartArray<BarShape>& array) : Algorithm(array)

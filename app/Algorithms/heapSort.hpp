@@ -15,16 +15,16 @@ public:
 
     void start() override { heapSort(); }
 
-
 private:
+    int lastIndex;
     int parentOf(int key) { return (key - 1) / 2; };
     int leftChild(int key) { return 2 * key + 1; }
     int rightChild(int key) { return leftChild(key) + 1; }
 
     void heapSort()
     {
+        lastIndex = array->length() - 1;
         buildMaxHeap();
-        // buildMaxHeapRecur(0);
         while (lastIndex >= 0)
             deleteTop();
     }
@@ -33,62 +33,40 @@ private:
     {
         for (int i = (lastIndex) / 2; i >= 0; i--)
         {
-            pushUp(i);
+            iterPushUp(i);
+            sleep();
         }
     }
 
-    void buildMaxHeapRecur(int root)
-    {
-        if (leftChild(root) > lastIndex)
-            return;
-        buildMaxHeapRecur(leftChild(root));
-        buildMaxHeapRecur(rightChild(root));
-        pushUp(root);
-    }
-
-    void pushUp(int root)
-    {
-        int child = leftChild(root);
-
-        if (child > lastIndex)
-            return;
-
-        if (child != lastIndex && Compare(array[child], LT, array[rightChild(root)]))
-            child = rightChild(root);
-
-        if (Compare(array[root], LT, array[child]))
-        {
-            Swap(array[root], array[child]);
-            pushUp(child);
-        }
-    }
 
     void iterPushUp(int root)
     {
         int child = leftChild(root), parent = root;
-
         while (child <= lastIndex)
         {
-            if (child != lastIndex && Compare(array[child], LT, array[rightChild(parent)]))
+            if (child != lastIndex && (*array)[child]< (*array)[rightChild(parent)])
                 child = rightChild(parent);
 
-            if (Compare(array[parent], LT, array[child]))
+            if ((*array)[parent]< (*array)[child])
             {
-                Swap(array[parent], array[child]);
+                array->swap(parent,child);
+                // Swap(array[parent], array[child]);
                 parent = child;
                 child = leftChild(parent);
             }
             else
                 break;
+            sleep();
         }
     }
 
     void deleteTop()
     {
-        Swap(array[lastIndex--], array[0]);
-        pushUp(0);
+        array->swap(lastIndex--, 0);
+        // Swap(array[lastIndex--], array[0]);
+        iterPushUp(0);
+        sleep();
     }
-
 };
 
 
