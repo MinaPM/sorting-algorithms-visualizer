@@ -9,7 +9,7 @@ public:
     Button(Button&&) noexcept = default; // Move constructor
 
 
-    Button(const std::string &text) : Control(text)
+    Button(const std::string& text) : Control(text)
     {
         rectangle.setSize(sf::Vector2f(lable.getLocalBounds().size.x + 10,
                                        lable.getLocalBounds().size.y + 10));
@@ -34,11 +34,12 @@ public:
     }
 
 
-    ~Button(){
-                if (buttonThread.joinable())
+    ~Button()
+    {
+        if (buttonThread.joinable())
             buttonThread.join();
-
     }
+
 private:
     std::thread buttonThread;
 

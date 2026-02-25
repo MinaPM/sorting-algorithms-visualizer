@@ -2,8 +2,9 @@
 #define CONTROLGROUP_HPP
 
 #include "../global.hpp"
-#include "./Slider.hpp"
-#include "./Button.hpp"
+#include "Slider.hpp"
+#include "Button.hpp"
+#include "checkGroup.hpp"
 #include "../Bar/BarBoard.h"
 
 class ControlGroup : public sf::Drawable,
@@ -11,7 +12,9 @@ class ControlGroup : public sf::Drawable,
 {
 public:
     std::map<std::string, Slider> sliders;
+    std::map<std::string, CheckGroup> checkGroups;
     std::map<std::string, Button*> buttons;
+
 
     void update()
     {
@@ -25,6 +28,11 @@ public:
         setPosition();
     }
 
+    void addCheckGroup(std::string name)
+    {
+        checkGroups.emplace(name, CheckGroup(name));
+    }
+
     void addButton(std::string name)
     {
         Button* button = new Button(name);
@@ -36,6 +44,8 @@ public:
     {
         for (auto& [placeHolder, slider] : sliders)
             slider.mouseReleased();
+        for (auto& [placeHolder, checkGroup] : checkGroups)
+            checkGroup.mouseReleased();
         for (auto& [placeHolder, button] : buttons)
             button->mouseReleased();
     }
@@ -44,11 +54,13 @@ public:
     {
         for (auto& [placeHolder, slider] : sliders)
             slider.clickWithin();
+
+        for (auto& [placeHolder, checkGroup] : checkGroups)
+            checkGroup.clickWithin();
+
         for (auto& [placeHolder, button] : buttons)
-        {
             if (button->clickWithin())
                 button->click();
-        }
     }
 
     void setPosition(int x = 20, int y = 100)
@@ -59,6 +71,8 @@ public:
             slider.setPosition(x, y);
             y += slider.getSize().y + gap;
         }
+
+
 
         for (auto& [placeHolder, button] : buttons)
         {
@@ -73,6 +87,9 @@ public:
 
         for (auto& [placeHolder, slider] : sliders)
             rt.draw(slider, states);
+
+        for (auto& [placeHolder, checkGroup] : checkGroups)
+            rt.draw(checkGroup, states);
 
         for (auto& [placeHolder, button] : buttons)
             rt.draw(*button, states);
@@ -94,6 +111,8 @@ namespace MAINCONTROLS
         barControls.addSlider("Speed", Slider("Speed", 1, 5, 100));
         barControls.addButton("Shuffle");
         barControls.addButton("Sort");
+        barControls.addCheckGroup("Sorting Algorithm");
+        barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Merge"));
     }
 
 
@@ -108,10 +127,6 @@ namespace MAINCONTROLS
 
         barControls.buttons["Sort"]->setOnTrigger([&]() { GlobalVars::sortingAlgorithm->sort(); });
         Algorithm::setDelay(MAINCONTROLS::barControls.sliders["Speed"].controlable);
-
-
-
-
     }
 
 

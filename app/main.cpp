@@ -7,6 +7,9 @@
 //array
 
 
+int* selectAlgo = nullptr;
+
+
 int main()
 {
     Resources::initialize();
@@ -19,7 +22,6 @@ int main()
         MAINCONTROLS::barControls.sliders["Spacing"].controlable,
         GlobalVars::bars
     );
-
 
 
     GlobalVars::sortingAlgorithm = &GlobalVars::quickSort;
