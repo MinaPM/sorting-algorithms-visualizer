@@ -5,6 +5,13 @@
 
 class Button : public Control<int>
 {
+protected:
+
+    void setLayout() override
+    {
+        label.setPosition(rectangle.getPosition());
+    }
+
 public:
     Button(Button&&) noexcept = default; // Move constructor
 
@@ -13,14 +20,15 @@ public:
     {
         rectangle.setSize(sf::Vector2f(label.getLocalBounds().size.x + 10,
                                        label.getLocalBounds().size.y + 10));
-        setPosition(0, 0);
+        setLayout();
         setColor(sf::Color::White, sf::Color::Red, sf::Color::Red);
     }
+    void setPosition(sf::Vector2f position) override{}
 
     void setPosition(float x, float y)
     {
         rectangle.setPosition({x, y});
-        label.setPosition(rectangle.getPosition());
+        setLayout();
     }
 
     void click()

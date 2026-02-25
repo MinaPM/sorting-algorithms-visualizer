@@ -9,21 +9,16 @@
 
 class CheckGroup : public Control<int>
 {
+protected:
     std::vector<CheckBox> checkBoxes;
 
-    void setPosition() { setPosition(label.getPosition()); }
-
-public:
-    CheckGroup() { controlable = 0; }
-
-    CheckGroup(const std::string& text) : Control(text) { controlable = 0; }
-
-
-    void setPosition(sf::Vector2f position)
+    void setLayout() override
     {
-        sf::Vector2f padding(0, 50);
-        label.setPosition(position);
-        // rectangle.setPosition(position + sf::Vector2f(0, lable.getCharacterSize() + 10));
+        sf::Vector2f position = label.getPosition(), padding(0, 50);
+        auto height = checkBoxes.empty() ? 10 : (position - checkBoxes.back().getPosition()).y;
+        rectangle.setSize({4, height});
+
+        rectangle.setPosition(position);
         for (auto& checkBox : checkBoxes)
         {
             position += padding;
@@ -32,10 +27,7 @@ public:
         }
     }
 
-    void addCheckBox(std::string option)
-    {
-        checkBoxes.push_back(CheckBox(option));
-    }
+    void setPosition() { setPosition(label.getPosition()); }
 
     void resetCheckBoxes()
     {
@@ -44,6 +36,25 @@ public:
             checkBox.uncheck();
         }
     }
+
+public:
+    CheckGroup() { controlable = 0; }
+
+    CheckGroup(const std::string& text) : Control(text) { controlable = 0; }
+
+
+    void setPosition(sf::Vector2f position) override
+    {
+        label.setPosition(position);
+        setLayout();
+    }
+
+    void addCheckBox(std::string option)
+    {
+        checkBoxes.push_back(CheckBox(option));
+        setPosition();
+    }
+
 
     bool clickWithin()
     {

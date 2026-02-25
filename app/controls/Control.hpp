@@ -90,5 +90,9 @@ public:
         rt.draw(rectangle, states);
         rt.draw(label, states);
     }
+
+    virtual void setPosition(sf::Vector2f position){rectangle.setPosition(position);}
+protected:
+    virtual void setLayout(){}
 };
 #endif // CONTROL_HPP

@@ -2,17 +2,29 @@
 #define SLIDER_HPP
 
 #include "Control.hpp"
+
 class Slider : public Control<int>
 {
+protected:
+
+    void setLayout() override
+    {
+        rectangle.setPosition(label.getPosition() + sf::Vector2f(0, label.getCharacterSize() + 10));
+        current_rect.setPosition(rectangle.getPosition());
+        current_text.setPosition(rectangle.getPosition() + sf::Vector2f(width + 5, 0));
+    }
 
 public:
     sf::Text current_text;
     sf::RectangleShape current_rect;
     int min, max, width;
-    Slider():Control(),current_text(label) {}
-    Slider(const std::string &text, int min, int current, int max) : Control(text),current_text(label)
-    {
 
+    Slider() : Control(), current_text(label)
+    {
+    }
+
+    Slider(const std::string& text, int min, int current, int max) : Control(text), current_text(label)
+    {
         width = 100;
         this->min = min;
         this->max = max;
@@ -24,18 +36,17 @@ public:
         current_rect.setSize(sf::Vector2f((float)((current - min) / (float)(max - min)) * width, 20));
 
         setColor(sf::Color::White, sf::Color::Red, sf::Color::White);
-        setPosition(0, 0);
+        setLayout();
     }
 
+    void setPosition(sf::Vector2f position) override{}
     void setPosition(float x, float y)
     {
         label.setPosition({x, y});
-        rectangle.setPosition({x, y + label.getCharacterSize() + 10});
-        current_rect.setPosition(rectangle.getPosition());
-        current_text.setPosition({rectangle.getPosition().x + width + 5, rectangle.getPosition().y});
+        setLayout();
     }
 
-    void setFont(const sf::Font &font)
+    void setFont(const sf::Font& font)
     {
         Control::setFont(font);
         current_text.setFont(font);
@@ -63,6 +74,7 @@ public:
         Control::enable();
         setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), label.getFillColor());
     }
+
     void disable()
     {
         Control::disable();
@@ -76,7 +88,7 @@ public:
         current_text.setFillColor(text);
     }
 
-    void draw(sf::RenderTarget &rt, sf::RenderStates states) const
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const override
     {
         Control::draw(rt, states);
         states.transform *= getTransform();

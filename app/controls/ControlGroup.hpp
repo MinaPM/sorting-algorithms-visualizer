@@ -76,7 +76,6 @@ public:
         for (auto& [placeHolder, slider] : sliders)
         {
             slider.setPosition(position.x, position.y);
-            // y += slider.getSize().y + gap;
             position.y += slider.getSize().y + padding.y;
         }
 
