@@ -14,12 +14,18 @@ public:
         setPosition(0, 0);
     }
 
-    void setPosition(float x, float y)
+    void setPosition(sf::Vector2f position)
     {
-        rectangle.setPosition({x, y});
+
+        rectangle.setPosition(position);
         check_circle.setPosition(rectangle.getPosition());
         lable.setPosition({rectangle.getPosition().x + rectangle.getGlobalBounds().size.x + 5,
                           rectangle.getPosition().y - lable.getGlobalBounds().size.y / 2});
+    }
+
+    void setPosition(float x, float y)
+    {
+        setPosition({x, y});
     }
 
     void enable()

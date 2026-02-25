@@ -72,7 +72,11 @@ public:
             y += slider.getSize().y + gap;
         }
 
-
+        for (auto& [placeHolder, cg] : checkGroups)
+        {
+            cg.setPosition({(float)x, (float)y});
+            // y += checkGroup.getSize().y + gap;
+        }
 
         for (auto& [placeHolder, button] : buttons)
         {
@@ -113,6 +117,8 @@ namespace MAINCONTROLS
         barControls.addButton("Sort");
         barControls.addCheckGroup("Sorting Algorithm");
         barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Merge"));
+
+        barControls.setPosition();
     }
 
 
