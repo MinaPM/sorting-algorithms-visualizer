@@ -9,15 +9,15 @@ public:
     sf::Text current_text;
     sf::RectangleShape current_rect;
     int min, max, width;
-    Slider():Control(),current_text(lable) {}
-    Slider(const std::string &text, int min, int current, int max) : Control(text),current_text(lable)
+    Slider():Control(),current_text(label) {}
+    Slider(const std::string &text, int min, int current, int max) : Control(text),current_text(label)
     {
 
         width = 100;
         this->min = min;
         this->max = max;
         this->controlable = current;
-        current_text = sf::Text(lable);
+        current_text = sf::Text(label);
         current_text.setString(std::to_string(current));
 
         rectangle.setSize(sf::Vector2f(width, 20));
@@ -29,8 +29,8 @@ public:
 
     void setPosition(float x, float y)
     {
-        lable.setPosition({x, y});
-        rectangle.setPosition({x, y + lable.getCharacterSize() + 10});
+        label.setPosition({x, y});
+        rectangle.setPosition({x, y + label.getCharacterSize() + 10});
         current_rect.setPosition(rectangle.getPosition());
         current_text.setPosition({rectangle.getPosition().x + width + 5, rectangle.getPosition().y});
     }
@@ -61,12 +61,12 @@ public:
     void enable()
     {
         Control::enable();
-        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), lable.getFillColor());
+        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), label.getFillColor());
     }
     void disable()
     {
         Control::disable();
-        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), lable.getFillColor());
+        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), label.getFillColor());
     }
 
     void setColor(sf::Color fill, sf::Color outline, sf::Color text)

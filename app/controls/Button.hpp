@@ -11,8 +11,8 @@ public:
 
     Button(const std::string& text) : Control(text)
     {
-        rectangle.setSize(sf::Vector2f(lable.getLocalBounds().size.x + 10,
-                                       lable.getLocalBounds().size.y + 10));
+        rectangle.setSize(sf::Vector2f(label.getLocalBounds().size.x + 10,
+                                       label.getLocalBounds().size.y + 10));
         setPosition(0, 0);
         setColor(sf::Color::White, sf::Color::Red, sf::Color::Red);
     }
@@ -20,7 +20,7 @@ public:
     void setPosition(float x, float y)
     {
         rectangle.setPosition({x, y});
-        lable.setPosition(rectangle.getPosition());
+        label.setPosition(rectangle.getPosition());
     }
 
     void click()

@@ -11,23 +11,25 @@ class CheckGroup : public Control<int>
 {
     std::vector<CheckBox> checkBoxes;
 
+    void setPosition() { setPosition(label.getPosition()); }
+
 public:
     CheckGroup() { controlable = 0; }
 
     CheckGroup(const std::string& text) : Control(text) { controlable = 0; }
 
+
     void setPosition(sf::Vector2f position)
     {
-        sf::Vector2f padding(0,5);
-        lable.setPosition(position);
+        sf::Vector2f padding(0, 50);
+        label.setPosition(position);
         // rectangle.setPosition(position + sf::Vector2f(0, lable.getCharacterSize() + 10));
-        for (auto & checkBox : checkBoxes)
+        for (auto& checkBox : checkBoxes)
         {
-            position+=padding;
+            position += padding;
             checkBox.setPosition(position);
-            position+=checkBox.getPosition();
+            position += checkBox.getSize();
         }
-
     }
 
     void addCheckBox(std::string option)
@@ -54,6 +56,11 @@ public:
                 }
 
         return false;
+    }
+
+    sf::Vector2f getSize()
+    {
+        return rectangle.getSize();
     }
 
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const override

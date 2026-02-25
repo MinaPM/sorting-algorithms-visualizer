@@ -8,34 +8,33 @@ class Control : public sf::Drawable, public sf::Transformable
 {
 public:
     sf::RectangleShape rectangle;
-    sf::Text lable;
+    sf::Text label;
     Controlable controlable;
     std::function<void()> onTrigger;
 
     bool enabled, clicked;
 
-    Control():lable(Resources::font)
+    Control():label(Resources::font)
     {
         enabled = true;
         clicked = false;
         rectangle.setOutlineThickness(3);
         onTrigger = nullptr;
-        lable.setFont(Resources::font);
-        lable.setCharacterSize(Resources::characterSize);
+        label.setCharacterSize(Resources::characterSize);
     }
 
     Control(const std::string &string) : Control()
     {
-        lable.setString(string);
+        label.setString(string);
     }
 
-    void setFont(const sf::Font &font) { lable.setFont(font); }
-    void setString(const std::string &string) { lable.setString(string); }
+    void setFont(const sf::Font &font) { label.setFont(font); }
+    void setString(const std::string &string) { label.setString(string); }
     void setColor(sf::Color rectangleFill, sf::Color rectangleOutline, sf::Color text)
     {
         rectangle.setFillColor(rectangleFill);
         rectangle.setOutlineColor(rectangleOutline);
-        lable.setFillColor(text);
+        label.setFillColor(text);
     }
 
     bool within() { return rectangle.getGlobalBounds().contains((sf::Vector2f)Resources::mousePosition()); }
@@ -47,7 +46,7 @@ public:
     void enable()
     {
         enabled = true;
-        sf::Color c1(rectangle.getFillColor()), c2(rectangle.getOutlineColor()), c3(lable.getFillColor());
+        sf::Color c1(rectangle.getFillColor()), c2(rectangle.getOutlineColor()), c3(label.getFillColor());
         c1.a = 255;
         c2.a = 255;
         c3.a = 255;
@@ -56,7 +55,7 @@ public:
     void disable()
     {
         enabled = false;
-        sf::Color c1(rectangle.getFillColor()), c2(rectangle.getOutlineColor()), c3(lable.getFillColor());
+        sf::Color c1(rectangle.getFillColor()), c2(rectangle.getOutlineColor()), c3(label.getFillColor());
         c1.a = 124;
         c2.a = c1.a;
         c3.a = c1.a;
@@ -73,7 +72,7 @@ public:
             onTrigger();
     }
 
-    void alignLeft() { lable.setPosition({rectangle.getPosition().x, lable.getPosition().y}); }
+    void alignLeft() { label.setPosition({rectangle.getPosition().x, label.getPosition().y}); }
 
     sf::Vector2f getPosition()
     {
@@ -89,7 +88,7 @@ public:
     {
         states.transform *= getTransform();
         rt.draw(rectangle, states);
-        rt.draw(lable, states);
+        rt.draw(label, states);
     }
 };
 #endif // CONTROL_HPP

@@ -10,6 +10,12 @@
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable
 {
+private:
+    void setPosition()
+    {
+        setPosition((*sliders.begin()).second.getPosition());
+    }
+
 public:
     std::map<std::string, Slider> sliders;
     std::map<std::string, CheckGroup> checkGroups;
@@ -31,6 +37,7 @@ public:
     void addCheckGroup(std::string name)
     {
         checkGroups.emplace(name, CheckGroup(name));
+        setPosition();
     }
 
     void addButton(std::string name)
@@ -63,25 +70,28 @@ public:
                 button->click();
     }
 
-    void setPosition(int x = 20, int y = 100)
+    void setPosition(sf::Vector2f position)
     {
-        int gap = 50;
+        sf::Vector2f padding = {0, 50};
         for (auto& [placeHolder, slider] : sliders)
         {
-            slider.setPosition(x, y);
-            y += slider.getSize().y + gap;
+            slider.setPosition(position.x, position.y);
+            // y += slider.getSize().y + gap;
+            position.y += slider.getSize().y + padding.y;
         }
 
-        for (auto& [placeHolder, cg] : checkGroups)
+        for (auto& [placeHolder, checkGroup] : checkGroups)
         {
-            cg.setPosition({(float)x, (float)y});
+            checkGroup.setPosition(position);
+            position.y += checkGroup.getSize().y + padding.y;
+
             // y += checkGroup.getSize().y + gap;
         }
 
         for (auto& [placeHolder, button] : buttons)
         {
-            button->setPosition(x, y);
-            y += button->getSize().y + gap;
+            button->setPosition(position.x, position.y);
+            position.y += button->getSize().y + padding.y;
         }
     }
 
@@ -118,7 +128,7 @@ namespace MAINCONTROLS
         barControls.addCheckGroup("Sorting Algorithm");
         barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Merge"));
 
-        barControls.setPosition();
+        barControls.setPosition({20, 100});
     }
 
 
