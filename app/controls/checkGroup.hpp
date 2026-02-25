@@ -39,7 +39,7 @@ public:
     {
         for (auto& checkBox : checkBoxes)
         {
-            checkBox.unckeck();
+            checkBox.uncheck();
         }
     }
 

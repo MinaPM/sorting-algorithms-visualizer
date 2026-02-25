@@ -57,9 +57,9 @@ public:
 
     void toggle() { controlable = !controlable; }
 
-    void ckeck() { controlable = true; }
+    void check() { controlable = true; }
 
-    void unckeck() { controlable = false; }
+    void uncheck() { controlable = false; }
 
     bool clickWithin()
     {
