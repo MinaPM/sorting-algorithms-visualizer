@@ -126,6 +126,8 @@ namespace MAINCONTROLS
         barControls.addButton("Sort");
         barControls.addCheckGroup("Sorting Algorithm");
         barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Merge"));
+        barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Quick"));
+        barControls.checkGroups["Sorting Algorithm"].addCheckBox(("Heap"));
 
         barControls.setPosition({20, 100});
     }

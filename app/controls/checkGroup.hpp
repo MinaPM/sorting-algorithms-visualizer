@@ -12,19 +12,25 @@ class CheckGroup : public Control<int>
 protected:
     std::vector<CheckBox> checkBoxes;
 
+
     void setLayout() override
     {
-        sf::Vector2f position = label.getPosition(), padding(0, 50);
-        auto height = checkBoxes.empty() ? 10 : (position - checkBoxes.back().getPosition()).y;
-        rectangle.setSize({4, height});
-
+        sf::Vector2f position = label.getPosition(), padding(10, 10), size = {0, 0};
         rectangle.setPosition(position);
+        position.y += label.getGlobalBounds().size.y;
+        float x = 0, y = 0;
+        x = label.getGlobalBounds().size.x ;
+
         for (auto& checkBox : checkBoxes)
         {
-            position += padding;
+            position.y += padding.y;
             checkBox.setPosition(position);
-            position += checkBox.getSize();
+            position.y += checkBox.getSize().y;
+            x = std::max(x, checkBox.getSize().x);
+            y = checkBox.getPosition().y + checkBox.getSize().y;
         }
+        rectangle.setSize({x+10,y- label.getGlobalBounds().position.y+10+10});
+        rectangle.setPosition(label.getPosition()-sf::Vector2f(5,5));
     }
 
     void setPosition() { setPosition(label.getPosition()); }
@@ -38,9 +44,12 @@ protected:
     }
 
 public:
-    CheckGroup() { controlable = 0; }
-
-    CheckGroup(const std::string& text) : Control(text) { controlable = 0; }
+    CheckGroup(const std::string& text = "") : Control(text)
+    {
+        controlable = 0;
+        rectangle.setOutlineThickness(1);
+        rectangle.setFillColor(sf::Color::Transparent);
+    }
 
 
     void setPosition(sf::Vector2f position) override

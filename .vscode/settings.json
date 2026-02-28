@@ -64,5 +64,6 @@
         "typeinfo": "cpp",
         "variant": "cpp"
     },
-    "makefile.configureOnOpen": true
+    "makefile.configureOnOpen": true,
+    "C_Cpp.default.compilerPath": "/usr/bin/clang"
 }

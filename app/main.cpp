@@ -24,7 +24,7 @@ int main()
     );
 
 
-    GlobalVars::sortingAlgorithm = &GlobalVars::quickSort;
+    GlobalVars::sortingAlgorithm = &GlobalVars::insersion;
 
 
     MAINCONTROLS::bindControls(barboard);
