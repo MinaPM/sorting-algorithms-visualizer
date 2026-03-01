@@ -15,32 +15,29 @@ protected:
 
     void setLayout() override
     {
-        sf::Vector2f position = label.getPosition(), padding(10, 10), size = {0, 0};
-        rectangle.setPosition(position);
+        sf::Vector2f position = rectangle.getPosition(), padding(10, 10), size(0, 0);
+        label.setPosition(position);
         position.y += label.getGlobalBounds().size.y;
-        float x = 0, y = 0;
-        x = label.getGlobalBounds().size.x ;
+        size.x = label.getGlobalBounds().size.x ;
 
         for (auto& checkBox : checkBoxes)
         {
             position.y += padding.y;
             checkBox.setPosition(position);
             position.y += checkBox.getSize().y;
-            x = std::max(x, checkBox.getSize().x);
-            y = checkBox.getPosition().y + checkBox.getSize().y;
+            size.x = std::max(size.x, checkBox.getSize().x);
+            size.y = checkBox.getPosition().y + checkBox.getSize().y;
         }
-        rectangle.setSize({x+10,y- label.getGlobalBounds().position.y+10+10});
+        rectangle.setSize({size.x+10,size.y- label.getGlobalBounds().position.y+10+10});
         rectangle.setPosition(label.getPosition()-sf::Vector2f(5,5));
     }
 
-    void setPosition() { setPosition(label.getPosition()); }
 
     void resetCheckBoxes()
     {
         for (auto& checkBox : checkBoxes)
-        {
             checkBox.uncheck();
-        }
+
     }
 
 public:
@@ -54,20 +51,20 @@ public:
 
     void setPosition(sf::Vector2f position) override
     {
-        label.setPosition(position);
+        rectangle.setPosition(position);
         setLayout();
     }
 
     void addCheckBox(std::string option)
     {
         checkBoxes.push_back(CheckBox(option));
-        setPosition();
+        setLayout();
     }
 
 
     bool clickWithin()
     {
-        if (enabled)
+        if (enabled && within())
             for (auto& checkBox : checkBoxes)
                 if (checkBox.clickWithin())
                 {
