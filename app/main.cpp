@@ -24,11 +24,7 @@ int main()
     );
 
 
-    GlobalVars::sortingAlgorithm = &GlobalVars::insersion;
-
-
     MAINCONTROLS::bindControls(barboard);
-    GlobalVars::bars.shuffle();
 
 
     while (Resources::window.isOpen())

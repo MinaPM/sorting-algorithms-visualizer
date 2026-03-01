@@ -65,6 +65,7 @@ public:
                     resetCheckBoxes();
                     controlable = &checkBox - &checkBoxes.front();
                     checkBox.check();
+                    update();
                     return true;
                 }
 

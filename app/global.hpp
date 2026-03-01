@@ -17,10 +17,8 @@
 #include "Algorithms/quickSort.hpp"
 #include "Bar/BarShape.h"
 
-namespace Resources
-{
-    struct Padding
-    {
+namespace Resources {
+    struct Padding {
         int top = 10, left = 10, right = -10, bottom = -10;
     } padding;
 
@@ -32,8 +30,7 @@ namespace Resources
     sf::Text debugText(font);
     int characterSize;
 
-    bool load_resourses()
-    {
+    bool load_resourses() {
         // loading sound
         if (!buffer.loadFromFile("assets/audio/beep.wav"))
             return false;
@@ -45,13 +42,12 @@ namespace Resources
         return true;
     }
 
-    void initialize()
-    {
+    void initialize() {
         window_size = sf::Vector2u(1500, 900);
         settings.antiAliasingLevel = 0;
         window.create(sf::VideoMode(window_size), "Sorting Algorithm Visualizer",
-            sf::Style::Close	,
-            sf::State::Windowed,
+                      sf::Style::Close,
+                      sf::State::Windowed,
                       settings);
         window.setFramerateLimit(30);
         characterSize = 20;
@@ -64,8 +60,7 @@ namespace Resources
         debugText.setOutlineThickness(5);
     }
 
-    void setDebugText(std::string s)
-    {
+    void setDebugText(std::string s) {
         debugText.setString(s);
         debugText.setPosition({
             window_size.x - debugText.getGlobalBounds().size.x + padding.right,
@@ -73,29 +68,50 @@ namespace Resources
         });
     }
 
-    void appendDebugText(std::string s)
-    {
+    void appendDebugText(std::string s) {
         setDebugText(debugText.getString() + "\n" + s);
     }
 
     sf::Vector2i mousePosition() { return sf::Mouse::getPosition(window); }
 
     //close event
-    const auto onClose = [](const sf::Event::Closed&)
-    {
+    const auto onClose = [](const sf::Event::Closed &) {
         window.close();
     };
 }
 
 
-namespace GlobalVars
-{
+namespace GlobalVars {
+    int *algorithmChoice=nullptr;
     SmartArray<BarShape> bars;
-    Algorithm* sortingAlgorithm;
+
     InsertionSort insersion(bars);
     MergeSort mergeSort(bars);
     HeapSort heapSort(bars);
     QuickSort quickSort(bars);
+
+    Algorithm *sortingAlgorithm= &quickSort;
+    void setAlgorithm() {
+
+        switch (*algorithmChoice) {
+            case 0:
+                sortingAlgorithm = &insersion;
+                break;
+            case 1:
+                sortingAlgorithm = &heapSort;
+                break;
+            case 2:
+                sortingAlgorithm = &mergeSort;
+                break;
+            case 3:
+                sortingAlgorithm = &quickSort;
+                break;
+
+            default:
+                sortingAlgorithm = &insersion;
+                break;
+        }
+    }
 }
 
 

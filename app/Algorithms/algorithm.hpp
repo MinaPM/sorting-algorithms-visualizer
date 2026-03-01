@@ -4,62 +4,54 @@
 #include "../Bar/BarShape.h"
 
 
-class Algorithm
-{
+class Algorithm {
 private:
 public:
-    Algorithm() : array(nullptr)
-    {
+    Algorithm() : array(nullptr) {
     }
 
-    Algorithm(SmartArray<BarShape>& array) : array(&array)
-    {
+    Algorithm(SmartArray<BarShape> &array) : array(&array) {
     }
 
 
-    void setArray(SmartArray<BarShape>& array)
-    {
+    void setArray(SmartArray<BarShape> &array) {
         this->array = &array;
     }
 
-    void sort()
-    {
+    void sort() {
         if (array)
             start();
     }
 
-    void sort(SmartArray<BarShape>& array)
-    {
+    void sort(SmartArray<BarShape> &array) {
         setArray(array);
         sort();
     }
 
 
-    static void setDelay(int& delay) { sortingDelay = &delay; }
+    static void setDelay(int &delay) { sortingDelay = &delay; }
 
-    static int* sortingDelay;
+    static int *sortingDelay;
 
 protected:
-    SmartArray<BarShape>* array;
+    SmartArray<BarShape> *array;
 
 
-    void virtual start()
-    {
+    void virtual start() {
     }
 
     static const int minDelay = 200;
     static const int maxDelay = 100'000;
     static const int range = maxDelay - minDelay;
 
-    static void sleep()
-    {
+    static void sleep() {
         auto stamp =
-            std::chrono::high_resolution_clock::now() +
-            std::chrono::microseconds(maxDelay - range * (*sortingDelay / 99));
+                std::chrono::high_resolution_clock::now() +
+                std::chrono::microseconds(maxDelay - range * (*sortingDelay / 4));
         std::this_thread::sleep_until(stamp);
     }
 };
 
-int *Algorithm::sortingDelay= nullptr;
+int *Algorithm::sortingDelay = nullptr;
 
 #endif // ALGORITHM
