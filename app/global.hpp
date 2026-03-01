@@ -19,12 +19,9 @@
 
 namespace Resources
 {
-
-
     struct Padding
     {
         int top = 10, left = 10, right = -10, bottom = -10;
-
     } padding;
 
     sf::ContextSettings settings;
@@ -34,6 +31,7 @@ namespace Resources
     sf::Font font;
     sf::Text debugText(font);
     int characterSize;
+
     bool load_resourses()
     {
         // loading sound
@@ -51,7 +49,10 @@ namespace Resources
     {
         window_size = sf::Vector2u(1500, 900);
         settings.antiAliasingLevel = 0;
-        window.create(sf::VideoMode(window_size), "Sorting Algorithm Visualizer", sf::Style::Close /*, settings*/);
+        window.create(sf::VideoMode(window_size), "Sorting Algorithm Visualizer",
+            sf::Style::Close	,
+            sf::State::Windowed,
+                      settings);
         window.setFramerateLimit(30);
         characterSize = 20;
         load_resourses();
@@ -66,7 +67,10 @@ namespace Resources
     void setDebugText(std::string s)
     {
         debugText.setString(s);
-        debugText.setPosition({window_size.x - debugText.getGlobalBounds().size.x + padding.right, window_size.y - debugText.getGlobalBounds().size.y + padding.bottom * 2});
+        debugText.setPosition({
+            window_size.x - debugText.getGlobalBounds().size.x + padding.right,
+            window_size.y - debugText.getGlobalBounds().size.y + padding.bottom * 2
+        });
     }
 
     void appendDebugText(std::string s)
@@ -79,7 +83,7 @@ namespace Resources
     //close event
     const auto onClose = [](const sf::Event::Closed&)
     {
-       window.close();
+        window.close();
     };
 }
 
@@ -87,12 +91,11 @@ namespace Resources
 namespace GlobalVars
 {
     SmartArray<BarShape> bars;
-    Algorithm *sortingAlgorithm;
+    Algorithm* sortingAlgorithm;
     InsertionSort insersion(bars);
     MergeSort mergeSort(bars);
     HeapSort heapSort(bars);
     QuickSort quickSort(bars);
-
 }
 
 

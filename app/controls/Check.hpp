@@ -19,7 +19,6 @@ public:
         rectangle.setOutlineThickness(2);
         rectangle.setFillColor(sf::Color::Transparent);
         setLayout();
-
     }
 
     void setPosition(sf::Vector2f position) override
@@ -58,9 +57,17 @@ public:
             rectangle.setFillColor(sf::Color::Transparent);
     }
 
-    void check() { controlable = true; }
+    void check()
+    {
+        controlable = true;
+        rectangle.setFillColor(sf::Color::Red);
+    }
 
-    void uncheck() { controlable = false; }
+    void uncheck()
+    {
+        controlable = false;
+        rectangle.setFillColor(sf::Color::Transparent);
+    }
 
     bool clickWithin()
     {
