@@ -40,18 +40,21 @@ protected:
     void virtual start() {
     }
 
-    static const int minDelay = 200;
-    static const int maxDelay = 100'000;
-    static const int range = maxDelay - minDelay;
+    static const std::chrono::microseconds duration[4];
 
     static void sleep() {
-        auto stamp =
-                std::chrono::high_resolution_clock::now() +
-                std::chrono::microseconds(maxDelay - range * (*sortingDelay / 4));
-        std::this_thread::sleep_until(stamp);
+        std::this_thread::sleep_for(duration[*sortingDelay - 1]);
     }
 };
 
 int *Algorithm::sortingDelay = nullptr;
+
+const std::chrono::microseconds Algorithm::duration[] = {
+    std::chrono::microseconds(100'000),
+    std::chrono::microseconds(10'000),
+    std::chrono::microseconds(1000),
+    std::chrono::microseconds(100)
+};;
+
 
 #endif // ALGORITHM
