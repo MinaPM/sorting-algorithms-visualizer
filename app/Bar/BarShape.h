@@ -83,7 +83,7 @@ public: // size and position
         this->width = size.x;
         this->height = size.y;
         rectangle.setSize(size);
-        rectangle.setOrigin({float(width / 2), float(height)});
+        rectangle.setOrigin(size.componentWiseDiv({2,1}));
     }
 
     sf::Vector2f getSize() { return rectangle.getSize(); }

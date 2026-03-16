@@ -11,6 +11,7 @@
 
 #include "smartArray.hpp"
 #include "Algorithms/algorithm.hpp"
+#include "Algorithms/bubbleSort.hpp"
 #include "Algorithms/heapSort.hpp"
 #include "Algorithms/insertionSort.hpp"
 #include "Algorithms/mergeSort.hpp"
@@ -89,6 +90,7 @@ namespace GlobalVars {
     MergeSort mergeSort(bars);
     HeapSort heapSort(bars);
     QuickSort quickSort(bars);
+    BubbleSort bubbleSort(bars);
 
     Algorithm *sortingAlgorithm = &quickSort;
 
@@ -105,6 +107,9 @@ namespace GlobalVars {
                 break;
             case 3:
                 sortingAlgorithm = &quickSort;
+                break;
+            case 4:
+                sortingAlgorithm = &bubbleSort;
                 break;
 
             default:
