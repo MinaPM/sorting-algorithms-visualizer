@@ -4,7 +4,7 @@
 
 #ifndef SORTING_ALGORITHMS_QUICKSORT_H
 #define SORTING_ALGORITHMS_QUICKSORT_H
-#include "algorithm.hpp"
+#include "SortAlgorithm.hpp"
 
 
 class QuickSort : public Algorithm

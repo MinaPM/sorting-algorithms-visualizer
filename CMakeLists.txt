@@ -18,7 +18,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${EXECUTABLE_NAME} app/${EXECUTABLE_NAME}.cpp)
+add_executable(${EXECUTABLE_NAME} src/${EXECUTABLE_NAME}.cpp)
 target_compile_features(${EXECUTABLE_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE     
 SFML::System            # Core functionality (vectors, time, threads)

@@ -1,9 +1,9 @@
 #ifndef BAR_BOARD
 #define BAR_BOARD
 
-#include "../global.hpp"
-#include "../smartArray.hpp"
-#include "BarShape.h"
+#include "../../src/global.hpp"
+#include "../../src/smartArray.hpp"
+#include "BarShape.hpp"
 
 class BarBoard : public sf::Drawable,
                  public sf::Transformable {

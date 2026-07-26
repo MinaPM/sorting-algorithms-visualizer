@@ -4,7 +4,7 @@
 
 #ifndef SORTING_ALGORITHMS_HEAPSORT_H
 #define SORTING_ALGORITHMS_HEAPSORT_H
-#include "algorithm.hpp"
+#include "SortAlgorithm.hpp"
 
 class HeapSort : public Algorithm {
 public:

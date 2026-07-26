@@ -1,8 +1,8 @@
 #ifndef BAR_SHAPE
 #define BAR_SHAPE
 
-#include "../global.hpp"
-#include "../smartArray.hpp"
+#include "../../src/global.hpp"
+#include "../../src/smartArray.hpp"
 namespace BarVars
 {
     const sf::Color barFillColor = sf::Color::White;

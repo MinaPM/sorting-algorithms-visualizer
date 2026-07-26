@@ -4,7 +4,7 @@
 
 #ifndef SORTING_ALGORITHMS_MERGESORT_H
 #define SORTING_ALGORITHMS_MERGESORT_H
-#include "algorithm.hpp"
+#include "SortAlgorithm.hpp"
 
 
 class MergeSort : public Algorithm

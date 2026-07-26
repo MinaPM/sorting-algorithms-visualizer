@@ -11,14 +11,14 @@
 
 #include "smartArray.hpp"
 
-#include "Algorithms/algorithm.hpp"
-#include "Algorithms/bubbleSort.hpp"
-#include "Algorithms/heapSort.hpp"
-#include "Algorithms/insertionSort.hpp"
-#include "Algorithms/mergeSort.hpp"
-#include "Algorithms/quickSort.hpp"
+#include "../algorithms/SortAlgorithm.hpp"
+#include "../algorithms/BubbleSort.hpp"
+#include "../algorithms/HeapSort.hpp"
+#include "../algorithms/InsertionSort.hpp"
+#include "../algorithms/MergeSort.hpp"
+#include "../algorithms/QuickSort.hpp"
 
-#include "Bar/BarShape.h"
+#include "../graphics/bar/BarShape.hpp"
 
 namespace Resources {
     struct Padding {

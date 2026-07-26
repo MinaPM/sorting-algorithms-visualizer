@@ -1,7 +1,7 @@
 #ifndef ALGORITHM
 #define ALGORITHM
-#include "../smartArray.hpp"
-#include "../Bar/BarShape.h"
+#include "../src/smartArray.hpp"
+#include "../graphics/bar/BarShape.hpp"
 
 
 class Algorithm {

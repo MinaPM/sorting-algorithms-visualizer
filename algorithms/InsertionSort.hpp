@@ -4,7 +4,7 @@
 
 #ifndef SORTING_ALGORITHMS_INSERTIONSORT_H
 #define SORTING_ALGORITHMS_INSERTIONSORT_H
-#include "algorithm.hpp"
+#include "SortAlgorithm.hpp"
 
 class InsertionSort : public Algorithm
 {

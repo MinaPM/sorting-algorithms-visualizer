@@ -4,7 +4,7 @@
 
 #ifndef SORTING_ALGORITHMS_BUBBLESORT_H
 #define SORTING_ALGORITHMS_BUBBLESORT_H
-#include "algorithm.hpp"
+#include "SortAlgorithm.hpp"
 
 
 class BubbleSort : public Algorithm {

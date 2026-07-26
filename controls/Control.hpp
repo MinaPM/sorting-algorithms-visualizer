@@ -1,7 +1,7 @@
 #ifndef CONTROL_HPP
 #define CONTROL_HPP
 
-#include "../global.hpp"
+#include "../src/global.hpp"
 
 template<typename Controlable>
 class Control : public sf::Drawable, public sf::Transformable {

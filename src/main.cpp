@@ -1,6 +1,6 @@
 #include "global.hpp"
-#include "controls/ControlGroup.hpp"
-#include "Algorithms/insertionSort.hpp"
+#include "../controls/ControlGroup.hpp"
+#include "../algorithms/InsertionSort.hpp"
 
 //controls
 //board

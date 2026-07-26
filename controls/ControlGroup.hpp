@@ -1,11 +1,11 @@
 #ifndef CONTROLGROUP_HPP
 #define CONTROLGROUP_HPP
 
-#include "../global.hpp"
+#include "../src/global.hpp"
 #include "Slider.hpp"
 #include "Button.hpp"
-#include "checkGroup.hpp"
-#include "../Bar/BarBoard.h"
+#include "CheckGroup.hpp"
+#include "../graphics/bar/BarBoard.hpp"
 
 class ControlGroup : public sf::Drawable,
                      public sf::Transformable {
