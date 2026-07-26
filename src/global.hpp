@@ -85,7 +85,6 @@ namespace Resources {
 
 
 namespace GlobalVars {
-    int *algorithmChoice = nullptr;
     SmartArray<BarShape> bars;
 
     InsertionSort insersion(bars);
@@ -94,10 +93,10 @@ namespace GlobalVars {
     QuickSort quickSort(bars);
     BubbleSort bubbleSort(bars);
 
-    Algorithm *sortingAlgorithm = &quickSort;
+    Algorithm *sortingAlgorithm;
 
-    void setAlgorithm() {
-        switch (*algorithmChoice) {
+    void setAlgorithm(int algorithmChoice) {
+        switch (algorithmChoice) {
             case 0:
                 sortingAlgorithm = &insersion;
                 break;

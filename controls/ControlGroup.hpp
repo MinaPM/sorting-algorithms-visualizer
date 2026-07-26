@@ -129,9 +129,8 @@ namespace MAINCONTROLS {
         barControls.buttons["Shuffle"]->setOnTrigger([&]() { GlobalVars::bars.shuffle(); });
         barControls.buttons["Sort"]->setOnTrigger([&]() { GlobalVars::sortingAlgorithm->sort(); });
 
-        barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&] { GlobalVars::setAlgorithm(); });
-
-        GlobalVars::algorithmChoice = &(barControls.checkGroups["Sorting Algorithm"].controlable);
+        barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&] { GlobalVars::setAlgorithm(barControls.checkGroups["Sorting Algorithm"].controlable); });
+        barControls.checkGroups["Sorting Algorithm"].setChoice();
         Algorithm::setDelay(MAINCONTROLS::barControls.sliders["Speed"].controlable);
     }
 
