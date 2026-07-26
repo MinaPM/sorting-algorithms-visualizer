@@ -1,47 +1,7 @@
-#include "global.hpp"
-#include "../controls/ControlGroup.hpp"
-#include "../algorithms/InsertionSort.hpp"
+#include "./core/Application.hpp"
 
-//controls
-//board
-//array
-
-
-int* selectAlgo = nullptr;
-
-
-int main()
-{
-    Resources::initialize();
-    MAINCONTROLS::createControls();
-
-    BarBoard barboard(
-        MAINCONTROLS::barControls.sliders["Count"].controlable,
-        MAINCONTROLS::barControls.sliders["Max Height"].controlable,
-        MAINCONTROLS::barControls.sliders["Width"].controlable,
-        MAINCONTROLS::barControls.sliders["Spacing"].controlable,
-        GlobalVars::bars
-    );
-
-
-    MAINCONTROLS::bindControls(barboard);
-
-
-    while (Resources::window.isOpen())
-    {
-        Resources::window.handleEvents(
-            Resources::onClose,
-            MAINCONTROLS::onMouseButtonPressed,
-            MAINCONTROLS::onMouseButtonReleased,
-            MAINCONTROLS::onMouseMoved);
-
-        Resources::window.clear();
-        Resources::window.draw(barboard);
-        Resources::window.draw(MAINCONTROLS::barControls);
-        Resources::window.draw(Resources::debugText);
-        Resources::window.display();
-    }
-
-
+int main() {
+    Application app;
+    app.run();
     return 0;
 }

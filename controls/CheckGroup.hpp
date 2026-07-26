@@ -56,14 +56,14 @@ public:
         checkBoxes.push_back(CheckBox(option));
         setLayout();
     }
-    
+
     void setChoice() {
         resetCheckBoxes();
         checkBoxes[controlable].check();
         update();
     }
 
-    
+
     bool clickWithin() {
         if (enabled && within())
             for (auto &checkBox: checkBoxes)
