@@ -20,11 +20,11 @@ FetchContent_MakeAvailable(SFML)
 add_executable(${EXECUTABLE_NAME} app/${EXECUTABLE_NAME}.cpp)
 target_compile_features(${EXECUTABLE_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE     
-SFML::System      # Core functionality (vectors, time, threads)
-    SFML::Window      # Window management, input
-    SFML::Graphics    # 2D graphics, sprites, text
-    SFML::Audio       # Sound and music
-    SFML::Network     # Networking (TCP/UDP)
+SFML::System            # Core functionality (vectors, time, threads)
+    SFML::Window        # Window management, input
+    SFML::Graphics      # 2D graphics, sprites, text
+    SFML::Audio         # Sound and music
+    SFML::Network       # Networking (TCP/UDP)
 )
 
 add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD

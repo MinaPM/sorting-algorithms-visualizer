@@ -106,7 +106,7 @@ namespace MAINCONTROLS {
                               Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
         barControls.addSlider("Width", Slider("Width", 1, 1, 40));
         barControls.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
-        barControls.addSlider("Speed", Slider("Speed", 1, 2, 4));
+        barControls.addSlider("Speed", Slider("Speed", 1, 2, 5));
         barControls.addButton("Shuffle");
         barControls.addButton("Sort");
         barControls.addCheckGroup("Sorting Algorithm");
@@ -126,10 +126,10 @@ namespace MAINCONTROLS {
         barControls.sliders["Width"].setOnTrigger([&]() { barboard.updateBarSize(); });
         barControls.sliders["Spacing"].setOnTrigger([&]() { barboard.updateSpacing(); });
 
-        barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&] { GlobalVars::setAlgorithm(); });
-
         barControls.buttons["Shuffle"]->setOnTrigger([&]() { GlobalVars::bars.shuffle(); });
         barControls.buttons["Sort"]->setOnTrigger([&]() { GlobalVars::sortingAlgorithm->sort(); });
+
+        barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&] { GlobalVars::setAlgorithm(); });
 
         GlobalVars::algorithmChoice = &(barControls.checkGroups["Sorting Algorithm"].controlable);
         Algorithm::setDelay(MAINCONTROLS::barControls.sliders["Speed"].controlable);

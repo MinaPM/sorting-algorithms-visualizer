@@ -2,14 +2,14 @@
 #define SMARTARRAY_HPP
 #include <vector>
 #include <algorithm>
-class MemoryStats
-{
+
+class MemoryStats {
 public:
     mutable unsigned int
-        readCount = 0,
-        writeCount = 0,
-        auxiliaryMemoryCount = 0,
-        comparisonCount = 0;
+            readCount = 0,
+            writeCount = 0,
+            auxiliaryMemoryCount = 0,
+            comparisonCount = 0;
 
     unsigned int getReadCount() { return readCount; }
     unsigned int getWriteCount() { return writeCount; }
@@ -21,15 +21,13 @@ public:
     void auxMem(int count = 1) { auxiliaryMemoryCount += count; }
     void compare(int count = 1) { comparisonCount += count; }
 
-    std::string to_string()
-    {
+    std::string to_string() {
         return "Memory reads: " + std::to_string(readCount) +
-            "\nMemory writes: " + std::to_string(writeCount) +
-            "\nAuxiliary Memory needed: " + std::to_string(auxiliaryMemoryCount);
+               "\nMemory writes: " + std::to_string(writeCount) +
+               "\nAuxiliary Memory needed: " + std::to_string(auxiliaryMemoryCount);
     }
 
-    void resetStats()
-    {
+    void resetStats() {
         readCount = 0;
         writeCount = 0;
         auxiliaryMemoryCount = 0;
@@ -37,9 +35,8 @@ public:
     }
 };
 
-template <typename item>
-class SmartArray
-{
+template<typename item>
+class SmartArray {
 private:
     std::vector<item> items;
     item auxiliaryMemory;
@@ -47,43 +44,35 @@ private:
 public:
     size_t length() { return items.size(); }
 
- // operators
+    // operators
     MemoryStats memoryStats;
 
-    item& operator[](size_t index)
-    {
+    item &operator[](size_t index) {
         return items[index];
     }
 
     // just in case
-    item& read(size_t index)
-    {
+    item &read(size_t index) {
         memoryStats.read();
         return items[index];
     }
 
-    void write(size_t index, item value)
-    {
+    void write(size_t index, item value) {
         memoryStats.write();
         items[index] = value;
     }
 
     // does both reading and writing depending on the arguments
-    const item access(size_t index, item value = NULL)
-    {
-        if (value)
-        {
+    const item access(size_t index, item value = NULL) {
+        if (value) {
             write(index, value);
             return NULL;
-        }
-        else
-        {
+        } else {
             return read(index);
         }
     }
 
-    void swap(size_t index1, size_t index2)
-    {
+    void swap(size_t index1, size_t index2) {
         memoryStats.read(2);
         memoryStats.write(2);
         // memoryStats.auxiliaryMemoryCount++;
@@ -92,13 +81,12 @@ public:
         items[index2] = auxiliaryMemory;
     }
 
-    void shuffle()
-    {
+    void shuffle() {
         std::mt19937 gen(std::random_device{}());
         std::shuffle(items.begin(), items.end(), gen);
     }
 
-    void enumerate(){std::iota(items.begin(), items.end(), 1);}
+    void enumerate() { std::iota(items.begin(), items.end(), 1); }
 
     // Range-based for loop support
     auto begin() { return items.begin(); }
@@ -107,15 +95,13 @@ public:
     auto begin() const { return items.begin(); }
     auto end() const { return items.end(); }
 
-    void resize(size_t newSize)
-    {
+    void resize(size_t newSize) {
         items.resize(newSize);
         enumerate();
         shuffle();
     }
 
-    void resize(size_t newSize, const item& value)
-    {
+    void resize(size_t newSize, const item &value) {
         items.resize(newSize, value);
         enumerate();
         shuffle();

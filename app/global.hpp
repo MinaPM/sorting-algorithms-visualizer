@@ -10,12 +10,14 @@
 #include <map>
 
 #include "smartArray.hpp"
+
 #include "Algorithms/algorithm.hpp"
 #include "Algorithms/bubbleSort.hpp"
 #include "Algorithms/heapSort.hpp"
 #include "Algorithms/insertionSort.hpp"
 #include "Algorithms/mergeSort.hpp"
 #include "Algorithms/quickSort.hpp"
+
 #include "Bar/BarShape.h"
 
 namespace Resources {

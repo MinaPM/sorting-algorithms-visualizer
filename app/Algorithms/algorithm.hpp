@@ -40,21 +40,26 @@ protected:
     void virtual start() {
     }
 
-    static const std::chrono::microseconds duration[4];
+    static const std::chrono::microseconds duration[5];
+    static const int durations[5];
 
     static void sleep() {
-        std::this_thread::sleep_for(duration[*sortingDelay - 1]);
+        // std::this_thread::sleep_for(duration[*sortingDelay - 1]);
+        for (int i = 0; i < durations[*sortingDelay - 1]; i++);
     }
 };
 
 int *Algorithm::sortingDelay = nullptr;
 
-const std::chrono::microseconds Algorithm::duration[] = {
-    std::chrono::microseconds(100'000),
-    std::chrono::microseconds(10'000),
-    std::chrono::microseconds(1000),
-    std::chrono::microseconds(100)
-};;
+const int Algorithm::durations[] = {100'000'000, 100'000'00, 10'000'000, 1'000'000, 100'000};
+
+// const std::chrono::microseconds Algorithm::duration[] = {
+//     std::chrono::microseconds(100'000),
+//     std::chrono::microseconds(10'000),
+//     std::chrono::microseconds(2000),
+//     std::chrono::microseconds(1000),
+//     std::chrono::microseconds(100)
+// };
 
 
 #endif // ALGORITHM
