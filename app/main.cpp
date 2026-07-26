@@ -1,5 +1,5 @@
 #include "global.hpp"
-#include "./controls/ControlGroup.hpp"
+#include "controls/ControlGroup.hpp"
 #include "Algorithms/insertionSort.hpp"
 
 //controls

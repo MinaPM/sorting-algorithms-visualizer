@@ -1,16 +1,4 @@
 {
     "cmake.configureOnOpen": true,
-    "cmake.autoSelectActiveFolder": false,
-    "cmake.sourceDirectory": "${workspaceFolder}",
-    "cmake.buildDirectory": "${workspaceFolder}/build",
-    "cmake.generator": "MinGW Makefiles",
-    "cmake.configureArgs": [
-        "-DCMAKE_BUILD_TYPE=Debug",
-        "-DCMAKE_MAKE_PROGRAM=C:/Program Files/Compilers/mingw64-v14.2.0/bin/mingw32-make.exe"
-    ],
-    "[cpp]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
-    "C_Cpp.intelliSenseEngine": "default",
-    "C_Cpp.codeAnalysis.runAutomatically": true
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
