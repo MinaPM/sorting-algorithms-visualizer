@@ -3,6 +3,7 @@
 
 #include "../../src/global.hpp"
 // #include "../../src/smartArray.hpp"
+#include "../Rectangle.hpp"
 namespace BarVars
 {
     // const sf::Color barFillColor = sf::Color::White;
@@ -17,27 +18,27 @@ namespace BarVars
 
 class BarShape
 {
-    SDL_Rect rectangle{0, 0, BarVars::defaultWidth, BarVars::defaultHeight};
+    public:
+    Rectangle rectangle{0, 0, BarVars::defaultWidth, BarVars::defaultHeight};
 
-public:
     BarShape() : BarShape(BarVars::defaultWidth, BarVars::defaultHeight) {}
 
     BarShape( int width, int height )
     {
-        setSize(width, height);
+        rectangle.setSize(width, height);
         // rectangle.setOutlineThickness(1);
         // rectangle.setFillColor(BarVars::barFillColor);
         // rectangle.setOutlineColor(sf::Color::Red);
     }
-    void updateValue(const int &value) { setSize(rectangle.w, value); }
-    void updateValue(const BarShape &value) { setSize(rectangle.w, value.rectangle.h); }
+    void updateValue(const int &value) { rectangle.setHeight(value); }
+    void updateValue(const BarShape &value) { updateValue(value.rectangle.getHeight()); }
 
-    int getValue() { return rectangle.h; }
+    int getValue() { return rectangle.getHeight(); }
 
     void swap(BarShape &other)
     {
-        int height1 = other.rectangle.h;
-        other.updateValue(rectangle.h);
+        int height1 = other.rectangle.getHeight();
+        other.updateValue(rectangle.getHeight());
         updateValue(height1);
         // other.setColor(BarVars::barFillColor);
         // this->setColor(BarVars::barFillColor);
@@ -45,12 +46,12 @@ public:
 
     bool operator<(const BarShape &other) const
     {
-        return this->rectangle.h < other.rectangle.h;
+        return this->rectangle.getHeight() < other.rectangle.getHeight();
     }
 
     bool operator>(const BarShape &other) const
     {
-        return this->rectangle.h > other.rectangle.h;
+        return this->rectangle.getHeight() > other.rectangle.getHeight();
     }
 
     BarShape &operator=(const BarShape &other)
@@ -66,7 +67,7 @@ public:
 
     operator int() const
     {
-        return rectangle.h;
+        return rectangle.getHeight();
     }
 
 public: // graphics
@@ -79,12 +80,7 @@ public: // graphics
     // }
     void draw(SDL_Renderer *renderer)
     {
-        SDL_SetRenderDrawColor(renderer,
-                               BarVars::barFillColor.r,
-                               BarVars::barFillColor.g,
-                               BarVars::barFillColor.b,
-                               BarVars::barFillColor.a);
-        SDL_RenderFillRect(renderer, &rectangle);
+        rectangle.draw(renderer);
     }
     void draw()
     {
@@ -93,32 +89,12 @@ public: // graphics
 
 public: // size and position
     // void setPosition(float x) { rectangle.setPosition({x, rectangle.getPosition().y}); }
-    void setPosition(int x) { rectangle.x = x; }
-    void setPosition(int x, int y)
-    {
-        rectangle.x = x;
-        rectangle.y = y-rectangle.h;
-    }
-
+   
     // void setSize(float width, float height) { setSize(sf::Vector2f(width, height)); }
     
-    void setSize(int height){
-        rectangle.h = height;
-    }
-    void setSize(int width, int height)
-    {
-        rectangle.w = width;
-        rectangle.h = height;
-    }
-    void setSize(SDL_Point size)
-    {
-        this->rectangle.w = size.x;
-        this->rectangle.h = size.y;
-        // rectangle.setSize(size);
-        // rectangle.setOrigin(size.componentWiseDiv({2,1}));
-    }
+   
 
-    SDL_Point getSize() { return {rectangle.w, rectangle.h}; }
+    
 };
 
 #endif // BAR_SHAPE

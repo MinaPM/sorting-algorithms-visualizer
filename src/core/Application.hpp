@@ -2,16 +2,22 @@
 #include "../global.hpp"
 // #include "../../controls/ControlGroup.hpp"
 #include "../../graphics/bar/BarBoard.hpp"
-
+#include "../../graphics/Text.hpp"
 class Application
 {
 public:
     BarBoard barboard;
     SmartArray<BarShape> bars;
+    Text debugText;
     Application()
     {
-        Resources::initialize();
-        bars.resize(40, BarShape());
+        if (Resources::initialize())
+        {
+            // std::cerr << "Failed to initialize resources." << std::endl;
+            Resources::windowRunning = false;
+            return;
+        }
+        // bars.resize(40, BarShape());
         // MainControls::createControls();
         // barboard = BarBoard(
         //     MainControls::barControls.sliders["Count"].controlable,
@@ -19,18 +25,19 @@ public:
         //     MainControls::barControls.sliders["Width"].controlable,
         //     MainControls::barControls.sliders["Spacing"].controlable,
         //     GlobalVars::bars);
-        int *barCount = new int(40);
-        int *height = new int(90);
+        int *barCount = new int(400);
+        int *height = new int(120);
         int *barWidth = new int(2);
-        int *spacing = new int(10);
+        int *spacing = new int(1);
 
         barboard = BarBoard(
             barCount,
             height,
             barWidth,
             spacing,
-           bars);
+            bars);
         // MainControls::bindControls(barboard);
+        debugText =  Text("Debug Text", 10, 10);
     }
 
     void run()
@@ -56,10 +63,7 @@ public:
             SDL_RenderClear(Resources::gRenderer);
 
             barboard.draw();
-            SDL_Rect square{220, 140, 120, 120};
-            SDL_SetRenderDrawColor(Resources::gRenderer, 0, 180, 255, 255);
-            SDL_RenderFillRect(Resources::gRenderer, &square);
-
+            debugText.draw(Resources::gRenderer);
             SDL_RenderPresent(Resources::gRenderer);
 
             // Resources::window.clear();

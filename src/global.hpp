@@ -13,6 +13,10 @@
 #include <random>
 #include <map>
 
+#include "../graphics/Text.hpp"
+#include "../graphics/Rectangle.hpp"
+
+
 // #include "smartArray.hpp"
 
 // #include "../algorithms/SortAlgorithm.hpp"
@@ -40,25 +44,26 @@ namespace Resources
     static bool windowRunning = true;
 
     // sf::SoundBuffer buffer;
-    TTF_Font *font = nullptr;
     // sf::Text debugText(font);
     int characterSize;
 
-    bool load_resourses()
+    int load_resourses()
     {
-        // loading sound
-        // if (!buffer.loadFromFile("assets/audio/beep.wav"))
-        //     return false;
-
-        // loading font
-        // if (!font.openFromFile("assets/fonts/roboto.ttf"))
-        //     return false;
-        TTF_Init();
-        font = TTF_OpenFont("assets/fonts/roboto.ttf", characterSize);
+        //font
+        if (TTF_Init() < 0)
+        {
+            std::cerr << "Couldn't initialize SDL TTF: " << SDL_GetError() << std::endl;
+            return 1;
+        }
+        TTF_Font* font = Text::loadStaticFont("assets/fonts/roboto.ttf", characterSize);
         if (font == nullptr)
-            return false;
+        {
+            std::cerr << "Couldn't open font: " << SDL_GetError() << std::endl;
+            return 1;
+        }
 
-        return true;
+
+        return 0;
     }
 
     int initialize()
@@ -95,12 +100,18 @@ namespace Resources
         if (!gRenderer)
         {
             SDL_Log("SDL_CreateRenderer failed: %s", SDL_GetError());
+
             SDL_DestroyWindow(window);
             SDL_Quit();
             return 1;
         }
         characterSize = 20;
-        load_resourses();
+        if (load_resourses())
+        {
+            std::cout << "Failed to load font." << std::endl;
+            Resources::windowRunning = false;
+            return 1;
+        }
 
         return 0;
         // debugText.setFont(font);
@@ -110,28 +121,6 @@ namespace Resources
         // debugText.setOutlineThickness(5);
     }
 
-    void renderText(SDL_Renderer *renderer, const std::string &text, int x, int y, SDL_Color color = {255, 0, 0, 255})
-    {
-        if (!font)
-            return;
-
-        SDL_Surface *surface = TTF_RenderText_Blended(font, text.c_str(), color);
-        if (!surface)
-            return;
-
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-        if (!texture)
-        {
-            SDL_FreeSurface(surface);
-            return;
-        }
-
-        SDL_Rect dst = {x, y, surface->w, surface->h};
-        SDL_RenderCopy(renderer, texture, nullptr, &dst);
-
-        SDL_DestroyTexture(texture);
-        SDL_FreeSurface(surface);
-    }
 
     // void setDebugText(std::string s)
     // {

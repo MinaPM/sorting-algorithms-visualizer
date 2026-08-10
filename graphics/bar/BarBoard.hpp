@@ -39,7 +39,7 @@ public:
         float last = x;
         for (auto &bar : *bars)
         {
-            bar.setPosition(last, y);
+            bar.rectangle.setPosition(last, y);
             last += *barWidth + *spacing;
         }
     }
@@ -67,7 +67,7 @@ public:
                              ((int)Resources::window_size.x / ((int)bars->length()) - *spacing));
         for (auto &bar : *bars)
         {
-            bar.setSize(*barWidth, bar.getSize().y);
+            bar.rectangle.setWidth(*barWidth);
         }
         center();
     }

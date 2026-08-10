@@ -1,0 +1,103 @@
+#ifndef RECTANGLE_HPP
+#define RECTANGLE_HPP
+
+#include <SDL2/SDL.h>
+
+class Rectangle
+{
+private:
+    SDL_Rect rect{0, 0, 0, 0};
+    SDL_Color fillColor{255, 255, 255, 255};
+    SDL_Color outlineColor{0, 0, 0, 255};
+    int outlineThickness{0};
+
+public:
+    Rectangle() = default;
+
+    Rectangle(int x, int y, int w, int h)
+        : rect{x, y, w, h} {}
+
+    Rectangle(int x, int y, int w, int h, SDL_Color fill, SDL_Color outline = {0, 0, 0, 255}, int thickness = 0)
+        : rect{x, y, w, h}, fillColor(fill), outlineColor(outline), outlineThickness(thickness) {}
+
+    explicit Rectangle(const SDL_Rect &other) : rect(other) {}
+
+    int getX() const { return rect.x; }
+    int getY() const { return rect.y; }
+    int getWidth() const { return rect.w; }
+    int getHeight() const { return rect.h; }
+
+    void setX(int x) { rect.x = x; }
+    void setY(int y) { rect.y = y - rect.h; }
+    void setWidth(int w) { rect.w = w; }
+    void setHeight(int h) { rect.h = h; }
+
+    void setPosition(int x, int y)
+    {
+        rect.x = x;
+        rect.y = y - rect.h;
+    }
+
+    void setSize(int w, int h)
+    {
+        rect.w = w;
+        rect.h = h;
+    }
+
+    void setFillColor(SDL_Color color) { fillColor = color; }
+    void setOutlineColor(SDL_Color color) { outlineColor = color; }
+    void setOutlineThickness(int thickness) { outlineThickness = thickness < 0 ? 0 : thickness; }
+
+    SDL_Color getFillColor() const { return fillColor; }
+    SDL_Color getOutlineColor() const { return outlineColor; }
+    int getOutlineThickness() const { return outlineThickness; }
+
+    SDL_Rect getSDLRect() const
+    {
+        return rect;
+    }
+
+    const SDL_Rect &getSDLRectRef() const
+    {
+        return rect;
+    }
+
+    void draw(SDL_Renderer *renderer) const
+    {
+        if (!renderer)
+            return;
+
+        if (rect.w <= 0 || rect.h <= 0)
+            return;
+
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+        // Fill
+        SDL_SetRenderDrawColor(renderer, fillColor.r, fillColor.g, fillColor.b, fillColor.a);
+        SDL_RenderFillRect(renderer, &rect);
+
+        // Outline
+        if (outlineThickness > 0)
+        {
+            SDL_SetRenderDrawColor(renderer, outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a);
+
+            for (int i = 0; i < outlineThickness; ++i)
+            {
+                SDL_Rect outlineRect{
+                    rect.x + i,
+                    rect.y + i,
+                    rect.w - (2 * i),
+                    rect.h - (2 * i)};
+
+                if (outlineRect.w <= 0 || outlineRect.h <= 0)
+                {
+                    break;
+                }
+
+                SDL_RenderDrawRect(renderer, &outlineRect);
+            }
+        }
+    }
+};
+
+#endif // RECTANGLE_HPP

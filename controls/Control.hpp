@@ -4,10 +4,10 @@
 #include "../src/global.hpp"
 
 template<typename Controlable>
-class Control : public sf::Drawable, public sf::Transformable {
+class Control {
 public:
-    sf::RectangleShape rectangle;
-    sf::Text label;
+    Rectangle rectangle;
+    Text label;
     Controlable controlable;
     std::function<void()> onTrigger;
 
@@ -25,7 +25,7 @@ public:
         label.setString(string);
     }
 
-    void setFont(const sf::Font &font) { label.setFont(font); }
+    // void setFont(const Font &font) { label.setFont(font); }
     void setString(const std::string &string) { label.setString(string); }
 
     void setColor(sf::Color rectangleFill, sf::Color rectangleOutline, sf::Color text) {
