@@ -26,12 +26,20 @@ public:
     int getY() const { return rect.y; }
     int getWidth() const { return rect.w; }
     int getHeight() const { return rect.h; }
+    SDL_Point getPosition() const { return {rect.x, rect.y}; }
+    SDL_Rect getSize() const { return {rect.x, rect.y, rect.w, rect.h}; }
 
     void setX(int x) { rect.x = x; }
     void setY(int y) { rect.y = y - rect.h; }
     void setWidth(int w) { rect.w = w; }
     void setHeight(int h) { rect.h = h; }
 
+    void setPosition(SDL_Point point)
+    {
+        rect.x = point.x;
+        rect.y = point.y - rect.h;
+
+    }
     void setPosition(int x, int y)
     {
         rect.x = x;

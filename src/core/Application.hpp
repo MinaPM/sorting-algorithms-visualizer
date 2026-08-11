@@ -2,13 +2,15 @@
 #include "../global.hpp"
 // #include "../../controls/ControlGroup.hpp"
 #include "../../graphics/bar/BarBoard.hpp"
-#include "../../graphics/Text.hpp"
+#include "../../controls/Button.hpp"
 class Application
 {
 public:
     BarBoard barboard;
     SmartArray<BarShape> bars;
     Text debugText;
+    Button startButton;
+
     Application()
     {
         if (Resources::initialize())
@@ -37,7 +39,9 @@ public:
             spacing,
             bars);
         // MainControls::bindControls(barboard);
-        debugText =  Text("Debug Text", 10, 10);
+
+        startButton.setPosition(10, 10);
+        startButton.setString("Start");
     }
 
     void run()
@@ -62,8 +66,8 @@ public:
             SDL_SetRenderDrawColor(Resources::gRenderer, 20, 20, 20, 255);
             SDL_RenderClear(Resources::gRenderer);
 
+            startButton.draw(Resources::gRenderer);
             barboard.draw();
-            debugText.draw(Resources::gRenderer);
             SDL_RenderPresent(Resources::gRenderer);
 
             // Resources::window.clear();
