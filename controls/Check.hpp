@@ -6,8 +6,8 @@ protected:
     void setLayout() override
     {
         label.setPosition({
-            rectangle.getPosition().x + rectangle.getGlobalBounds().size.x + 5,
-            rectangle.getPosition().y - label.getGlobalBounds().size.y / 2 + rectangle.getSize().y / 2
+            rectangle.getPosition().x + rectangle.getSize().x + 5,
+            rectangle.getPosition().y - label.getSize().y / 2 + rectangle.getSize().y / 2
         });
     }
 
@@ -15,13 +15,13 @@ public:
     CheckBox(const std::string& text, bool status = false) : Control(text)
     {
         controlable = status;
-        rectangle.setSize(sf::Vector2f(15, 15));
+        rectangle.setSize(15, 15);
         rectangle.setOutlineThickness(2);
-        rectangle.setFillColor(sf::Color::Transparent);
+        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
         setLayout();
     }
 
-    void setPosition(sf::Vector2f position) override
+    void setPosition(SDL_Point position) 
     {
         rectangle.setPosition(position);
         setLayout();
@@ -31,20 +31,21 @@ public:
     void enable()
     {
         enabled = true;
-        setColor(sf::Color::Blue, sf::Color::White, sf::Color::Blue);
+        setColor(SDL_Color{0, 0, 255, 255}, SDL_Color{255, 255, 255, 255}, SDL_Color{0, 0, 255, 255});
     }
 
     void disable()
     {
         enabled = false;
-        setColor(sf::Color(50, 50, 50), sf::Color(50, 50, 50), sf::Color(50, 50, 50));
+        setColor(SDL_Color{50, 50, 50, 255}, SDL_Color{50, 50, 50, 255}, SDL_Color{50, 50, 50, 255});
     }
 
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const override
-    {
-        Control::draw(rt, states);
-        states.transform *= getTransform();
-    }
+    
+    // void draw(sf::RenderTarget& rt, sf::RenderStates states) const override
+    // {
+    //     Control::draw(rt, states);
+    //     states.transform *= getTransform();
+    // }
 
     const bool& bindStatus() { return controlable; }
 
@@ -52,21 +53,21 @@ public:
     {
         controlable = !controlable;
         if (controlable)
-            rectangle.setFillColor(sf::Color::Red);
+            rectangle.setFillColor(SDL_Color{255, 0, 0, 255});
         else
-            rectangle.setFillColor(sf::Color::Transparent);
+            rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
     }
 
     void check()
     {
         controlable = true;
-        rectangle.setFillColor(sf::Color::Red);
+        rectangle.setFillColor(SDL_Color{255, 0, 0, 255});
     }
 
     void uncheck()
     {
         controlable = false;
-        rectangle.setFillColor(sf::Color::Transparent);
+        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
     }
 
     bool clickWithin()

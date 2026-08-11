@@ -2,14 +2,14 @@
 #include "../global.hpp"
 // #include "../../controls/ControlGroup.hpp"
 #include "../../graphics/bar/BarBoard.hpp"
-#include "../../controls/Slider.hpp"
+#include "../../controls/Check.hpp"
 class Application
 {
 public:
     BarBoard barboard;
     SmartArray<BarShape> bars;
     Text debugText;
-    Slider testSlider{"Test", 0, 50, 100};
+    CheckBox testSlider{"Test", false};
 
     Application()
     {
@@ -40,9 +40,7 @@ public:
             bars);
         // MainControls::bindControls(barboard);
 
-        testSlider.setMinMax(0, 100);
-        testSlider.setPosition(10, 10);
-        testSlider.setValue();
+        testSlider.setPosition({10, 10});
         // testSlider.setString("Test");
     }
 
