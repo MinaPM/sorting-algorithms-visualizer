@@ -2,14 +2,14 @@
 #include "../global.hpp"
 // #include "../../controls/ControlGroup.hpp"
 #include "../../graphics/bar/BarBoard.hpp"
-#include "../../controls/Button.hpp"
+#include "../../controls/Slider.hpp"
 class Application
 {
 public:
     BarBoard barboard;
     SmartArray<BarShape> bars;
     Text debugText;
-    Button startButton;
+    Slider testSlider{"Test", 0, 50, 100};
 
     Application()
     {
@@ -40,8 +40,10 @@ public:
             bars);
         // MainControls::bindControls(barboard);
 
-        startButton.setPosition(10, 10);
-        startButton.setString("Start");
+        testSlider.setMinMax(0, 100);
+        testSlider.setPosition(10, 10);
+        testSlider.setValue();
+        // testSlider.setString("Test");
     }
 
     void run()
@@ -66,7 +68,7 @@ public:
             SDL_SetRenderDrawColor(Resources::gRenderer, 20, 20, 20, 255);
             SDL_RenderClear(Resources::gRenderer);
 
-            startButton.draw(Resources::gRenderer);
+            testSlider.draw(Resources::gRenderer);
             barboard.draw();
             SDL_RenderPresent(Resources::gRenderer);
 

@@ -51,6 +51,8 @@ public:
         x = newX;
         y = newY;
     }
+    void setX(int newX) { x = newX; }
+    void setY(int newY) { y = newY; }
     void setPosition(SDL_Point point)
     {
         x = point.x;
@@ -62,6 +64,7 @@ public:
     SDL_Color getColor() const { return color; }
     int getX() const { return x; }
     int getY() const { return y; }
+    SDL_Point getPosition() const { return {x, y}; }
 
     SDL_Rect getSize() const
     {
