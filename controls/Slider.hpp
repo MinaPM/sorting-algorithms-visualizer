@@ -14,14 +14,11 @@ protected:
         int y=label.getY() + label.getSize().h;
         rectangle.setPosition(x, y);
         
-        current_rect.setPosition(rectangle.getPosition());
+        current_rect.setPosition(x,y);
         
         current_text.setPosition(rectangle.getPosition());
         current_text.setX(current_text.getX() + (width +5));
         
-        // rectangle.setPosition(50, 50);
-        // current_rect.setPosition(rectangle.getPosition());
-        // current_text.setPosition(rectangle.getPosition());
         
     }
 
@@ -45,12 +42,15 @@ public:
         rectangle.setSize(width, 20);
         current_rect.setSize(((current - min) / (max - min)) * width, 20);
 
-        // setColor(SDL_Color{255, 255, 255}, SDL_Color{255, 0, 0}, SDL_Color{255, 255, 255});
+        setColor(SDL_Color{255, 255, 255,255}, SDL_Color{255, 0, 0,255}, SDL_Color{255, 255, 255,255});
         setLayout();
     }
 
     // void setPosition(sf::Vector2f position) override{}
-    void setPosition(float x, float y)
+    
+ 
+
+    void setPosition(int x, int y)
     {
         label.setPosition(x, y);
         setLayout();
@@ -69,15 +69,15 @@ public:
         if (!enabled || !clicked)
             return;
 
-        SDL_Point point = Resources::mousePosition();
-        //come here later
-        int length = std::max(0, std::min(width, point.x - current_rect.getX()));
-        controlable = (length / width) * (max - min) + min;
+        SDL_Point mouseP = Resources::mousePosition();
+        int length = std::max(0, std::min(width, mouseP.x - current_rect.getX()));
+        controlable = (length / (float)width) * (max - min) + min;
         update();
         // a feedback to limit the slider in other places using a pointer to controlable
         length = width * (controlable - min) / (max - min);
         current_rect.setSize(length, current_rect.getHeight());
         current_text.setText(std::to_string(controlable));
+
     }
 
     int getPercentage() { return 100 * (max - controlable); }

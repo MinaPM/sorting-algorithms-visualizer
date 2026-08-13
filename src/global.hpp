@@ -17,16 +17,6 @@
 #include "../graphics/Rectangle.hpp"
 
 
-// #include "smartArray.hpp"
-
-// #include "../algorithms/SortAlgorithm.hpp"
-// #include "../algorithms/BubbleSort.hpp"
-// #include "../algorithms/HeapSort.hpp"
-// #include "../algorithms/InsertionSort.hpp"
-// #include "../algorithms/MergeSort.hpp"
-// #include "../algorithms/QuickSort.hpp"
-
-// #include "../graphics/bar/BarShape.hpp"
 
 namespace Resources
 {
@@ -151,41 +141,7 @@ namespace Resources
 
 // namespace GlobalVars
 // {
-//     SmartArray<BarShape> bars;
 
-//     InsertionSort insersion(bars);
-//     MergeSort mergeSort(bars);
-//     HeapSort heapSort(bars);
-//     QuickSort quickSort(bars);
-//     BubbleSort bubbleSort(bars);
-
-//     Algorithm *sortingAlgorithm;
-
-//     void setAlgorithm(int algorithmChoice)
-//     {
-//         switch (algorithmChoice)
-//         {
-//         case 0:
-//             sortingAlgorithm = &insersion;
-//             break;
-//         case 1:
-//             sortingAlgorithm = &heapSort;
-//             break;
-//         case 2:
-//             sortingAlgorithm = &mergeSort;
-//             break;
-//         case 3:
-//             sortingAlgorithm = &quickSort;
-//             break;
-//         case 4:
-//             sortingAlgorithm = &bubbleSort;
-//             break;
-
-//         default:
-//             sortingAlgorithm = &insersion;
-//             break;
-//         }
-//     }
 // }
 
 #endif // GLOBAL_H

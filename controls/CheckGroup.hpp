@@ -13,9 +13,9 @@ protected:
 
 
     void setLayout() override {
-        sf::Vector2f padding(20, 10),
+        SDL_Point padding{20, 10},
                 position = rectangle.getPosition(),
-                size = label.getGlobalBounds().size;
+                size = SDL_Point{label.getSize().x, label.getSize().y};
         position.x += padding.x / 2.f;
 
         label.setPosition(position);
@@ -28,10 +28,12 @@ protected:
         }
 
         if (!checkBoxes.empty()) {
-            size.y = (position - label.getGlobalBounds().position).y;
+            size.y = (position.y - label.getPosition().y);
             size.y = std::abs(size.y);
         }
-        rectangle.setSize(size + padding);
+        size.x += padding.x;
+        size.y += padding.y;
+        rectangle.setSize(size.x, size.y);
     }
 
     void resetCheckBoxes() {
@@ -43,11 +45,11 @@ public:
     CheckGroup(const std::string &text = "") : Control(text) {
         controlable = 0;
         rectangle.setOutlineThickness(1);
-        rectangle.setFillColor(sf::Color::Transparent);
+        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
     }
 
 
-    void setPosition(sf::Vector2f position) override {
+    void setPosition(SDL_Point position) override {
         rectangle.setPosition(position);
         setLayout();
     }
@@ -78,16 +80,22 @@ public:
         return false;
     }
 
-    sf::Vector2f getSize() {
+    SDL_Rect getSize() {
         return rectangle.getSize();
     }
 
-    void draw(sf::RenderTarget &rt, sf::RenderStates states) const override {
-        Control::draw(rt, states);
-        states.transform *= getTransform();
+    void draw(SDL_Renderer *renderer) {
+        Control::draw(renderer);
+  
         for (auto &checkBox: checkBoxes)
-            checkBox.draw(rt, states);
+            checkBox.draw(renderer);
     }
+    // void draw(sf::RenderTarget &rt, sf::RenderStates states) const override {
+    //     Control::draw(rt, states);
+    //     states.transform *= getTransform();
+    //     for (auto &checkBox: checkBoxes)
+    //         checkBox.draw(rt, states);
+    // }
 };
 
 
