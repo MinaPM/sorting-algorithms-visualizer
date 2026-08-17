@@ -2,7 +2,7 @@
 #define CONTROL_HPP
 
 #include "../src/global.hpp"
-
+#include "../graphics/Rectangle.hpp"
 template<typename Controlable>
 class Control {
 public:

@@ -59,10 +59,7 @@ public:
     {
         rectangle.draw(renderer);
     }
-    void draw()
-    {
-        draw(Resources::gRenderer);
-    }
+    
 };
 
 #endif // BAR_SHAPE

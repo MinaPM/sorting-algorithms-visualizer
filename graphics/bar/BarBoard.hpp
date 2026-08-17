@@ -1,7 +1,6 @@
 #ifndef BAR_BOARD
 #define BAR_BOARD
 
-// #include "../../src/global.hpp"
 #include "../../src/smartArray.hpp"
 #include "BarShape.hpp"
 
@@ -11,9 +10,11 @@ private:
     SmartArray<BarShape> *bars;
     int max_dist, *barCount, *barWidth, *height, *spacing, width;
 
+    Rectangle border;
+
     // removed temporary
     // sf::Sound beep;
-    const bool *enableSound;
+    // const bool *enableSound;
 
 public:
     BarBoard()
@@ -24,14 +25,27 @@ public:
              int *height,
              int *barWidth,
              int *spacing,
-             SmartArray<BarShape> &bars)
+             SmartArray<BarShape> &bars,
+             SDL_Rect border)
         : bars(&bars),
           barCount(barCount),
           height(height),
           barWidth(barWidth),
-          spacing(spacing)
+          spacing(spacing),
+          border(border)
     {
+        this->border.setOutlineColor({255, 0, 0, 255});
+        this->border.setOutlineThickness(1);
+        this->border.setFillColor({0, 0, 0, 0});
         updateBarCount();
+    }
+
+    void setBorder(SDL_Rect borderRect, SDL_Color borderColor = {255, 0, 0, 255}, int thickness = 1)
+    {
+        border=borderRect;
+        border.setOutlineColor(borderColor);
+        border.setFillColor({0, 0, 0, 0});
+        border.setOutlineThickness(thickness);
     }
 
     void setPosition(float x = 0, float y = 0)
@@ -47,15 +61,16 @@ public:
     void center()
     {
         width = (bars->length() - 1) * (*barWidth + *spacing);
-        int x1 = ((int)(Resources::window_size.x) - width) / 2;
-        int y1 = (Resources::window_size.y + Resources::padding.bottom);
+        // int x1 = int((border.getX()+border.getWidth() - width) / 2);
+        int x1 = border.getX() + (border.getWidth() - width) / 2;
+        int y1 = (border.getY() + border.getHeight());
         setPosition(x1, y1);
     }
 
     void updateBarCount()
     {
         *barCount = std::min(*barCount,
-                             ((int)Resources::window_size.x / (*barWidth + *spacing)));
+                             ((int)border.getWidth() / (*barWidth + *spacing)));
 
         bars->resize(*barCount, BarShape(*barWidth, *height));
         center();
@@ -64,7 +79,7 @@ public:
     void updateBarSize()
     {
         *barWidth = std::min(*barWidth,
-                             ((int)Resources::window_size.x / ((int)bars->length()) - *spacing));
+                             ((int)border.getWidth() / ((int)bars->length()) - *spacing));
         for (auto &bar : *bars)
         {
             bar.rectangle.setWidth(*barWidth);
@@ -75,34 +90,19 @@ public:
     void updateSpacing()
     {
         *spacing = std::min(*spacing,
-                            ((int)Resources::window_size.x / ((int)bars->length()) - *barWidth));
+                            ((int)border.getWidth() / ((int)bars->length()) - *barWidth));
 
         center();
     }
 
-    // void draw(sf::RenderTarget &rt, sf::RenderStates states) const override
-    // {
-    //     states.transform *= getTransform();
-
-    //     for (auto &bar : *bars)
-    //     {
-    //         rt.draw(bar, states);
-    //     }
-    // }
-    void draw()  
-    {
-        for (auto &bar : *bars)
-        {
-            bar.draw();
-        }
-    }
-
+    
     void draw( SDL_Renderer *renderer)  
     {
         for (auto &bar : *bars)
         {
             bar.draw(renderer);
         }
+        border.draw(renderer);
     }
 };
 

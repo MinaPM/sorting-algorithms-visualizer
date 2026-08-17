@@ -73,15 +73,28 @@ public:
     SDL_Color getOutlineColor() const { return outlineColor; }
     int getOutlineThickness() const { return outlineThickness; }
 
+    // SDL_Rect access
     SDL_Rect getSDLRect() const
     {
         return rect;
     }
 
+    Rectangle &operator=(const SDL_Rect &other)
+    {
+        rect = other;
+        return *this;
+    }
     const SDL_Rect &getSDLRectRef() const
     {
         return rect;
     }
+
+    //operator overloads
+    operator SDL_Rect() const
+    {
+        return rect;
+    }
+
 
     void draw(SDL_Renderer *renderer) const
     {

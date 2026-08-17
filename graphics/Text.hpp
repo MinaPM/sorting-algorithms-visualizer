@@ -22,7 +22,7 @@ public:
     Text(std::string text, int x, int y, SDL_Color color = {255, 0, 0, 255})
         : value(std::move(text)), color(color), x(x), y(y) {}
 
-    static TTF_Font *loadStaticFont(const std::string &fontPath, int size)
+    static TTF_Font *loadStaticFont(const std::string &fontPath, int size=20)
     {
         if (!s_font)
         {
