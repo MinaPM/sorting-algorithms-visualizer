@@ -66,11 +66,11 @@ public:
     int getY() const { return y; }
     SDL_Point getPosition() const { return {x, y}; }
 
-    SDL_Rect getSize() const
+    SDL_Point getSize() const
     {
         if (!s_font || value.empty())
         {
-            return {0, 0, 0, 0};
+            return {0, 0};
         }
 
         int textWidth = 0;
@@ -79,14 +79,19 @@ public:
         if (TTF_SizeUTF8(s_font, value.c_str(), &textWidth, &textHeight) != 0)
         {
             std::cerr << "Failed to get text size: " << TTF_GetError() << std::endl;
-            return {0, 0, 0, 0};
+            return {0, 0};
         }
 
-        return {0, 0, textWidth, textHeight};
+        return {textWidth, textHeight};
     }
 
     bool draw(SDL_Renderer *renderer) const
     {
+        //also draw a rectangle around the text for debugging purposes
+        // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        // SDL_Rect rect = {x, y, getSize().x, getSize().y};
+        // SDL_RenderDrawRect(renderer, &rect);
+
         if (!renderer || !s_font || value.empty())
         {
             return false;

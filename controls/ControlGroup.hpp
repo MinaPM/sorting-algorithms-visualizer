@@ -68,28 +68,36 @@ public:
                 button->click();
     }
 
+    void setPosition(int x, int y)
+    {
+        setPosition({x, y});
+    }
+
     void setPosition(SDL_Point position)
     {
         SDL_Point gap = {0, 50};
         for (auto &[placeHolder, slider] : sliders)
         {
             slider.setPosition(position.x, position.y);
-            position.y += slider.getSize().h + gap.y;
+            position.y += slider.getSize().y + gap.y;
         }
 
+        position.y += 200;
+        // position = sliders.empty() ? position : sliders.rbegin()->second.getPosition() + SDL_Point{0, sliders.rbegin()->second.getSize().y + gap.y};
         for (auto &[placeHolder, checkGroup] : checkGroups)
         {
             checkGroup.setPosition(position);
-            position.y += checkGroup.getSize().h + gap.y;
-
-            // y += checkGroup.getSize().y + gap;
+            position.y += gap.y;
         }
+
 
         for (auto &[placeHolder, button] : buttons)
         {
             button->setPosition(position.x, position.y);
-            position.y += button->getSize().h + gap.y;
+            position.y +=   gap.y;
         }
+
+       
     }
 
     void draw(SDL_Renderer *renderer)
@@ -104,6 +112,5 @@ public:
             button->draw(renderer);
     }
 };
-
 
 #endif // CONTROLGROUP_HPP

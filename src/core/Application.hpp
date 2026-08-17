@@ -125,7 +125,7 @@ public:
 
         barControls.addSlider("Max Height", Slider("Max Height", 10, 300, Resources::window_size.y + Resources::padding.bottom * 2));
         barControls.addSlider("Width", Slider("Width", 1, 1, 40));
-        barControls.addSlider("Spacing", Slider("Spacing", 1, 1, 40));
+        barControls.addSlider("Spacing", Slider("Spacing", 0, 1, 40));
         barControls.addSlider("Speed", Slider("Speed", 1, 2, 5));
         barControls.addButton("Shuffle");
         barControls.addButton("Sort");

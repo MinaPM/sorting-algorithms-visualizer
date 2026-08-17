@@ -10,8 +10,8 @@ protected:
     void setLayout() override
     {
 
-        int x=label.getX()+label.getSize().w + 10;
-        int y=label.getY() + label.getSize().h;
+        int x=label.getX()+label.getSize().x + 10;
+        int y=label.getY() + label.getSize().y;
         rectangle.setPosition(x, y);
         
         current_rect.setPosition(x,y);
@@ -36,17 +36,17 @@ public:
         width = 100;
         this->min = min;
         this->max = max;
+
         this->controlable = current;
         current_text.setText(std::to_string(current));
-
+        
         rectangle.setSize(width, 20);
-        current_rect.setSize(((current - min) / (max - min)) * width, 20);
+        current_rect.setSize(((float)(current - min) / (max - min)) * width, 20);
 
         setColor(SDL_Color{255, 255, 255,255}, SDL_Color{255, 0, 0,255}, SDL_Color{255, 255, 255,255});
         setLayout();
     }
 
-    // void setPosition(sf::Vector2f position) override{}
     
  
 

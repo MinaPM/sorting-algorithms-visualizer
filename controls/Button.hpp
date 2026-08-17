@@ -8,8 +8,8 @@ class Button : public Control<int>
 protected:
     void setLayout() override
     {
-        int topPadding = (rectangle.getSize().h - label.getSize().h) / 2;
-        int leftPadding = (rectangle.getSize().w - label.getSize().w) / 2;
+        int topPadding = (rectangle.getSize().y - label.getSize().y) / 2;
+        int leftPadding = (rectangle.getSize().x - label.getSize().x) / 2;
         label.setPosition(rectangle.getPosition().x + leftPadding,
                           rectangle.getPosition().y + topPadding);
     }
@@ -37,7 +37,7 @@ public:
     void setString(const std::string &text)
     {
         label.setText(text);
-        rectangle.setSize(label.getSize().w + 7, label.getSize().h + 5);
+        rectangle.setSize(label.getSize().x + 7, label.getSize().y + 5);
         setLayout();
     }
 

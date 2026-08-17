@@ -37,7 +37,7 @@ public:
     // bool within() { return rectangle.getGlobalBounds().contains((sf::Vector2f) Resources::mousePosition()); }
     bool within() {
         SDL_Point mousePos = Resources::mousePosition();
-        SDL_Rect rect = rectangle.getSize();
+        SDL_Rect rect = rectangle.getSDLRect();
         return SDL_PointInRect(&mousePos, &rect); }
         
     bool clickWithin() { return clicked = within(); }
@@ -78,7 +78,7 @@ public:
         return rectangle.getPosition();
     }
 
-    SDL_Rect getSize() {
+    SDL_Point getSize() {
         return rectangle.getSize();
     }
 

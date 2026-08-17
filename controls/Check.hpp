@@ -7,7 +7,8 @@ protected:
     {
         label.setPosition({
             rectangle.getPosition().x + rectangle.getSize().x + 5,
-            rectangle.getPosition().y - label.getSize().y / 2 + rectangle.getSize().y / 2
+            rectangle.getPosition().y //- label.getSize().y / 2 - rectangle.getSize().y / 2
+            - rectangle.getSize().y / 2
         });
     }
 
@@ -17,7 +18,9 @@ public:
         controlable = status;
         rectangle.setSize(15, 15);
         rectangle.setOutlineThickness(2);
-        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
+        setColor(Colors::TRANSPARENT, Colors::TEXT, Colors::TEXT);
+
+        rectangle.setFillColor(Colors::TRANSPARENT);
         setLayout();
     }
 
@@ -53,21 +56,21 @@ public:
     {
         controlable = !controlable;
         if (controlable)
-            rectangle.setFillColor(SDL_Color{255, 0, 0, 255});
+            rectangle.setFillColor(Colors::MAIN);
         else
-            rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
+            rectangle.setFillColor(Colors::TRANSPARENT);
     }
 
     void check()
     {
         controlable = true;
-        rectangle.setFillColor(SDL_Color{255, 0, 0, 255});
+        rectangle.setFillColor(Colors::MAIN);
     }
 
     void uncheck()
     {
         controlable = false;
-        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
+        rectangle.setFillColor(Colors::TRANSPARENT);
     }
 
     bool clickWithin()

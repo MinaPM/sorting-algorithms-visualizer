@@ -12,14 +12,14 @@ protected:
     std::vector<CheckBox> checkBoxes;
 
 
-    void setLayout() override {
+    void setLayout() {
         SDL_Point padding{20, 10},
                 position = rectangle.getPosition(),
-                size = SDL_Point{label.getSize().x, label.getSize().y};
+                size = label.getSize();
         position.x += padding.x / 2.f;
 
         label.setPosition(position);
-        position.y += size.y;
+        position.y += size.y+ padding.y;
 
         for (auto &checkBox: checkBoxes) {
             position.y += padding.y;
@@ -32,8 +32,8 @@ protected:
             size.y = std::abs(size.y);
         }
         size.x += padding.x;
-        size.y += padding.y;
-        rectangle.setSize(size.x, size.y);
+        // size.y += padding.y;
+        rectangle.setSize(size);
     }
 
     void resetCheckBoxes() {
@@ -45,11 +45,12 @@ public:
     CheckGroup(const std::string &text = "") : Control(text) {
         controlable = 0;
         rectangle.setOutlineThickness(1);
-        rectangle.setFillColor(SDL_Color{0, 0, 0, 0});
+        rectangle.setOutlineColor(Colors::MAIN);
+        rectangle.setFillColor(Colors::TRANSPARENT);
     }
 
 
-    void setPosition(SDL_Point position) override {
+    void setPosition(SDL_Point position) {
         rectangle.setPosition(position);
         setLayout();
     }
@@ -80,9 +81,9 @@ public:
         return false;
     }
 
-    SDL_Rect getSize() {
-        return rectangle.getSize();
-    }
+    // SDL_Point getSize() {
+    //     return rectangle.getSize();
+    // }
 
     void draw(SDL_Renderer *renderer) {
         Control::draw(renderer);
