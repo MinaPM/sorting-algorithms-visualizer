@@ -1,22 +1,22 @@
 #pragma once
-#include "../global.hpp"
-#include "../../controls/ControlGroup.hpp"
-#include "../../graphics/bar/BarBoard.hpp"
+#include "./global.hpp"
+#include "../controls/ControlGroup.hpp"
+#include "../graphics/bar/BarBoard.hpp"
 
-#include "../smartArray.hpp"
+#include "./smartArray.hpp"
 
-#include "../../algorithms/SortAlgorithm.hpp"
-#include "../../algorithms/BubbleSort.hpp"
-#include "../../algorithms/HeapSort.hpp"
-#include "../../algorithms/InsertionSort.hpp"
-#include "../../algorithms/MergeSort.hpp"
-#include "../../algorithms/QuickSort.hpp"
+#include "../algorithms/SortAlgorithm.hpp"
+#include "../algorithms/BubbleSort.hpp"
+#include "../algorithms/HeapSort.hpp"
+#include "../algorithms/InsertionSort.hpp"
+#include "../algorithms/MergeSort.hpp"
+#include "../algorithms/QuickSort.hpp"
 
-#include "../../graphics/Renderer.hpp"
+#include "../graphics/Renderer.hpp"
 
 // Forward declarations for Emscripten callback
 class Application;
-static Application* g_app_instance = nullptr;
+static Application *g_app_instance = nullptr;
 
 #ifdef __EMSCRIPTEN__
 extern "C" void emscripten_main_loop_wrapper();
@@ -41,13 +41,13 @@ public:
 
     Application() : bars(), insersion(bars), mergeSort(bars), heapSort(bars), quickSort(bars), bubbleSort(bars)
     {
-        if (Resources::load_resources())
+        if (loadResources() != 0)
         {
             exit(1);
         }
 
         renderer.setWindowSize(1500, 900);
-
+        renderer.setWindowTitle("Sorting Algorithms Visualizer");
         renderer.initialize();
 
         setAlgorithm();
@@ -103,6 +103,17 @@ public:
         renderer.present();
     }
 
+    int loadResources()
+    {
+        TTF_Font *font = Text::loadStaticFont("assets/fonts/roboto.ttf");
+        if (font == nullptr)
+        {
+            std::cerr << "Couldn't open font: " << SDL_GetError() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+
     void createControls()
     {
         barControls.addSlider("Count", Slider("Count", 1, 500, 1000));
@@ -128,8 +139,7 @@ public:
             &barControls.sliders["Width"].controlable,
             &barControls.sliders["Spacing"].controlable,
             bars,
-            Rectangle(300, 10, renderer.getWindowSize().x-310, renderer.getWindowSize().y-20));
-
+            Rectangle(300, 10, renderer.getWindowSize().x - 310, renderer.getWindowSize().y - 20));
     }
 
     void bindControls()

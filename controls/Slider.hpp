@@ -6,20 +6,17 @@
 class Slider : public Control<int>
 {
 protected:
-
     void setLayout() override
     {
 
-        int x=label.getX()+label.getSize().x + 10;
-        int y=label.getY() + label.getSize().y;
+        int x = label.getX() + label.getSize().x + 10;
+        int y = label.getY() + label.getSize().y;
         rectangle.setPosition(x, y);
-        
-        current_rect.setPosition(x,y);
-        
+
+        current_rect.setPosition(x, y);
+
         current_text.setPosition(rectangle.getPosition());
-        current_text.setX(current_text.getX() + (width +5));
-        
-        
+        current_text.setX(current_text.getX() + (width + 5));
     }
 
 public:
@@ -31,7 +28,7 @@ public:
     {
     }
 
-    Slider(const std::string& text, int min, int current, int max) : Control(text)
+    Slider(const std::string &text, int min, int current, int max) : Control(text)
     {
         width = 100;
         this->min = min;
@@ -39,16 +36,13 @@ public:
 
         this->controlable = current;
         current_text.setText(std::to_string(current));
-        
+
         rectangle.setSize(width, 20);
         current_rect.setSize(((float)(current - min) / (max - min)) * width, 20);
 
-        setColor(SDL_Color{255, 255, 255,255}, SDL_Color{255, 0, 0,255}, SDL_Color{255, 255, 255,255});
+        setColor(Colors::WHITE, Colors::RED, Colors::WHITE);
         setLayout();
     }
-
-    
- 
 
     void setPosition(int x, int y)
     {
@@ -62,7 +56,6 @@ public:
         this->max = max;
         setValue();
     }
-    
 
     void setValue()
     {
@@ -77,7 +70,6 @@ public:
         length = width * (controlable - min) / (max - min);
         current_rect.setSize(length, current_rect.getHeight());
         current_text.setText(std::to_string(controlable));
-
     }
 
     int getPercentage() { return 100 * (max - controlable); }
@@ -101,20 +93,12 @@ public:
         current_text.setColor(text);
     }
 
-    void draw(SDL_Renderer* renderer) 
+    void draw(SDL_Renderer *renderer)
     {
         Control::draw(renderer);
         current_rect.draw(renderer);
         current_text.draw(renderer);
     }
-
-    // void draw(sf::RenderTarget& rt, sf::RenderStates states) const override
-    // {
-    //     Control::draw(rt, states);
-    //     states.transform *= getTransform();
-    //     rt.draw(current_rect, states);
-    //     rt.draw(current_text, states);
-    // }
 };
 
 #endif // SLIDER_HPP

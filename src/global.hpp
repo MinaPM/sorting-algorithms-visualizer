@@ -13,27 +13,8 @@
 #include <random>
 #include <map>
 
-#include "../graphics/Text.hpp"
-
 namespace Resources
 {
-    int load_resources()
-    {
-        // font
-        if (TTF_Init() < 0)
-        {
-            std::cerr << "Couldn't initialize SDL TTF: " << SDL_GetError() << std::endl;
-            return 1;
-        }
-        TTF_Font *font = Text::loadStaticFont("assets/fonts/roboto.ttf");
-        if (font == nullptr)
-        {
-            std::cerr << "Couldn't open font: " << SDL_GetError() << std::endl;
-            return 1;
-        }
-
-        return 0;
-    }
 
     SDL_Point mousePosition()
     {
@@ -59,7 +40,7 @@ namespace Colors
     const SDL_Color BACKGROUND = GRAY;
     const SDL_Color DISABLED = GRAY;
     const SDL_Color TEXT = WHITE;
-    const SDL_Color OUTLINE = WHITE;
+    const SDL_Color OUTLINE = RED;
 
 }
 

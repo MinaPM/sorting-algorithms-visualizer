@@ -6,7 +6,6 @@
 #define SORTING_ALGORITHMS_MERGESORT_H
 #include "SortAlgorithm.hpp"
 
-
 class MergeSort : public Algorithm
 {
     void start() override { mergeSort(0, array->length() - 1); }
@@ -76,10 +75,9 @@ class MergeSort : public Algorithm
     }
 
 public:
-    MergeSort(SmartArray<BarShape>& array) : Algorithm(array)
+    MergeSort(SmartArray<BarShape> &array) : Algorithm(array)
     {
     }
 };
 
-
-#endif //SORTING_ALGORITHMS_MERGESORT_H
+#endif // SORTING_ALGORITHMS_MERGESORT_H

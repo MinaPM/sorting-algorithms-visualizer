@@ -19,14 +19,13 @@ public:
 
     Button()
     {
-        setColor(SDL_Color{255, 255, 255, 255}, SDL_Color{255, 0, 0, 255}, SDL_Color{255, 0, 0, 255});
+        setColor(Colors::WHITE, Colors::OUTLINE, Colors::MAIN);
     }
 
     Button(const std::string &text) : Button()
     {
         setString(text);
     }
-    // void setPosition(sf::Vector2f position) override{}
 
     void setPosition(float x, float y)
     {

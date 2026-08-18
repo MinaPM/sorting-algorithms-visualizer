@@ -1,11 +1,10 @@
 #ifndef CONTROLGROUP_HPP
 #define CONTROLGROUP_HPP
 
-// #include "../src/global.hpp"
+#include "Control.hpp"
 #include "Slider.hpp"
 #include "Button.hpp"
 #include "CheckGroup.hpp"
-// #include "../graphics/bar/BarBoard.hpp"
 
 class ControlGroup
 {
@@ -83,21 +82,17 @@ public:
         }
 
         position.y += 200;
-        // position = sliders.empty() ? position : sliders.rbegin()->second.getPosition() + SDL_Point{0, sliders.rbegin()->second.getSize().y + gap.y};
         for (auto &[placeHolder, checkGroup] : checkGroups)
         {
             checkGroup.setPosition(position);
             position.y += gap.y;
         }
 
-
         for (auto &[placeHolder, button] : buttons)
         {
             button->setPosition(position.x, position.y);
-            position.y +=   gap.y;
+            position.y += gap.y;
         }
-
-       
     }
 
     void draw(SDL_Renderer *renderer)

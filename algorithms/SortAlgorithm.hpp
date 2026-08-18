@@ -3,31 +3,34 @@
 #include "../src/smartArray.hpp"
 #include "../graphics/bar/BarShape.hpp"
 
-
-class Algorithm {
+class Algorithm
+{
 private:
 public:
-    Algorithm() : array(nullptr) {
+    Algorithm() : array(nullptr)
+    {
     }
 
-    Algorithm(SmartArray<BarShape> &array) : array(&array) {
+    Algorithm(SmartArray<BarShape> &array) : array(&array)
+    {
     }
 
-
-    void setArray(SmartArray<BarShape> &array) {
+    void setArray(SmartArray<BarShape> &array)
+    {
         this->array = &array;
     }
 
-    void sort() {
+    void sort()
+    {
         if (array)
             start();
     }
 
-    void sort(SmartArray<BarShape> &array) {
+    void sort(SmartArray<BarShape> &array)
+    {
         setArray(array);
         sort();
     }
-
 
     static void setDelay(int &delay) { sortingDelay = &delay; }
 
@@ -36,16 +39,18 @@ public:
 protected:
     SmartArray<BarShape> *array;
 
-
-    void virtual start() {
+    void virtual start()
+    {
     }
 
     static const std::chrono::microseconds duration[5];
     static const int durations[5];
 
-    static void sleep() {
+    static void sleep()
+    {
         // std::this_thread::sleep_for(duration[*sortingDelay - 1]);
-        for (int i = 0; i < durations[*sortingDelay - 1]; i++);
+        for (int i = 0; i < durations[*sortingDelay - 1]; i++)
+            ;
     }
 };
 
@@ -60,6 +65,5 @@ const int Algorithm::durations[] = {100'000'000, 100'000'00, 10'000'000, 1'000'0
 //     std::chrono::microseconds(1000),
 //     std::chrono::microseconds(100)
 // };
-
 
 #endif // ALGORITHM

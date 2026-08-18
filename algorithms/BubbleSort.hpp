@@ -6,16 +6,16 @@
 #define SORTING_ALGORITHMS_BUBBLESORT_H
 #include "SortAlgorithm.hpp"
 
-
-class BubbleSort : public Algorithm {
+class BubbleSort : public Algorithm
+{
 public:
-    BubbleSort(SmartArray<BarShape> &array) : Algorithm(array) {
+    BubbleSort(SmartArray<BarShape> &array) : Algorithm(array)
+    {
     }
 
-    void start() override {  }
+    void start() override {}
 
 private:
 };
 
-
-#endif //SORTING_ALGORITHMS_BUBBLESORT_H
+#endif // SORTING_ALGORITHMS_BUBBLESORT_H

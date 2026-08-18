@@ -23,18 +23,14 @@ class InsertionSort : public Algorithm
                 sleep();
             }
         }
-        // Resources::appendDebugText("");
-        // Resources::appendDebugText(array->memoryStats.to_string());
 
         array->memoryStats.resetStats();
     }
 
 public:
-    InsertionSort(SmartArray<BarShape>& array) : Algorithm(array)
+    InsertionSort(SmartArray<BarShape> &array) : Algorithm(array)
     {
     }
-
 };
 
-
-#endif //SORTING_ALGORITHMS_INSERTIONSORT_H
+#endif // SORTING_ALGORITHMS_INSERTIONSORT_H

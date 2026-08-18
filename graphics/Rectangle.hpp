@@ -89,12 +89,11 @@ public:
         return rect;
     }
 
-    //operator overloads
+    // operator overloads
     operator SDL_Rect() const
     {
         return rect;
     }
-
 
     void draw(SDL_Renderer *renderer) const
     {

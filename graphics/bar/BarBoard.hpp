@@ -42,7 +42,7 @@ public:
 
     void setBorder(SDL_Rect borderRect, SDL_Color borderColor = {255, 0, 0, 255}, int thickness = 1)
     {
-        border=borderRect;
+        border = borderRect;
         border.setOutlineColor(borderColor);
         border.setFillColor({0, 0, 0, 0});
         border.setOutlineThickness(thickness);
@@ -61,7 +61,6 @@ public:
     void center()
     {
         width = (bars->length() - 1) * (*barWidth + *spacing);
-        // int x1 = int((border.getX()+border.getWidth() - width) / 2);
         int x1 = border.getX() + (border.getWidth() - width) / 2;
         int y1 = (border.getY() + border.getHeight());
         setPosition(x1, y1);
@@ -95,8 +94,7 @@ public:
         center();
     }
 
-    
-    void draw( SDL_Renderer *renderer)  
+    void draw(SDL_Renderer *renderer)
     {
         for (auto &bar : *bars)
         {

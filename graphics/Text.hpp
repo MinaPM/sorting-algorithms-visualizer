@@ -6,24 +6,31 @@
 #include <iostream>
 #include <string>
 
+#include "../src/global.hpp"
 class Text
 {
 private:
     inline static TTF_Font *s_font{nullptr};
 
     std::string value;
-    SDL_Color color{255, 0, 0, 255};
+    SDL_Color color{Colors::TEXT};
     int x{0};
     int y{0};
 
 public:
     Text() = default;
 
-    Text(std::string text, int x, int y, SDL_Color color = {255, 0, 0, 255})
+    Text(std::string text, int x, int y, SDL_Color color = Colors::TEXT)
         : value(std::move(text)), color(color), x(x), y(y) {}
 
-    static TTF_Font *loadStaticFont(const std::string &fontPath, int size=20)
+    static TTF_Font *loadStaticFont(const std::string &fontPath, int size = 20)
     {
+        if (TTF_Init() < 0)
+        {
+            std::cerr << "Couldn't initialize SDL TTF: " << SDL_GetError() << std::endl;
+            return nullptr;
+        }
+
         if (!s_font)
         {
             s_font = TTF_OpenFont(fontPath.c_str(), size);
@@ -44,7 +51,6 @@ public:
         }
     }
 
-    // void setFont(TTF_Font* newFont) { font = newFont; }
     void setText(const std::string &text) { value = text; }
     void setPosition(int newX, int newY)
     {
@@ -87,10 +93,10 @@ public:
 
     bool draw(SDL_Renderer *renderer) const
     {
-        //also draw a rectangle around the text for debugging purposes
-        // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        // SDL_Rect rect = {x, y, getSize().x, getSize().y};
-        // SDL_RenderDrawRect(renderer, &rect);
+        // also draw a rectangle around the text for debugging purposes
+        //  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        //  SDL_Rect rect = {x, y, getSize().x, getSize().y};
+        //  SDL_RenderDrawRect(renderer, &rect);
 
         if (!renderer || !s_font || value.empty())
         {

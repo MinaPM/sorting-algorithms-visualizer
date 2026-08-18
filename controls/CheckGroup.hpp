@@ -32,7 +32,6 @@ protected:
             size.y = std::abs(size.y);
         }
         size.x += padding.x;
-        // size.y += padding.y;
         rectangle.setSize(size);
     }
 
@@ -81,22 +80,14 @@ public:
         return false;
     }
 
-    // SDL_Point getSize() {
-    //     return rectangle.getSize();
-    // }
-
+  
     void draw(SDL_Renderer *renderer) {
         Control::draw(renderer);
   
         for (auto &checkBox: checkBoxes)
             checkBox.draw(renderer);
     }
-    // void draw(sf::RenderTarget &rt, sf::RenderStates states) const override {
-    //     Control::draw(rt, states);
-    //     states.transform *= getTransform();
-    //     for (auto &checkBox: checkBoxes)
-    //         checkBox.draw(rt, states);
-    // }
+
 };
 
 

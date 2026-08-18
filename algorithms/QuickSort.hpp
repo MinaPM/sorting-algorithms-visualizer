@@ -6,7 +6,6 @@
 #define SORTING_ALGORITHMS_QUICKSORT_H
 #include "SortAlgorithm.hpp"
 
-
 class QuickSort : public Algorithm
 {
     void start() override { quickSort(0, array->length() - 1); }
@@ -36,10 +35,9 @@ class QuickSort : public Algorithm
     }
 
 public:
-    QuickSort(SmartArray<BarShape>& array) : Algorithm(array)
+    QuickSort(SmartArray<BarShape> &array) : Algorithm(array)
     {
     }
 };
 
-
-#endif //SORTING_ALGORITHMS_QUICKSORT_H
+#endif // SORTING_ALGORITHMS_QUICKSORT_H

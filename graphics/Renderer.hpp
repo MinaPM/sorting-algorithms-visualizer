@@ -10,7 +10,7 @@ class Renderer
     SDL_Window *window = nullptr;
     SDL_Renderer *gRenderer = nullptr;
     bool windowRunning = true;
-
+    std::string windowTitle ;
 public:
     SDL_Renderer *getRenderer() { return gRenderer; }
 
@@ -18,6 +18,20 @@ public:
     {
         return windowRunning;
     }
+
+    void setWindowTitle(const std::string &title)
+    {
+        windowTitle = title;
+        if (window)
+        {
+            SDL_SetWindowTitle(window, windowTitle.c_str());
+        }
+    }
+    std::string getWindowTitle() const
+    {
+        return windowTitle;
+    }
+
 
     SDL_Point getWindowSize()
     {
@@ -38,7 +52,7 @@ public:
             return 1;
         }
 
-        window = SDL_CreateWindow("SDL2 Square",
+        window = SDL_CreateWindow(windowTitle.c_str(),
                                   SDL_WINDOWPOS_CENTERED,
                                   SDL_WINDOWPOS_CENTERED,
                                   window_size.x,

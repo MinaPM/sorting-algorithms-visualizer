@@ -6,11 +6,10 @@
 
 class BarShape
 {
-    public:
+public:
     Rectangle rectangle;
 
-
-    BarShape( int width=20, int height=100 )
+    BarShape(int width = 20, int height = 100)
     {
         rectangle.setSize(width, height);
     }
@@ -54,12 +53,11 @@ class BarShape
         return rectangle.getHeight();
     }
 
-public: 
+public:
     void draw(SDL_Renderer *renderer)
     {
         rectangle.draw(renderer);
     }
-    
 };
 
 #endif // BAR_SHAPE

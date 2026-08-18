@@ -7,7 +7,7 @@ protected:
     {
         label.setPosition({
             rectangle.getPosition().x + rectangle.getSize().x + 5,
-            rectangle.getPosition().y //- label.getSize().y / 2 - rectangle.getSize().y / 2
+            rectangle.getPosition().y 
             - rectangle.getSize().y / 2
         });
     }
@@ -24,7 +24,7 @@ public:
         setLayout();
     }
 
-    void setPosition(SDL_Point position) 
+    void setPosition(SDL_Point position)  override
     {
         rectangle.setPosition(position);
         setLayout();
@@ -34,21 +34,16 @@ public:
     void enable()
     {
         enabled = true;
-        setColor(SDL_Color{0, 0, 255, 255}, SDL_Color{255, 255, 255, 255}, SDL_Color{0, 0, 255, 255});
+        setColor(Colors::TRANSPARENT, Colors::TEXT, Colors::TEXT);
+
     }
 
     void disable()
     {
         enabled = false;
-        setColor(SDL_Color{50, 50, 50, 255}, SDL_Color{50, 50, 50, 255}, SDL_Color{50, 50, 50, 255});
+        setColor(Colors::TRANSPARENT, Colors::TEXT, Colors::TEXT);
     }
 
-    
-    // void draw(sf::RenderTarget& rt, sf::RenderStates states) const override
-    // {
-    //     Control::draw(rt, states);
-    //     states.transform *= getTransform();
-    // }
 
     const bool& bindStatus() { return controlable; }
 
