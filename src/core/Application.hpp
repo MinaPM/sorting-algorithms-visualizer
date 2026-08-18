@@ -13,6 +13,15 @@
 #include "../../algorithms/QuickSort.hpp"
 
 #include "../../graphics/Renderer.hpp"
+
+// Forward declarations for Emscripten callback
+class Application;
+static Application* g_app_instance = nullptr;
+
+#ifdef __EMSCRIPTEN__
+extern "C" void emscripten_main_loop_wrapper();
+#endif
+
 class Application
 {
 public:
@@ -49,41 +58,49 @@ public:
 
     void run()
     {
+        g_app_instance = this;
 
+#ifdef __EMSCRIPTEN__
+        // On web, use Emscripten's main loop which yields to the browser
+        emscripten_set_main_loop(emscripten_main_loop_wrapper, 0, 1);
+#else
+        // On native platforms, use traditional blocking loop
         while (renderer.isRunning())
         {
-
-            SDL_Event event;
-            while (SDL_PollEvent(&event))
-            {
-                switch (event.type)
-                {
-                case SDL_QUIT:
-                    renderer.stop();
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    barControls.mouseClicked();
-                    break;
-                case SDL_MOUSEBUTTONUP:
-                    barControls.mouseReleased();
-                    break;
-                case SDL_MOUSEMOTION:
-                    barControls.update();
-                    break;
-                }
-            }
-
-            renderer.clear();
-
-            barboard.draw(renderer);
-            barControls.draw(renderer);
-
-            renderer.present();
-
-#ifndef __EMSCRIPTEN__
+            mainLoop();
             SDL_Delay(16);
-#endif
         }
+#endif
+    }
+
+    void mainLoop()
+    {
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                renderer.stop();
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                barControls.mouseClicked();
+                break;
+            case SDL_MOUSEBUTTONUP:
+                barControls.mouseReleased();
+                break;
+            case SDL_MOUSEMOTION:
+                barControls.update();
+                break;
+            }
+        }
+
+        renderer.clear();
+
+        barboard.draw(renderer);
+        barControls.draw(renderer);
+
+        renderer.present();
     }
 
     void createControls()
@@ -166,3 +183,14 @@ public:
 
 private:
 };
+
+#ifdef __EMSCRIPTEN__
+// Emscripten callback - defined after class to access mainLoop()
+extern "C" void emscripten_main_loop_wrapper()
+{
+    if (g_app_instance)
+    {
+        g_app_instance->mainLoop();
+    }
+}
+#endif
