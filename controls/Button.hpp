@@ -45,20 +45,29 @@ public:
     {
         if (!enabled || !onTrigger)
             return;
+
+#ifdef __EMSCRIPTEN__
+        run();
+#else
         if (buttonThread.joinable())
             buttonThread.join();
 
         buttonThread = std::thread(&Button::run, this);
+#endif
     }
 
     ~Button()
     {
+#ifndef __EMSCRIPTEN__
         if (buttonThread.joinable())
             buttonThread.join();
+#endif
     }
 
 private:
+#ifndef __EMSCRIPTEN__
     std::thread buttonThread;
+#endif
 
     void run()
     {
