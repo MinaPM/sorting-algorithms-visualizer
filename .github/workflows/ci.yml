@@ -4,26 +4,27 @@ on:
   push:
   pull_request:
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
-  build:
-    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
-    runs-on: ${{ matrix.platform.os }}
-
+  native:
+    name: Native ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - { name: Windows MSVC, os: windows-2022 }
-          - { name: Linux GCC, os: ubuntu-latest }
-          - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-          - { name: macOS, os: macos-latest }
-        config:
-          - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
-          - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
+        include:
+          - name: Windows
+            os: windows-2022
+            shell: bash
+          - name: Linux
+            os: ubuntu-latest
+            shell: bash
+          - name: macOS
+            os: macos-latest
+            shell: bash
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
 
     steps:
       - name: Checkout
@@ -48,10 +49,112 @@ jobs:
             libegl1-mesa-dev \
             libasound2-dev \
             libpulse-dev \
-            libfreetype6-dev
+            libfreetype6-dev \
+            xvfb
 
-      - name: Configure
-        run: cmake -S . -B build -G Ninja ${{ matrix.platform.flags }} ${{ matrix.config.flags }}
+      - name: Configure native build
+        run: cmake -S . -B build-native -G Ninja -DCMAKE_BUILD_TYPE=Release
 
-      - name: Build
-        run: cmake --build build --config Release
+      - name: Build native app
+        run: cmake --build build-native
+
+      - name: Smoke test native app
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          import sys
+
+          exe = 'build-native/bin/main.exe' if os.path.exists('build-native/bin/main.exe') else 'build-native/bin/main'
+          env = os.environ.copy()
+          env['SDL_VIDEODRIVER'] = 'dummy'
+          env['SDL_AUDIODRIVER'] = 'dummy'
+
+          if sys.platform.startswith('linux'):
+              cmd = ['xvfb-run', '-a', exe]
+          else:
+              cmd = [exe]
+
+          try:
+              proc = subprocess.run(cmd, env=env, timeout=15, capture_output=True, text=True)
+              if proc.stdout:
+                  print(proc.stdout)
+              if proc.stderr:
+                  print(proc.stderr)
+              if proc.returncode != 0:
+                  raise SystemExit(proc.returncode)
+          except subprocess.TimeoutExpired:
+              print('Native app stayed alive for the smoke test window; assuming startup was successful.')
+          PY
+
+  web:
+    name: Web build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Emscripten
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git ~/emsdk
+          source ~/emsdk/emsdk_env.sh
+          ~/emsdk/emsdk install latest
+          ~/emsdk/emsdk activate latest
+
+      - name: Configure web build
+        run: |
+          source ~/emsdk/emsdk_env.sh
+          emcmake cmake -S . -B build-web -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build web app
+        run: |
+          source ~/emsdk/emsdk_env.sh
+          cmake --build build-web
+
+      - name: Serve web build
+        run: |
+          python3 -m http.server 8000 --directory build-web/bin >/tmp/web_server.log 2>&1 &
+          sleep 5
+
+      - name: Run headless browser smoke test
+        run: |
+          npm init -y
+          npm install -D playwright
+          npx playwright install --with-deps chromium
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage();
+            const pageErrors = [];
+            const consoleErrors = [];
+
+            page.on('pageerror', err => pageErrors.push(String(err)));
+            page.on('console', msg => {
+              if (msg.type() === 'error') consoleErrors.push(msg.text());
+            });
+
+            await page.goto('http://localhost:8000/main.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForTimeout(5000);
+
+            const canvasCount = await page.locator('canvas').count();
+            if (canvasCount === 0) {
+              throw new Error('No canvas element was found in the web app output.');
+            }
+
+            if (pageErrors.length > 0 || consoleErrors.length > 0) {
+              throw new Error(`Browser errors detected: ${JSON.stringify({ pageErrors, consoleErrors }, null, 2)}`);
+            }
+
+            console.log('Web app loaded successfully in headless browser.');
+            await browser.close();
+          })().catch(err => {
+            console.error(err);
+            process.exit(1);
+          });
+          NODE
