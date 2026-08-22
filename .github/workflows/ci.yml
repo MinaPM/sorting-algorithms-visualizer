@@ -99,7 +99,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Emscripten
-        run: ./scripts/setup_emscripten.sh
+        run: bash ./scripts/setup_emscripten.sh
 
       - name: Configure web build
         run: cmake --preset web
