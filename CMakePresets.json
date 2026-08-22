@@ -18,7 +18,7 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build-web",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     }

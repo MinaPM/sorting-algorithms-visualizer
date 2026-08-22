@@ -1,5 +1,18 @@
 cmake_minimum_required(VERSION 3.28)
 
+
+# Catch a missing/misconfigured Emscripten toolchain before project() tries to load it
+if(CMAKE_TOOLCHAIN_FILE AND CMAKE_TOOLCHAIN_FILE MATCHES "Emscripten\\.cmake" AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
+    message(FATAL_ERROR
+        "Emscripten toolchain not found at: ${CMAKE_TOOLCHAIN_FILE}\n"
+        "It looks like emsdk hasn't been installed for this project yet.\n"
+        "Run the setup script first:\n"
+        "  Linux/macOS: ./scripts/setup_emscripten.sh\n"
+        "  Windows:     .\\scripts\\setup_emscripten.ps1\n"
+    )
+endif()
+
+
 set(PROJECT_NAME "Sorting Algorithms")
 set(EXECUTABLE_NAME "main")
 
