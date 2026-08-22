@@ -26,6 +26,10 @@ public:
             start();
     }
 
+    virtual void reset() {}
+
+    virtual bool step() { return false; }
+
     void sort(SmartArray<BarShape> &array)
     {
         setArray(array);
@@ -34,7 +38,21 @@ public:
 
     static void setDelay(int &delay) { sortingDelay = &delay; }
 
+    static Uint64 getDelayMs()
+    {
+        if (sortingDelay == nullptr)
+            return 0;
+
+        const int index = *sortingDelay - 1;
+        if (index < 0 || index >= 7)
+            return 0;
+
+        return delays[index];
+    }
+
     static int *sortingDelay;
+
+    static const Uint64 delays[];
 
 protected:
     SmartArray<BarShape> *array;
@@ -43,27 +61,20 @@ protected:
     {
     }
 
-    static const std::chrono::microseconds duration[5];
-    static const int durations[5];
-
     static void sleep()
     {
-        // std::this_thread::sleep_for(duration[*sortingDelay - 1]);
-        for (int i = 0; i < durations[*sortingDelay - 1]; i++)
-            ;
+        const Uint32 ms = getDelayMs();
+        if (ms == 0)
+            return;
+
+#ifndef __EMSCRIPTEN__
+        SDL_Delay(ms);
+#endif
     }
 };
 
 int *Algorithm::sortingDelay = nullptr;
 
-const int Algorithm::durations[] = {100'000'000, 100'000'00, 10'000'000, 1'000'000, 100'000};
-
-// const std::chrono::microseconds Algorithm::duration[] = {
-//     std::chrono::microseconds(100'000),
-//     std::chrono::microseconds(10'000),
-//     std::chrono::microseconds(2000),
-//     std::chrono::microseconds(1000),
-//     std::chrono::microseconds(100)
-// };
+const Uint64 Algorithm::delays[] = {200u, 100u, 50u, 20u, 10u, 1u, 0u};
 
 #endif // ALGORITHM

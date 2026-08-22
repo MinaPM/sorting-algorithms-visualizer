@@ -38,6 +38,8 @@ public:
     BubbleSort bubbleSort;
 
     Algorithm *sortingAlgorithm;
+    bool sortingInProgress = false;
+    Uint64 lastSortStepMs = 0;
 
     Application() : bars(), insersion(bars), mergeSort(bars), heapSort(bars), quickSort(bars), bubbleSort(bars)
     {
@@ -95,6 +97,31 @@ public:
             }
         }
 
+        if (sortingInProgress && sortingAlgorithm != nullptr)
+        {
+            const Uint64 stepDelay = Algorithm::getDelayMs();
+            const Uint64 now = SDL_GetTicks64();
+
+            if (stepDelay == 0)
+            {
+                const int maxBatch = 64;
+                for (int i = 0; i < maxBatch; ++i)
+                {
+                    if (!sortingAlgorithm->step())
+                    {
+                        sortingInProgress = false;
+                        break;
+                    }
+                }
+            }
+            else if (now - lastSortStepMs >= stepDelay)
+            {
+                lastSortStepMs = now;
+                if (!sortingAlgorithm->step())
+                    sortingInProgress = false;
+            }
+        }
+
         renderer.clear();
 
         barboard.draw(renderer);
@@ -121,7 +148,7 @@ public:
         barControls.addSlider("Max Height", Slider("Max Height", 10, 300, 500));
         barControls.addSlider("Width", Slider("Width", 1, 1, 40));
         barControls.addSlider("Spacing", Slider("Spacing", 0, 1, 40));
-        barControls.addSlider("Speed", Slider("Speed", 1, 2, 5));
+        barControls.addSlider("Speed", Slider("Speed", 1, 2, sizeof(Algorithm::delays) / sizeof(Algorithm::delays[0])));
         barControls.addButton("Shuffle");
         barControls.addButton("Sort");
         barControls.addCheckGroup("Sorting Algorithm");
@@ -153,11 +180,16 @@ public:
                                                   { barboard.updateBarSize(); });
         barControls.sliders["Spacing"].setOnTrigger([&]()
                                                     { barboard.updateSpacing(); });
-
         barControls.buttons["Shuffle"]->setOnTrigger([&]()
                                                      { bars.shuffle(); });
         barControls.buttons["Sort"]->setOnTrigger([&]()
-                                                  { sortingAlgorithm->sort(); });
+                                                  {
+                                                      if (sortingAlgorithm == nullptr || sortingInProgress)
+                                                          return;
+                                                      sortingAlgorithm->reset();
+                                                      sortingInProgress = true;
+                                                      lastSortStepMs = SDL_GetTicks64();
+                                                  });
 
         barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&]
                                                                   { setAlgorithm(barControls.checkGroups["Sorting Algorithm"].controlable); });
