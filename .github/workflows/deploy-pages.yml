@@ -31,6 +31,9 @@ jobs:
       - name: Build web app
         run: cmake --build build-web
 
+      - name: Ensure GitHub Pages entry file
+        run: cp build-web/bin/main.html build-web/bin/index.html
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
