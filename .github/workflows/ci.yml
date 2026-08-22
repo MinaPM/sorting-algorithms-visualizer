@@ -53,7 +53,7 @@ jobs:
             xvfb
 
       - name: Configure native build
-        run: cmake -S . -B build-native -G Ninja -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build-native -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Build native app
         run: cmake --build build-native
