@@ -113,17 +113,28 @@
     </section>
   </main>
   <script>
+    var startRequested = false;
+    var started = false;
+
+    function startVisualizer() {
+      if (started || !startRequested || typeof callMain !== 'function') return;
+      started = true;
+      callMain([]);
+      document.getElementById('app').classList.add('ready');
+      document.getElementById('canvas').focus();
+    }
+
     var Module = {
       canvas: document.getElementById('canvas'),
       noInitialRun: true,
+      onRuntimeInitialized: startVisualizer,
       print: function () {},
       printErr: function () {}
     };
 
     document.getElementById('start').addEventListener('click', function () {
-      Module.callMain([]);
-      document.getElementById('app').classList.add('ready');
-      document.getElementById('canvas').focus();
+      startRequested = true;
+      startVisualizer();
     });
   </script>
   {{{ SCRIPT }}}
