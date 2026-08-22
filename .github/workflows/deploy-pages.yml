@@ -1,0 +1,41 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy web app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Emscripten
+        run: bash ./scripts/setup_emscripten.sh
+
+      - name: Configure web build
+        run: cmake --preset web
+
+      - name: Build web app
+        run: cmake --build build-web
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./build-web/bin
+          force_orphan: true
+          enable_jekyll: false
