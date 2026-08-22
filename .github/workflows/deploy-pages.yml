@@ -36,8 +36,8 @@ jobs:
       - name: Build web app
         run: cmake --build build-web
 
-      - name: Ensure GitHub Pages entry file
-        run: cp build-web/bin/main.html build-web/bin/index.html
+      - name: Create GitHub Pages entry file
+        run: sed 's|{{{ SCRIPT }}}|<script src="main.js"></script>|' web/shell.html > build-web/bin/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
