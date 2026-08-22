@@ -10,9 +10,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: github-pages
@@ -22,9 +19,6 @@ jobs:
   deploy:
     name: Build and deploy web app
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
