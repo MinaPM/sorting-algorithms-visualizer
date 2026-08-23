@@ -13,56 +13,86 @@ public:
     {
     }
 
-    void start() override { heapSort(); }
+    void start() override { reset(); }
+
+    void reset() override
+    {
+        lastIndex = array->length() - 1;
+        buildHeapIndex = lastIndex / 2;
+        continuepush = false;
+        if (array)
+            array->memoryStats.resetStats();
+    }
 
 private:
+    int buildHeapIndex;
+    int node, parent, child;
     int lastIndex;
+
+    bool continuepush = false;
     static int parentOf(const int key) { return (key - 1) / 2; };
     static int leftChild(const int key) { return 2 * key + 1; }
     static int rightChild(const int key) { return leftChild(key) + 1; }
 
-    void heapSort()
+    bool step() override
     {
-        lastIndex = array->length() - 1;
-        buildMaxHeap();
-        while (lastIndex >= 0)
-            deleteTop();
-    }
 
-    void buildMaxHeap()
-    {
-        for (int i = (lastIndex) / 2; i >= 0; i--)
+        // continue push loop
+        if (continuepush && child <= lastIndex)
         {
-            iterPushUp(i);
-            sleep();
+            pushuploop();
+            return true;
         }
-    }
 
-    void iterPushUp(int root)
-    {
-        int child = leftChild(root), parent = root;
-        while (child <= lastIndex)
+        // build heap step
+        if (buildHeapIndex >= 0)
         {
-            if (child != lastIndex && (*array)[child] < (*array)[rightChild(parent)])
-                child = rightChild(parent);
-
-            if ((*array)[parent] < (*array)[child])
-            {
-                array->swap(parent, child);
-                parent = child;
-                child = leftChild(parent);
-            }
-            else
-                break;
-            sleep();
+            setNode(buildHeapIndex--);
+            pushuploop();
+            return true;
         }
+
+        // pop max step
+        if (lastIndex >= 0)
+        {
+            array->swap(lastIndex--, 0);
+
+            setNode(0);
+            pushuploop();
+            return true;
+        }
+
+        return false;
     }
 
-    void deleteTop()
+    void setNode(int node)
     {
-        array->swap(lastIndex--, 0);
-        iterPushUp(0);
-        sleep();
+        this->node = node;
+        child = leftChild(node);
+        parent = node;
+    }
+
+    void pushuploop()
+    {
+        continuepush = true;
+
+        if (child > lastIndex)
+        {
+            continuepush = false;
+            return;
+        }
+
+        if (child != lastIndex && (*array)[child] < (*array)[rightChild(parent)])
+            child = rightChild(parent);
+
+        if ((*array)[parent] < (*array)[child])
+        {
+            array->swap(parent, child);
+            parent = child;
+            child = leftChild(parent);
+        }
+        else
+            continuepush = false;
     }
 };
 
