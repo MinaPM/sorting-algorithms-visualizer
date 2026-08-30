@@ -116,6 +116,15 @@ public:
         shuffle();
     }
 
+    void erase(size_t index)
+    {
+        items.erase(items.begin() + index);
+    }
+    void erase()
+    {
+        items.erase(items.begin(), items.begin());
+    }
+
     void resize(size_t newSize, const item &value)
     {
         items.resize(newSize, value);

@@ -8,70 +8,130 @@
 
 class MergeSort : public Algorithm
 {
-    void start() override { mergeSort(0, array->length() - 1); }
+    void (MergeSort::*nextStep)() = nullptr;
 
-    void mergeSort(int left, int right)
+    void start() override { reset(); }
+
+    std::remove_pointer_t<decltype(array)> arr1, arr2;
+    size_t currSize, left, i, j, k, n1, n2, mid, right;
+
+    void reset() override
     {
-        if (left >= right)
-            return;
-
-        sleep();
-
-        int mid = (right - left) / 2 + left;
-        mergeSort(left, mid);
-        mergeSort(mid + 1, right);
-        merge(left, right, mid);
+        currSize = 1;
+        left = 0;
+        nextStep = &MergeSort::mainLoop;
+        if (array)
+            array->memoryStats.resetStats();
     }
 
-    void merge(int left, int right, int mid)
+    bool step() override
     {
-        int left_size = mid - left + 1, right_size = right - mid;
 
-        int *left_array = new int[left_size], *right_array = new int[right_size];
-
-        for (int i = 0; i < left_size; i++)
+        if (nextStep)
         {
-            left_array[i] = (*array)[i + left];
+            (this->*nextStep)();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void mainLoop()
+    {
+        if (currSize <= array->length() - 1)
+        {
+            left = 0;
+            nextStep = &MergeSort::innerLoop;
+            innerLoop();
+            return;
+        }
+        nextStep = nullptr;
+    }
+
+    void innerLoop()
+    {
+        if (left < array->length() - 1)
+        {
+
+            mid = std::min(left + currSize - 1, array->length() - 1);
+            right = std::min(left + 2 * currSize - 1, array->length() - 1);
+
+            n1 = mid - left + 1;
+            n2 = right - mid;
+
+            copyToTempArrays(left, mid);
+
+            i = 0;
+            j = 0;
+            k = left;
+
+            nextStep = &MergeSort::mergeBoth;
+            return;
         }
 
-        for (int i = 0; i < right_size; i++)
-        {
-            right_array[i] = (*array)[i + mid + 1];
-        }
+        nextStep = &MergeSort::mainLoop;
+        currSize = 2 * currSize;
+    }
 
-        int left_index = 0, right_index = 0;
-
-        int current_index = left;
-        while (left_index < left_size && right_index < right_size)
+    void mergeBoth()
+    {
+        if (i < n1 && j < n2)
         {
-            if (left_array[left_index] < right_array[right_index])
+            if (arr1[i] <= arr2[j])
             {
-                (*array)[current_index] = left_array[left_index];
-                left_index++;
+                (*array)[k] = arr1[i];
+                i++;
             }
             else
             {
-                (*array)[current_index] = right_array[right_index];
-                right_index++;
+                (*array)[k] = arr2[j];
+                j++;
             }
-            sleep();
-            current_index++;
+            k++;
+            return;
         }
+        nextStep = &MergeSort::mergeLeftOverArr1;
+    }
 
-        for (; left_index < left_size; left_index++, current_index++)
+    void mergeLeftOverArr1()
+    {
+        if (i < n1)
         {
-            sleep();
-            (*array)[current_index] = left_array[left_index];
+            (*array)[k] = arr1[i];
+            i++;
+            k++;
+            return;
         }
 
-        for (; right_index < right_size; right_index++, current_index++)
+        nextStep = &MergeSort::mergeLeftOverArr2;
+    }
+
+    void mergeLeftOverArr2()
+    {
+        if (j < n2)
         {
-            sleep();
-            (*array)[current_index] = right_array[right_index];
+            (*array)[k] = arr2[j];
+            j++;
+            k++;
+            return;
         }
+        nextStep = &MergeSort::innerLoop;
+        left += 2 * currSize;
+    }
 
-        delete[] left_array;
-        delete[] right_array;
+    void copyToTempArrays(size_t left1, size_t mid1)
+    {
+        arr1.erase();
+        arr2.erase();
+        arr1.resize(n1);
+        arr2.resize(n2);
+
+        for (size_t i1 = 0; i1 < n1; i1++)
+            arr1[i1] = (*array)[left1 + i1];
+        for (size_t j1 = 0; j1 < n2; j1++)
+            arr2[j1] = (*array)[mid1 + 1 + j1];
     }
 
 public:

@@ -166,7 +166,7 @@ public:
             &barControls.sliders["Width"].controlable,
             &barControls.sliders["Spacing"].controlable,
             bars,
-            Rectangle(300, 10, renderer.getWindowSize().x - 310, renderer.getWindowSize().y - 20));
+            Rectangle(200, 10, renderer.getWindowSize().x - 210, renderer.getWindowSize().y - 20));
     }
 
     void bindControls()
