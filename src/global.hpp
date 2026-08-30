@@ -34,6 +34,7 @@ namespace Colors
     const SDL_Color WHITE = {255, 255, 255, 255};
     const SDL_Color GRAY = {128, 128, 128, 255};
     const SDL_Color TRANSPARENT = {0, 0, 0, 0};
+    const SDL_Color TRANSPARENT50 = {0, 0, 0, 128};
 
     const SDL_Color MAIN = RED;
     const SDL_Color SECONDARY = BLUE;

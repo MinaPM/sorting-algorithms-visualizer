@@ -110,6 +110,8 @@ public:
                     if (!sortingAlgorithm->step())
                     {
                         sortingInProgress = false;
+                        setDuringSorting(true);
+
                         break;
                     }
                 }
@@ -118,7 +120,10 @@ public:
             {
                 lastSortStepMs = now;
                 if (!sortingAlgorithm->step())
+                {
                     sortingInProgress = false;
+                    setDuringSorting(true);
+                }
             }
         }
 
@@ -183,18 +188,41 @@ public:
         barControls.buttons["Shuffle"]->setOnTrigger([&]()
                                                      { bars.shuffle(); });
         barControls.buttons["Sort"]->setOnTrigger([&]()
-                                                  {
-                                                      if (sortingAlgorithm == nullptr || sortingInProgress)
-                                                          return;
-                                                      sortingAlgorithm->reset();
-                                                      sortingInProgress = true;
-                                                      lastSortStepMs = SDL_GetTicks64();
-                                                  });
+                                                  { startSorting(); });
 
         barControls.checkGroups["Sorting Algorithm"].setOnTrigger([&]
                                                                   { setAlgorithm(barControls.checkGroups["Sorting Algorithm"].controlable); });
         barControls.checkGroups["Sorting Algorithm"].setChoice();
         Algorithm::setDelay(barControls.sliders["Speed"].controlable);
+    }
+
+    void startSorting()
+    {
+        if (sortingAlgorithm == nullptr || sortingInProgress)
+            return;
+
+        setDuringSorting(false);
+        sortingAlgorithm->reset();
+        sortingInProgress = true;
+        lastSortStepMs = SDL_GetTicks64();
+    }
+
+    void setDuringSorting(bool enable = true)
+    {
+        if (enable)
+        {
+            barControls.sliders["Count"].enable();
+            barControls.sliders["Max Height"].enable();
+            barControls.buttons["Shuffle"]->enable();
+            barControls.checkGroups["Sorting Algorithm"].enable();
+        }
+        else
+        {
+            barControls.sliders["Count"].disable();
+            barControls.sliders["Max Height"].disable();
+            barControls.buttons["Shuffle"]->disable();
+            barControls.checkGroups["Sorting Algorithm"].disable();
+        }
     }
 
     void setAlgorithm(int algorithmChoice = 0)

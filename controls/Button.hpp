@@ -63,6 +63,15 @@ public:
 #endif
     }
 
+    void draw(SDL_Renderer *renderer)
+    {
+        Control::draw(renderer);
+        if (!enabled)
+        {
+            disabledRectangle.draw(renderer);
+        }
+    }
+
 private:
 #ifndef __EMSCRIPTEN__
     std::thread buttonThread;

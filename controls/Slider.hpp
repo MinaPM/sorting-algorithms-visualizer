@@ -9,8 +9,8 @@ protected:
     void setLayout() override
     {
 
-        int x = label.getX();// + label.getSize().x + 10;
-        int y = label.getY() + label.getSize().y+rectangle.getHeight();
+        int x = label.getX(); // + label.getSize().x + 10;
+        int y = label.getY() + label.getSize().y + rectangle.getHeight();
         rectangle.setPosition(x, y);
 
         current_rect.setPosition(x, y);
@@ -74,16 +74,10 @@ public:
 
     int getPercentage() { return 100 * (max - controlable); }
 
-    void enable()
-    {
-        Control::enable();
-        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), label.getColor());
-    }
-
     void disable()
     {
-        Control::disable();
-        setColor(rectangle.getFillColor(), rectangle.getOutlineColor(), label.getColor());
+        enabled = false;
+        disabledRectangle = getBoundingRect().getSDLRect();
     }
 
     void setColor(SDL_Color fill, SDL_Color outline, SDL_Color text)
@@ -98,9 +92,13 @@ public:
         Control::draw(renderer);
         current_rect.draw(renderer);
         current_text.draw(renderer);
-        // getBoundingRect().draw(renderer);
+
+        if (!enabled)
+        {
+            disabledRectangle.draw(renderer);
+        }
     }
-    
+
     Rectangle getBoundingRect()
     {
         return Control::getBoundingRect() + current_rect + current_text.getSDLRect();

@@ -80,6 +80,11 @@ public:
 
         for (auto &checkBox : checkBoxes)
             checkBox.draw(renderer);
+
+        if (!enabled)
+        {
+            disabledRectangle.draw(renderer);
+        }
     }
 
     Rectangle getBoundingRect() { return Control::getBoundingRect() + rectangle; }

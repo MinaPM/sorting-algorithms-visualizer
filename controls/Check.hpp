@@ -5,15 +5,12 @@ class CheckBox : public Control<bool>
 protected:
     void setLayout() override
     {
-        label.setPosition({
-            rectangle.getPosition().x + rectangle.getSize().x + 5,
-            rectangle.getPosition().y 
-            - rectangle.getSize().y / 2
-        });
+        label.setPosition({rectangle.getPosition().x + rectangle.getSize().x + 5,
+                           rectangle.getPosition().y - rectangle.getSize().y / 2});
     }
 
 public:
-    CheckBox(const std::string& text, bool status = false) : Control(text)
+    CheckBox(const std::string &text, bool status = false) : Control(text)
     {
         controlable = status;
         rectangle.setSize(15, 15);
@@ -24,28 +21,13 @@ public:
         setLayout();
     }
 
-    void setPosition(SDL_Point position)  override
+    void setPosition(SDL_Point position) override
     {
         rectangle.setPosition(position);
         setLayout();
     }
 
-
-    void enable()
-    {
-        enabled = true;
-        setColor(Colors::TRANSPARENT, Colors::TEXT, Colors::TEXT);
-
-    }
-
-    void disable()
-    {
-        enabled = false;
-        setColor(Colors::TRANSPARENT, Colors::TEXT, Colors::TEXT);
-    }
-
-
-    const bool& bindStatus() { return controlable; }
+    const bool &bindStatus() { return controlable; }
 
     void toggle()
     {
@@ -67,12 +49,16 @@ public:
         controlable = false;
         rectangle.setFillColor(Colors::TRANSPARENT);
     }
-//  void draw(SDL_Renderer *renderer)
-//     {
-//         Control::draw(renderer);
-       
-//         getBoundingRect().draw(renderer);
-//     }
+
+    void draw(SDL_Renderer *renderer)
+    {
+        Control::draw(renderer);
+        if (!enabled)
+        {
+            disabledRectangle.draw(renderer);
+        }
+    }
+
     bool clickWithin()
     {
         if (enabled && within())

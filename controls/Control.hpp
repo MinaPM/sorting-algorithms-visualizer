@@ -8,7 +8,7 @@ template <typename Controlable>
 class Control
 {
 public:
-    Rectangle rectangle;
+    Rectangle rectangle, disabledRectangle;
     Text label;
     Controlable controlable;
     std::function<void()> onTrigger;
@@ -21,6 +21,7 @@ public:
         clicked = false;
         rectangle.setOutlineThickness(3);
         onTrigger = nullptr;
+        disabledRectangle.setFillColor(Colors::TRANSPARENT50);
     }
 
     Control(const std::string &string) : Control()
@@ -57,6 +58,7 @@ public:
     void disable()
     {
         enabled = false;
+        disabledRectangle = getBoundingRect().getSDLRect();
     }
 
     Controlable *bindControlable() { return &controlable; }
