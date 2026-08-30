@@ -67,7 +67,12 @@ public:
         controlable = false;
         rectangle.setFillColor(Colors::TRANSPARENT);
     }
-
+//  void draw(SDL_Renderer *renderer)
+//     {
+//         Control::draw(renderer);
+       
+//         getBoundingRect().draw(renderer);
+//     }
     bool clickWithin()
     {
         if (enabled && within())

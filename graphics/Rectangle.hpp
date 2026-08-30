@@ -20,7 +20,14 @@ public:
     Rectangle(int x, int y, int w, int h, SDL_Color fill, SDL_Color outline = {0, 0, 0, 255}, int thickness = 0)
         : rect{x, y, w, h}, fillColor(fill), outlineColor(outline), outlineThickness(thickness) {}
 
+    Rectangle(SDL_Rect rect, SDL_Color fill, SDL_Color outline = {0, 0, 0, 255}, int thickness = 0)
+        : rect(rect), fillColor(fill), outlineColor(outline), outlineThickness(thickness) {}
+
     explicit Rectangle(const SDL_Rect &other) : rect(other) {}
+
+    Rectangle(const Rectangle &other)
+        : rect(other.rect), fillColor(other.fillColor), outlineColor(other.outlineColor), outlineThickness(other.outlineThickness) {}   
+
 
     // position
     int getX() const { return rect.x; }
@@ -93,6 +100,19 @@ public:
     operator SDL_Rect() const
     {
         return rect;
+    }
+
+    Rectangle operator+(SDL_Rect other) const
+    {
+        SDL_Rect bounding;
+        SDL_UnionRect(&rect, &other, &bounding);
+
+        return Rectangle(bounding, fillColor, outlineColor, outlineThickness);
+    }
+
+    Rectangle operator+(const Rectangle &other) const
+    {
+        return *this + other.getSDLRect();
     }
 
     void draw(SDL_Renderer *renderer) const

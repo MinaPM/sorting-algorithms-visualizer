@@ -123,6 +123,12 @@ public:
         SDL_FreeSurface(surface);
         return true;
     }
+
+    SDL_Rect getSDLRect() const
+    {
+        SDL_Point size = getSize();
+        return {x, y, size.x, size.y};
+    }
 };
 
 #endif // TEXT_HPP

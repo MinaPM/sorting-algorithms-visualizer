@@ -6,70 +6,64 @@
 #define SORTING_ALGORITHMS_CHECKGROUP_H
 #include "Check.hpp"
 
-
-class CheckGroup : public Control<int> {
+class CheckGroup : public Control<int>
+{
 protected:
     std::vector<CheckBox> checkBoxes;
 
+    void setLayout()
+    {
+        rectangle.setSize({0, 0});
+        label.setPosition(rectangle.getPosition());
+        rectangle = rectangle + label.getSDLRect();
 
-    void setLayout() {
-        SDL_Point padding{20, 10},
-                position = rectangle.getPosition(),
-                size = label.getSize();
-        position.x += padding.x / 2.f;
-
-        label.setPosition(position);
-        position.y += size.y+ padding.y;
-
-        for (auto &checkBox: checkBoxes) {
-            position.y += padding.y;
-            checkBox.setPosition(position);
-            position.y += checkBox.getSize().y;
+        for (auto &checkBox : checkBoxes)
+        {
+            checkBox.setPosition({rectangle.getPosition().x, rectangle.getPosition().y + rectangle.getSize().y + checkBox.getSize().y + 5});
+            rectangle = rectangle + checkBox.getBoundingRect();
         }
-
-        if (!checkBoxes.empty()) {
-            size.y = (position.y - label.getPosition().y);
-            size.y = std::abs(size.y);
-        }
-        size.x += padding.x;
-        rectangle.setSize(size);
     }
 
-    void resetCheckBoxes() {
-        for (auto &checkBox: checkBoxes)
+    void resetCheckBoxes()
+    {
+        for (auto &checkBox : checkBoxes)
             checkBox.uncheck();
     }
 
 public:
-    CheckGroup(const std::string &text = "") : Control(text) {
+    CheckGroup(const std::string &text = "") : Control(text)
+    {
         controlable = 0;
         rectangle.setOutlineThickness(1);
         rectangle.setOutlineColor(Colors::MAIN);
         rectangle.setFillColor(Colors::TRANSPARENT);
     }
 
-
-    void setPosition(SDL_Point position) {
+    void setPosition(SDL_Point position)
+    {
         rectangle.setPosition(position);
         setLayout();
     }
 
-    void addCheckBox(const std::string &option) {
+    void addCheckBox(const std::string &option)
+    {
         checkBoxes.push_back(CheckBox(option));
         setLayout();
     }
 
-    void setChoice() {
+    void setChoice()
+    {
         resetCheckBoxes();
         checkBoxes[controlable].check();
         update();
     }
 
-
-    bool clickWithin() {
+    bool clickWithin()
+    {
         if (enabled && within())
-            for (auto &checkBox: checkBoxes)
-                if (checkBox.clickWithin()) {
+            for (auto &checkBox : checkBoxes)
+                if (checkBox.clickWithin())
+                {
                     resetCheckBoxes();
                     controlable = &checkBox - &checkBoxes.front();
                     checkBox.check();
@@ -80,15 +74,15 @@ public:
         return false;
     }
 
-  
-    void draw(SDL_Renderer *renderer) {
+    void draw(SDL_Renderer *renderer)
+    {
         Control::draw(renderer);
-  
-        for (auto &checkBox: checkBoxes)
+
+        for (auto &checkBox : checkBoxes)
             checkBox.draw(renderer);
     }
 
+    Rectangle getBoundingRect() { return Control::getBoundingRect() + rectangle; }
 };
 
-
-#endif //SORTING_ALGORITHMS_CHECKGROUP_H
+#endif // SORTING_ALGORITHMS_CHECKGROUP_H

@@ -9,8 +9,8 @@ protected:
     void setLayout() override
     {
 
-        int x = label.getX() + label.getSize().x + 10;
-        int y = label.getY() + label.getSize().y;
+        int x = label.getX();// + label.getSize().x + 10;
+        int y = label.getY() + label.getSize().y+rectangle.getHeight();
         rectangle.setPosition(x, y);
 
         current_rect.setPosition(x, y);
@@ -98,6 +98,12 @@ public:
         Control::draw(renderer);
         current_rect.draw(renderer);
         current_text.draw(renderer);
+        // getBoundingRect().draw(renderer);
+    }
+    
+    Rectangle getBoundingRect()
+    {
+        return Control::getBoundingRect() + current_rect + current_text.getSDLRect();
     }
 };
 

@@ -89,6 +89,8 @@ public:
 
     virtual void setPosition(SDL_Point position) { rectangle.setPosition(position); }
 
+    Rectangle getBoundingRect() { return rectangle + label.getSDLRect(); }
+
 protected:
     virtual void setLayout()
     {

@@ -15,9 +15,19 @@ private:
     }
 
 public:
+    Rectangle sliderBoundingRect, checkGroupBoundingRect, buttonBoundingRect;
     std::map<std::string, Slider> sliders;
     std::map<std::string, CheckGroup> checkGroups;
     std::map<std::string, Button *> buttons;
+
+    ControlGroup()
+    {
+        sliderBoundingRect.setFillColor(Colors::TRANSPARENT);
+        sliderBoundingRect.setOutlineColor(Colors::RED);
+        sliderBoundingRect.setOutlineThickness(1);
+        checkGroupBoundingRect = sliderBoundingRect;
+        buttonBoundingRect = sliderBoundingRect;
+    }
 
     void update()
     {
@@ -75,36 +85,68 @@ public:
     void setPosition(SDL_Point position)
     {
         SDL_Point gap = {0, 50};
+
+        bool first = true;
         for (auto &[placeHolder, slider] : sliders)
         {
             slider.setPosition(position.x, position.y);
             position.y += slider.getSize().y + gap.y;
+
+            if (first)
+            {
+                sliderBoundingRect = slider.getBoundingRect();
+                first = false;
+            }
+            else
+                sliderBoundingRect = sliderBoundingRect + slider.getBoundingRect();
         }
 
-        position.y += 200;
+        position.y = sliderBoundingRect.getY() + sliderBoundingRect.getHeight() + gap.y;
+
+        first = true;
         for (auto &[placeHolder, checkGroup] : checkGroups)
         {
             checkGroup.setPosition(position);
-            position.y += gap.y;
+            position.y += checkGroup.getSize().y + gap.y;
+
+            if (first)
+            {
+                checkGroupBoundingRect = checkGroup.getBoundingRect();
+                first = false;
+            }
+            else
+                checkGroupBoundingRect = checkGroupBoundingRect + checkGroup.getBoundingRect();
         }
 
+        first = true;
         for (auto &[placeHolder, button] : buttons)
         {
             button->setPosition(position.x, position.y);
             position.y += gap.y;
+
+            if (first)
+            {
+                buttonBoundingRect = button->getBoundingRect();
+                first = false;
+            }
+            else
+                buttonBoundingRect = buttonBoundingRect + button->getBoundingRect();
         }
     }
 
     void draw(SDL_Renderer *renderer)
     {
+
         for (auto &[placeHolder, slider] : sliders)
             slider.draw(renderer);
-
         for (auto &[placeHolder, checkGroup] : checkGroups)
             checkGroup.draw(renderer);
-
         for (auto &[placeHolder, button] : buttons)
             button->draw(renderer);
+
+        // sliderBoundingRect.draw(renderer);
+        // checkGroupBoundingRect.draw(renderer);
+        // buttonBoundingRect.draw(renderer);
     }
 };
 
