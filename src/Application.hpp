@@ -48,7 +48,17 @@ public:
             exit(1);
         }
 
-        renderer.setWindowSize(1500, 900);
+        int width = 1500;
+        int height = 900;
+#ifdef __EMSCRIPTEN__
+        width = EM_ASM_INT({
+            return window.innerWidth * window.devicePixelRatio;
+        });
+        height = EM_ASM_INT({
+            return window.innerHeight * window.devicePixelRatio;
+        });
+#endif
+        renderer.setWindowSize(width, height);
         renderer.setWindowTitle("Sorting Algorithms Visualizer");
         renderer.initialize();
 
