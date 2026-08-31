@@ -29,7 +29,8 @@
       "inherits": "web",
       "binaryDir": "${sourceDir}/build-web-publish",
       "cacheVariables": {
-        "WEB_SHELL_FILE": "${sourceDir}/web/shell.html"
+        "WEB_SHELL_FILE": "${sourceDir}/web/shell.html",
+        "CMAKE_BUILD_TYPE": "Release"
       }
     }
   ],

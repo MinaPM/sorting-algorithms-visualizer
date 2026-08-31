@@ -39,16 +39,16 @@ if(EMSCRIPTEN)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE
         "-sUSE_SDL=2"
         "-sUSE_SDL_TTF=2"
-                "-O3"
-
+       "$<$<CONFIG:Release>:-Oz>"
+        "$<$<CONFIG:Release>:-flto>"
     )
     target_link_options(${EXECUTABLE_NAME} PRIVATE
         "-sUSE_SDL=2"
         "-sUSE_SDL_TTF=2"
         "-sALLOW_MEMORY_GROWTH=1"
         "--preload-file" "${CMAKE_CURRENT_SOURCE_DIR}/assets@assets"
-                "-O3"
-
+        "$<$<CONFIG:Release>:-Oz>"
+        "$<$<CONFIG:Release>:-flto>"
     )
     if(WEB_SHELL_FILE)
         target_link_options(${EXECUTABLE_NAME} PRIVATE
