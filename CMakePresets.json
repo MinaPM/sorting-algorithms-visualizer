@@ -21,6 +21,16 @@
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
         "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "web-publish",
+      "displayName": "Emscripten Web (Publish)",
+      "description": "Build with the publishable web shell",
+      "inherits": "web",
+      "binaryDir": "${sourceDir}/build-web-publish",
+      "cacheVariables": {
+        "WEB_SHELL_FILE": "${sourceDir}/web/shell.html"
+      }
     }
   ],
   "buildPresets": [
@@ -31,6 +41,10 @@
     {
       "name": "web",
       "configurePreset": "web"
+    },
+    {
+      "name": "web-publish",
+      "configurePreset": "web-publish"
     }
   ]
 }

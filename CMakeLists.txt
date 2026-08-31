@@ -35,6 +35,7 @@ endif()
 
 if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    set(WEB_SHELL_FILE "" CACHE FILEPATH "Optional Emscripten HTML shell file")
     target_compile_options(${EXECUTABLE_NAME} PRIVATE
         "-sUSE_SDL=2"
         "-sUSE_SDL_TTF=2"
@@ -49,6 +50,11 @@ if(EMSCRIPTEN)
                 "-O3"
 
     )
+    if(WEB_SHELL_FILE)
+        target_link_options(${EXECUTABLE_NAME} PRIVATE
+            "--shell-file" "${WEB_SHELL_FILE}"
+        )
+    endif()
 
 else()
     include(FetchContent)

@@ -33,6 +33,13 @@ cmake --preset native
    cmake --preset web
 ```
 
+To build the publishable page using `web/shell.html`, use the publish preset instead:
+```bash
+cmake --preset web-publish
+cmake --build --preset web-publish
+```
+The output is `build-web-publish/bin/main.html`.
+
 If `emsdk/` hasn't been set up yet, this will fail with a message telling you to run the setup script first, instead of a raw toolchain error.
 
 ### Development workflow
