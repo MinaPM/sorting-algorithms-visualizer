@@ -9,51 +9,65 @@
 class InsertionSort : public Algorithm
 {
 private:
-    size_t i = 1;
-    size_t j = 0;
-    bool active = false;
+    void (InsertionSort::*nextStep)() = nullptr;
+    size_t outerIndex, innerIndex;
+    bool swapped;
+    std::remove_reference_t<decltype((*array)[0])> key;
 
 public:
+    void start() override { reset(); }
+
     void reset() override
     {
-        i = 1;
-        j = 0;
-        active = true;
+        outerIndex = 1;
+        innerIndex = 0;
+        nextStep = &InsertionSort::mainLoop;
+
         if (array)
             array->memoryStats.resetStats();
     }
 
     bool step() override
     {
-        if (!active || !array)
-            return false;
-
-        if (i >= array->length())
+        if (nextStep)
         {
-            active = false;
-            array->memoryStats.resetStats();
-            return false;
-        }
-
-        if (j == 0)
-            j = i;
-
-        if (j > 0 && array->read(j) < array->read(j - 1))
-        {
-            array->swap(j, j - 1);
-            j--;
-            sleep();
+            (this->*nextStep)();
             return true;
         }
-
-        i++;
-        j = 0;
-        return true;
+        else
+        {
+            return false;
+        }
     }
 
-    void start() override
+    void mainLoop()
     {
-        reset();
+        if (outerIndex < ((*array).length()))
+        {
+            key = (*array)[outerIndex];
+            innerIndex = outerIndex - 1;
+
+            nextStep = &InsertionSort::innerLoop;
+        }
+        else
+        {
+            nextStep = nullptr;
+        }
+    }
+
+    void innerLoop()
+    {
+        if (innerIndex >= 0 && (*array)[innerIndex] > key)
+        {
+            (*array)[innerIndex + 1] = (*array)[innerIndex];
+            innerIndex = innerIndex - 1;
+        }
+        else
+        {
+            (*array)[innerIndex + 1] = key;
+            ++outerIndex;
+            nextStep = &InsertionSort::mainLoop;
+        }
     }
 
     InsertionSort(SmartArray<BarShape> &array) : Algorithm(array)
