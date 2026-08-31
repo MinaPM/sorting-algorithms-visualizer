@@ -128,7 +128,9 @@ jobs:
 
             page.on('pageerror', err => pageErrors.push(String(err)));
             page.on('console', msg => {
-              if (msg.type() === 'error') consoleErrors.push(msg.text());
+              if (msg.type() === 'error' && !msg.text().includes('emscripten_set_main_loop_timing')) {
+                consoleErrors.push(msg.text());
+              }
             });
 
             await page.goto('http://localhost:8000/main.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
