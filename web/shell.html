@@ -115,9 +115,10 @@
   <script>
     var startRequested = false;
     var started = false;
+    var runtimeInitialized = false;
 
     function startVisualizer() {
-      if (started || !startRequested || typeof callMain !== 'function') return;
+      if (started || !startRequested || !runtimeInitialized || typeof callMain !== 'function') return;
       started = true;
       callMain([]);
       document.getElementById('app').classList.add('ready');
@@ -127,13 +128,20 @@
     var Module = {
       canvas: document.getElementById('canvas'),
       noInitialRun: true,
-      onRuntimeInitialized: startVisualizer,
+      onRuntimeInitialized: function() {
+        runtimeInitialized = true;
+        startVisualizer();
+      },
       print: function () {},
       printErr: function () {}
     };
 
     document.getElementById('start').addEventListener('click', function () {
       startRequested = true;
+      if (!runtimeInitialized) {
+        this.textContent = 'Loading...';
+        this.style.cursor = 'wait';
+      }
       startVisualizer();
     });
   </script>

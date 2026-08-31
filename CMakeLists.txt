@@ -54,6 +54,7 @@ if(EMSCRIPTEN)
         target_link_options(${EXECUTABLE_NAME} PRIVATE
             "--shell-file" "${WEB_SHELL_FILE}"
         )
+        set_property(TARGET ${EXECUTABLE_NAME} APPEND PROPERTY LINK_DEPENDS "${WEB_SHELL_FILE}")
     endif()
 
 else()
