@@ -72,6 +72,11 @@ public:
                              ((int)border.getWidth() / (*barWidth + *spacing)));
 
         bars->resize(*barCount, BarShape(*barWidth, *height));
+        BarShape::total = *barCount;
+        for (size_t i = 0; i < *barCount; i++)
+        {
+            (*bars)[i].setIndex(i + 1);
+        }
         center();
     }
 

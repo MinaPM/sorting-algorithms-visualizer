@@ -8,13 +8,21 @@ class BarShape
 {
 public:
     Rectangle rectangle;
-
+    int index = 0;
+    inline static int total = 1;
     BarShape(int width = 20, int height = 100)
     {
         rectangle.setSize(width, height);
     }
-    void updateValue(const int &value) { rectangle.setHeight(value); }
-    void updateValue(const BarShape &value) { updateValue(value.rectangle.getHeight()); }
+    void updateValue(const int &value)
+    {
+        rectangle.setHeight(value);
+        setColorPercentage();
+    }
+    void updateValue(const BarShape &value)
+    {
+        updateValue(value.rectangle.getHeight());
+    }
 
     int getValue() { return rectangle.getHeight(); }
 
@@ -46,6 +54,23 @@ public:
     {
         updateValue(value);
         return *this;
+    }
+
+    void setIndex(int index)
+    {
+        this->index = index;
+        setColorPercentage();
+    }
+    void setColorPercentage()
+    {
+        int difference = abs(rectangle.getHeight() - index);
+
+        int percentage = (difference * 100) / total;
+
+        int red = 255;
+        int green = 255 - ((percentage * 255) / 100);
+        int blue = 255 - ((percentage * 255) / 100);
+        rectangle.setFillColor(SDL_Color{static_cast<Uint8>(red), static_cast<Uint8>(green), static_cast<Uint8>(blue), 255});
     }
 
     operator int() const

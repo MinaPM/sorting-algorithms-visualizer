@@ -49,7 +49,7 @@ public:
         }
 
         int width = 1500;
-        int height = 900;
+        int height = 800;
 #ifdef __EMSCRIPTEN__
         width = EM_ASM_INT({
             return window.innerWidth * window.devicePixelRatio;
@@ -107,35 +107,7 @@ public:
             }
         }
 
-        if (sortingInProgress && sortingAlgorithm != nullptr)
-        {
-            const Uint64 stepDelay = Algorithm::getDelayMs();
-            const Uint64 now = SDL_GetTicks64();
-
-            if (stepDelay == 0)
-            {
-                const int maxBatch = 64;
-                for (int i = 0; i < maxBatch; ++i)
-                {
-                    if (!sortingAlgorithm->step())
-                    {
-                        sortingInProgress = false;
-                        setDuringSorting(true);
-
-                        break;
-                    }
-                }
-            }
-            else if (now - lastSortStepMs >= stepDelay)
-            {
-                lastSortStepMs = now;
-                if (!sortingAlgorithm->step())
-                {
-                    sortingInProgress = false;
-                    setDuringSorting(true);
-                }
-            }
-        }
+        sortingLoop();
 
         renderer.clear();
 
@@ -158,11 +130,11 @@ public:
 
     void createControls()
     {
-        barControls.addSlider("Count", Slider("Count", 1, 500, 1000));
+        barControls.addSlider("Count", Slider("Count", 1, 200, 1000));
 
         barControls.addSlider("Max Height", Slider("Max Height", 10, 300, 500));
-        barControls.addSlider("Width", Slider("Width", 1, 1, 40));
-        barControls.addSlider("Spacing", Slider("Spacing", 0, 1, 40));
+        barControls.addSlider("Width", Slider("Width", 1, 3, 40));
+        barControls.addSlider("Spacing", Slider("Spacing", 0, 0, 40));
         barControls.addSlider("Speed", Slider("Speed", 1, 2, sizeof(Algorithm::delays) / sizeof(Algorithm::delays[0])));
         barControls.addButton("Shuffle");
         barControls.addButton("Sort");
@@ -204,6 +176,39 @@ public:
                                                                   { setAlgorithm(barControls.checkGroups["Sorting Algorithm"].controlable); });
         barControls.checkGroups["Sorting Algorithm"].setChoice();
         Algorithm::setDelay(barControls.sliders["Speed"].controlable);
+    }
+
+    void sortingLoop()
+    {
+        if (sortingInProgress && sortingAlgorithm != nullptr)
+        {
+            const Uint64 stepDelay = Algorithm::getDelayMs();
+            const Uint64 now = SDL_GetTicks64();
+
+            if (stepDelay == 0)
+            {
+                const int maxBatch = 64;
+                for (int i = 0; i < maxBatch; ++i)
+                {
+                    if (!sortingAlgorithm->step())
+                    {
+                        sortingInProgress = false;
+                        setDuringSorting(true);
+
+                        break;
+                    }
+                }
+            }
+            else if (now - lastSortStepMs >= stepDelay)
+            {
+                lastSortStepMs = now;
+                if (!sortingAlgorithm->step())
+                {
+                    sortingInProgress = false;
+                    setDuringSorting(true);
+                }
+            }
+        }
     }
 
     void startSorting()
