@@ -10,7 +10,7 @@ class InsertionSort : public Algorithm
 {
 private:
     void (InsertionSort::*nextStep)() = nullptr;
-    size_t outerIndex, innerIndex;
+    int outerIndex, innerIndex;
     bool swapped;
     std::remove_reference_t<decltype((*array)[0])> key;
 
